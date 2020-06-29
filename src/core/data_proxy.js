@@ -77,6 +77,7 @@ const defaultSettings = {
   showGrid: true,
   showToolbar: true,
   showContextmenu: true,
+  showBottomBar: true,
   row: {
     len: 100,
     height: 25,
@@ -978,9 +979,11 @@ export default class DataProxy {
   }
 
   viewHeight() {
-    const { view, showToolbar } = this.settings;
+    const { view, showToolbar, showBottomBar } = this.settings;
     let h = view.height();
-    h -= bottombarHeight;
+    if (showBottomBar) {
+      h -= bottombarHeight;
+    }
     if (showToolbar) {
       h -= toolbarHeight;
     }

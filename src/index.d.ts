@@ -3,6 +3,7 @@ declare module 'x-data-spreadsheet' {
     mode?: 'edit' | 'read';
     showToolbar?: boolean;
     showGrid?: boolean;
+    showBottomBar?: boolean;
     showContextmenu?: boolean;
     view?: {
       height: () => number;

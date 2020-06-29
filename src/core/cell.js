@@ -203,14 +203,14 @@ const evalSuffixExpr = (srcStack, formulaMap, cellRender, cellList) => {
 
 const cellRender = (src, formulaMap, getCellText, cellList = []) => {
   if (src[0] === '=') {
-    const stack = infixExprToSuffixExpr(src.substring(1));
-    if (stack.length <= 0) return src;
-    return evalSuffixExpr(
-      stack,
-      formulaMap,
-      (x, y) => cellRender(getCellText(x, y), formulaMap, getCellText, cellList),
-      cellList,
-    );
+    // const stack = infixExprToSuffixExpr(src.substring(1));
+    // if (stack.length <= 0) return src;
+    // return evalSuffixExpr(
+    //   stack,
+    //   formulaMap,
+    //   (x, y) => cellRender(getCellText(x, y), formulaMap, getCellText, cellList),
+    //   cellList,
+    // );
   }
   return src;
 };
