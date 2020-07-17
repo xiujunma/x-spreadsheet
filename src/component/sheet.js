@@ -428,6 +428,8 @@ function editorSetOffset() {
 
 function editorSet() {
   const { editor, data } = this;
+  const cell = data.getSelectedCell();
+  if (cell && cell.type) return;
   if (data.settings.mode === 'read') return;
   editorSetOffset.call(this);
   editor.setCell(data.getSelectedCell(), data.getSelectedValidator());
@@ -460,6 +462,7 @@ function rowResizerFinished(cRect, distance) {
   selector.resetAreaOffset();
   verticalScrollbarSet.call(this);
   editorSetOffset.call(this);
+  this.trigger('row-resized', ri);
 }
 
 function colResizerFinished(cRect, distance) {
@@ -471,6 +474,7 @@ function colResizerFinished(cRect, distance) {
   selector.resetAreaOffset();
   horizontalScrollbarSet.call(this);
   editorSetOffset.call(this);
+  this.trigger('column-resized', ci);
 }
 
 function dataSetCellText(text, state = 'finished') {
