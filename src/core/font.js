@@ -18,11 +18,11 @@ const baseFonts = [
  * @type {FontSize[]}
  */
 const fontSizes = [
-  { pt: 7.5, px: 10 },
+  // { pt: 7.5, px: 10 },
   { pt: 8, px: 11 },
   { pt: 9, px: 12 },
   { pt: 10, px: 13 },
-  { pt: 10.5, px: 14 },
+  // { pt: 10.5, px: 14 },
   { pt: 11, px: 15 },
   { pt: 12, px: 16 },
   { pt: 14, px: 18.7 },
