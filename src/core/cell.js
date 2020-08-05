@@ -187,6 +187,7 @@ const evalSuffixExpr = (srcStack, formulaMap, cellRender, cellList) => {
       }
       stack.push(formulaMap[formula].render(params.reverse()));
     } else {
+      console.log(cellList, expr, cellList.includes(expr));
       if (cellList.includes(expr)) {
         return 0;
       }
@@ -201,16 +202,16 @@ const evalSuffixExpr = (srcStack, formulaMap, cellRender, cellList) => {
   return stack[0];
 };
 
-const cellRender = (src, formulaMap, getCellText, cellList = []) => {
-  if (src[0] === '=') {
-    // const stack = infixExprToSuffixExpr(src.substring(1));
-    // if (stack.length <= 0) return src;
-    // return evalSuffixExpr(
-    //   stack,
-    //   formulaMap,
-    //   (x, y) => cellRender(getCellText(x, y), formulaMap, getCellText, cellList),
-    //   cellList,
-    // );
+const cellRender = (src, formulaMap, getCellText, cellList = [], evalEnabled = false) => {
+  if (src[0] === '=' && evalEnabled) {
+    const stack = infixExprToSuffixExpr(src.substring(1));
+    if (stack.length <= 0) return src;
+    return evalSuffixExpr(
+      stack,
+      formulaMap,
+      (x, y) => cellRender(getCellText(x, y), formulaMap, getCellText, cellList),
+      cellList,
+    );
   }
   return src;
 };

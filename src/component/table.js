@@ -50,7 +50,7 @@ function renderCellBorders(bboxes, translateFunc) {
 */
 
 export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
-  const { sortedRowMap, rows, cols } = data;
+  const { sortedRowMap, rows, cols, settings } = data;
   if (rows.isHide(rindex) || cols.isHide(cindex)) return;
   let nrindex = rindex;
   if (sortedRowMap.has(rindex)) {
@@ -74,7 +74,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
   }
   draw.rect(dbox, () => {
     // render text
-    let cellText = _cell.render(cell.text || '', formulam, (y, x) => (data.getCellTextOrDefault(x, y)));
+    let cellText = _cell.render(cell.text || '', formulam, (y, x) => (data.getCellTextOrDefault(x, y)), [], settings.evalEnabled);
     if (style.format) {
       // console.log(data.formatm, '>>', cell.format);
       cellText = formatm[style.format].render(cellText);
