@@ -187,7 +187,6 @@ const evalSuffixExpr = (srcStack, formulaMap, cellRender, cellList) => {
       }
       stack.push(formulaMap[formula].render(params.reverse()));
     } else {
-      console.log(cellList, expr, cellList.includes(expr));
       if (cellList.includes(expr)) {
         return 0;
       }
@@ -209,7 +208,7 @@ const cellRender = (src, formulaMap, getCellText, cellList = [], evalEnabled = f
     return evalSuffixExpr(
       stack,
       formulaMap,
-      (x, y) => cellRender(getCellText(x, y), formulaMap, getCellText, cellList),
+      (x, y) => cellRender(getCellText(x, y), formulaMap, getCellText, cellList, evalEnabled),
       cellList,
     );
   }
