@@ -14,6 +14,7 @@ import SortFilter from './sort_filter';
 import { xtoast } from './message';
 import { cssPrefix } from '../config';
 import { formulas } from '../core/formula';
+import CellDropdown from './cell_dropdown';
 
 /**
  * @desc throttle fn
@@ -437,21 +438,23 @@ function editorSet() {
 }
 
 function verticalScrollbarMove(distance) {
-  const { data, table, selector } = this;
+  const { data, table, selector, cellDropdown } = this;
   data.scrolly(distance, () => {
     selector.resetBRLAreaOffset();
     editorSetOffset.call(this);
     table.render();
   });
+  cellDropdown.hide();
 }
 
 function horizontalScrollbarMove(distance) {
-  const { data, table, selector } = this;
+  const { data, table, selector, cellDropdown } = this;
   data.scrollx(distance, () => {
     selector.resetBRTAreaOffset();
     editorSetOffset.call(this);
     table.render();
   });
+  cellDropdown.hide();
 }
 
 function rowResizerFinished(cRect, distance) {
@@ -575,6 +578,7 @@ function sheetInitEvents() {
     toolbar,
     modalValidation,
     sortFilter,
+    cellDropdown
   } = this;
   // overlayer
   overlayerEl
@@ -584,6 +588,7 @@ function sheetInitEvents() {
     .on('mousedown', (evt) => {
       editor.clear();
       contextMenu.hide();
+      cellDropdown.hide();
       // the left mouse button: mousedown → mouseup → click
       // the right mouse button: mousedown → contenxtmenu → mouseup
       if (evt.buttons === 2) {
@@ -848,7 +853,7 @@ export default class Sheet {
   constructor(targetEl, data) {
     this.eventMap = new Map();
     const { view, showToolbar, showContextmenu } = data.settings;
-    this.el = h('div', `${cssPrefix}-sheet`);
+    this.el = h('div', `${cssPrefix}-sheet`).css('position', 'relative');
     this.toolbar = new Toolbar(data, view.width, !showToolbar);
     this.print = new Print(data);
     targetEl.children(this.toolbar.el, this.el, this.print.el);
@@ -896,6 +901,10 @@ export default class Sheet {
     );
     // table
     this.table = new Table(this.tableEl.el, data);
+
+    this.cellDropdown = new CellDropdown();
+    this.el.child(this.cellDropdown.el);
+
     sheetInitEvents.call(this);
     sheetReset.call(this);
     // init selector [0, 0]

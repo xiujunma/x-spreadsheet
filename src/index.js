@@ -114,6 +114,14 @@ class Spreadsheet {
     return this;
   }
 
+  setCellDropDown(ri, ci, options) {
+    const rect = this.datas[0].getSelectedRect();
+    this.sheet.cellDropdown.setDropdown(rect.left, rect.top, options, (value) => {
+      this.cellText(ri, ci, value);
+      this.reRender();
+    });
+  }
+
   static locale(lang, message) {
     locale(lang, message);
   }
