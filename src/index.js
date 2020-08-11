@@ -114,12 +114,17 @@ class Spreadsheet {
     return this;
   }
 
-  setCellDropDown(ri, ci, options) {
+  setCellDropdown(ri, ci, options) {
     const rect = this.datas[0].getSelectedRect();
-    this.sheet.cellDropdown.setDropdown(rect.left, rect.top, options, (value) => {
+    const style = this.cellStyle(ri, ci);
+    this.sheet.cellDropdown.setDropdown(rect.left, rect.top, style.format || 'text', options, (value) => {
       this.cellText(ri, ci, value);
       this.reRender();
     });
+  }
+
+  hideCellDropdown() {
+    this.sheet.cellDropdown.hide();
   }
 
   static locale(lang, message) {

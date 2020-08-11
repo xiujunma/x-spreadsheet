@@ -37,7 +37,7 @@ const baseFormats = [
     title: tf('format.percent'),
     type: 'number',
     label: '10.12%',
-    render: v => `${v}%`,
+    render: v => `${v * 100}%`,
   },
   {
     key: 'rmb',
@@ -107,4 +107,5 @@ export default {
 export {
   formatm,
   baseFormats,
+  formatNumberRender
 };

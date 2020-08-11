@@ -1,6 +1,18 @@
 import { Element, h } from './element';
 import { cssPrefix } from '../config';
+import { formatNumberRender } from '../core/format';
 
+
+function formatItem(format, value) {
+    switch(format) {
+        case 'number':
+            return formatNumberRender(value);
+        case 'percent':
+            return `${value * 100}%`
+        default:
+            return value;
+    }
+}
 export default class CellDropdown {
     constructor() {
         this.el = h('div', `${cssPrefix}-suggest`)
@@ -9,11 +21,14 @@ export default class CellDropdown {
             .show();
     }
 
-    setDropdown(x, y, list, callback) {
+    setDropdown(x, y, format, list, callback) {
         this.el.html('');
         list.forEach(item => {
-            const itemEl = h('div', `${cssPrefix}-item`).html(item).on('click', (e) => {
-                if (callback) callback(e.target.innerHTML);
+            const formattedValue = formatItem(format, item);
+            const itemEl = h('div', `${cssPrefix}-item`)
+            .attr('data-value', item)
+            .html(formattedValue).on('click', (e) => {
+                if (callback) callback(e.target.getAttribute('data-value'));
                 this.el.hide();
             });
             this.el.child(itemEl)
