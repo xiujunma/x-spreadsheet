@@ -15,7 +15,7 @@ const menuItems = [
   { key: 'divider' },
   { key: 'delete-row', title: tf('contextmenu.deleteRow') },
   { key: 'delete-column', title: tf('contextmenu.deleteColumn') },
-  { key: 'delete-cell-text', title: tf('contextmenu.deleteCellText') },
+  { key: 'delete-cell', title: tf('contextmenu.deleteCell') },
   { key: 'hide', title: tf('contextmenu.hide') },
   { key: 'divider' },
   { key: 'validation', title: tf('contextmenu.validation') },

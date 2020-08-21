@@ -685,6 +685,7 @@ function sheetInitEvents() {
       hideRowsOrCols.call(this);
     } else {
       insertDeleteRowColumn.call(this, type);
+      if (type.indexOf('delete') >= 0) this.trigger('cell-deleted');
     }
   };
 
@@ -985,5 +986,6 @@ export default class Sheet {
 
   selectCell(ri, ci) {
     selectorSet.call(this, false, ri, ci);
+    this.focusing = true;
   }
 }
