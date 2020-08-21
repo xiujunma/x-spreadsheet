@@ -430,7 +430,8 @@ function editorSetOffset() {
 function editorSet() {
   const { editor, data } = this;
   const cell = data.getSelectedCell();
-  if (cell && cell.type) return;
+  // prevent the certain cells from editing 
+  if (cell && cell.refUneditable) return;
   if (data.settings.mode === 'read') return;
   editorSetOffset.call(this);
   editor.setCell(data.getSelectedCell(), data.getSelectedValidator());
@@ -825,6 +826,7 @@ function sheetInitEvents() {
           break;
         case 8: // backspace
           insertDeleteRowColumn.call(this, 'delete-cell');
+          this.trigger('cell-deleted', this.selector.range);
           evt.preventDefault();
           break;
         default:
@@ -979,5 +981,9 @@ export default class Sheet {
       left: cols.indexWidth,
       top: rows.height,
     };
+  }
+
+  selectCell(ri, ci) {
+    selectorSet.call(this, false, ri, ci);
   }
 }

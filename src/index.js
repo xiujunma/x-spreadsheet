@@ -127,6 +127,10 @@ class Spreadsheet {
     this.sheet.cellDropdown.hide();
   }
 
+  selectCell(ri, ci) {
+    this.sheet.selectCell(ri, ci);
+  }
+
   static locale(lang, message) {
     locale(lang, message);
   }
