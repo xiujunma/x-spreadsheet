@@ -37,7 +37,13 @@ const baseFormats = [
     title: tf('format.percent'),
     type: 'number',
     label: '10.12%',
-    render: v => `${v * 100}%`,
+    render: v => {
+      if (isNaN(v)) {
+        return v;
+      } else {
+        return `${v * 100}%`
+      }
+    },
   },
   {
     key: 'rmb',
