@@ -213,12 +213,14 @@ class Rows {
       let nri = parseInt(ri, 10);
       if (nri >= sri) {
         nri += n;
-        this.eachCells(ri, (ci, cell) => {
-          if (cell.text && cell.text[0] === '=') {
-            cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, 0, n, (x, y) => y >= sri));
-          }
-        });
       }
+
+      this.eachCells(ri, (ci, cell) => {
+        if (cell.text && cell.text[0] === '=') {
+          cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, 0, n, (x, y) => y >= sri));
+        }
+      });
+
       ndata[nri] = row;
     });
     this._ = ndata;
@@ -234,12 +236,14 @@ class Rows {
         ndata[nri] = row;
       } else if (ri > eri) {
         ndata[nri - n] = row;
-        this.eachCells(ri, (ci, cell) => {
-          if (cell.text && cell.text[0] === '=') {
-            cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, 0, -n, (x, y) => y > eri));
-          }
-        });
       }
+
+      this.eachCells(ri, (ci, cell) => {
+        if (cell.text && cell.text[0] === '=') {
+          cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, 0, -n, (x, y) => y > eri));
+        }
+      });
+
     });
     this._ = ndata;
     this.len -= n;
@@ -252,9 +256,9 @@ class Rows {
         let nci = parseInt(ci, 10);
         if (nci >= sci) {
           nci += n;
-          if (cell.text && cell.text[0] === '=') {
-            cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, n, 0, x => x >= sci));
-          }
+        }
+        if (cell.text && cell.text[0] === '=') {
+          cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, n, 0, x => x >= sci));
         }
         rndata[nci] = cell;
       });
@@ -272,9 +276,9 @@ class Rows {
           rndata[nci] = cell;
         } else if (nci > eci) {
           rndata[nci - n] = cell;
-          if (cell.text && cell.text[0] === '=') {
-            cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, -n, 0, x => x > eci));
-          }
+        }
+        if (cell.text && cell.text[0] === '=') {
+          cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, -n, 0, x => x > eci));
         }
       });
       row.cells = rndata;
