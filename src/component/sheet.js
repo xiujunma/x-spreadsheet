@@ -826,6 +826,7 @@ function sheetInitEvents() {
           evt.preventDefault();
           break;
         case 8: // backspace
+        case 46: // delete key
           insertDeleteRowColumn.call(this, 'delete-cell');
           this.trigger('cell-deleted', this.selector.range);
           evt.preventDefault();
