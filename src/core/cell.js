@@ -201,8 +201,17 @@ const evalSuffixExpr = (srcStack, formulaMap, cellRender, cellList) => {
   return stack[0];
 };
 
-const cellRender = (src, formulaMap, getCellText, cellList = [], evalEnabled = false) => {
+const evaluateVariables = function(src, variables) {
+  let r = src;
+  Object.keys(variables).forEach(key => {
+    r = r.replaceAll(key, variables[key]);
+  });
+  return r;
+};
+
+const cellRender = (src, formulaMap, getCellText, cellList = [], evalEnabled = true, variables = {}) => {
   if (src[0] === '=' && evalEnabled) {
+    src = evaluateVariables(src, variables);
     const stack = infixExprToSuffixExpr(src.substring(1));
     if (stack.length <= 0) return src;
     return evalSuffixExpr(

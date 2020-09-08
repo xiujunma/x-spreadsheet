@@ -130,19 +130,19 @@ class Spreadsheet {
   selectCell(ri, ci) {
     this.sheet.selectCell(ri, ci);
   }
-  appendCellContent(text) {
+  appendCellContent(text, filter = cell => true ) {
 
     const editor = this.sheet.editor;
     const range = this.sheet.selector.range;
 
     if (this.sheet.editor.el.css('display') !== 'none') {
-      editor.setText(editor.inputText + text);
+      if (filter(editor.cell)) editor.setText(editor.inputText + (editor.inputText ? text : '=' + text));
     } else {
       for (let ri = range.sri; ri <= range.eri; ri++) {
         for (let ci = range.sci; ci <= range.eci; ci++) {
           const cell = this.cell(ri, ci);
           if (cell) {
-            cell.text += text;
+            if (filter(cell)) cell.text += (cell.text ? text : '=' + text);
           } else {
             this.cellText(ri, ci, '=' + text);
           }
@@ -150,6 +150,7 @@ class Spreadsheet {
       }
     }
     this.reRender();
+    this.sheet.focusing = true;
   }
 
   static locale(lang, message) {
