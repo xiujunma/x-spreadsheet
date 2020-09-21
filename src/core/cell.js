@@ -127,7 +127,8 @@ const evalSubExpr = (subExpr, cellRender) => {
     expr = subExpr.substring(1);
     ret = -1;
   }
-  if (expr[0] >= '0' && expr[0] <= '9') {
+  let numIndex = expr[0] === '.' ? 1 : 0;
+  if (expr[numIndex] >= '0' && expr[numIndex] <= '9') {
     return ret * Number(expr);
   }
   const [x, y] = expr2xy(expr);
