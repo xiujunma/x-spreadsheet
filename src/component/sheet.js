@@ -15,6 +15,7 @@ import { xtoast } from './message';
 import { cssPrefix } from '../config';
 import { formulas } from '../core/formula';
 import CellDropdown from './cell_dropdown';
+import Checkbox from './checkbox';
 
 /**
  * @desc throttle fn
@@ -916,6 +917,12 @@ export default class Sheet {
     sheetReset.call(this);
     // init selector [0, 0]
     selectorSet.call(this, false, 0, 0);
+
+    this.checkboxes = [];
+
+    // this.addCheckbox(96, 50, true);
+    this.addCheckbox(0, 0, true);
+    this.addCheckbox(1, 0, false);
   }
 
   on(eventName, func) {
@@ -991,5 +998,11 @@ export default class Sheet {
   selectCell(ri, ci) {
     selectorSet.call(this, false, ri, ci);
     this.focusing = true;
+  }
+
+  addCheckbox(ri, ci, value) {
+    const checkbox = new Checkbox(ri, ci, value);
+    this.checkboxes.push(checkbox);
+    this.el.child(checkbox.el);
   }
 }
