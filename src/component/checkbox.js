@@ -1,34 +1,48 @@
 import { Element, h } from './element';
 
 export default class Checkbox {
-    constructor(ri, ci, value) {
+    constructor(ri, ci, rect, cell) {
         this.ri = ri;
         this.ci = ci;
-        this.checboxEl = h('input').attr('type', 'checkbox').attr('checked', value);
-        const position = this.getPosition();
+        this.cell = cell;
+        this.checkboxEl = h('input').attr('type', 'checkbox');
+        if (cell.value) {
+            this.checkboxEl.attr('checked', 'true');
+        }
+        
+        const paddingLeft = 60 + parseInt((rect.width - 20) / 2);
+        const paddingTop = 25 + parseInt((rect.height - 20) / 2);
+
         this.el = h('div', '')
             .css('position', 'absolute')
-            .css('left', `${position.x}px`).css('top', `${position.y}px`)
-            .child(this.checboxEl)
+            .css('left', `${rect.left + paddingLeft}px`).css('top', `${rect.top + paddingTop}px`)
+            .css('z-index', 10)
+            .child(this.checkboxEl)
+            .on('change', (event) => {
+                this.cell.value = event.target.checked;
+            })
             .show();
     }
 
     setValue(value) {
-        this.checboxEl.attr('checked', value);
+        if (value) {
+            this.checkboxEl.attr('checked', value);
+        } else {
+            this.checkboxEl.removeAttr('checked');
+        }
     }
 
     getValue() {
-        return this.checboxEl.attr('checked');
+        return !!this.checkboxEl.attr('checked');
     }
 
-    getPosition() {
-        const padding = {
-            r: 28,
-            c: 100
-        }
-        return {
-            x: this.ci * 100 + padding.c,
-            y: this.ri * 26 + padding.r
-        }
+    setRect(rect) {
+        const paddingLeft = 60 + parseInt((rect.width - 20) / 2);
+        const paddingTop = 25 + parseInt((rect.height - 20) / 2);
+        this.el.css('left', `${rect.left + paddingLeft}px`).css('top', `${rect.top + paddingTop}px`);
+    }
+
+    show(show) {
+        this.el.css('display', show ? 'block' : 'none');
     }
 }

@@ -3,6 +3,8 @@ import { getFontSizePxByPt } from '../core/font';
 import _cell from '../core/cell';
 import { formulam } from '../core/formula';
 import { formatm } from '../core/format';
+import { Element } from './element';
+import Checkbox from '../component/checkbox';
 
 import {
   Draw, DrawBox, thinLineWidth, npx,
@@ -299,6 +301,7 @@ class Table {
     this.el = el;
     this.draw = new Draw(el, data.viewWidth(), data.viewHeight());
     this.data = data;
+    this.checkboxes = [];
   }
 
   resetData(data) {
@@ -358,6 +361,31 @@ class Table {
       // 5
       renderFreezeHighlightLine.call(this, fw, fh, tx, ty);
     }
+
+    // checkbox
+    const {sri, eri, sci, eci} = viewRange;
+    const sheetEl = new Element(this.el.parentNode);
+    Object.keys(rows._).forEach(row => {
+      Object.keys(rows._[row].cells).forEach(col => {
+        const cellRect = data.cellRect(row - sri, col - sci);
+        const cell = rows._[row].cells[col];
+        const rn = parseInt(row, 10);
+        const cn = parseInt(col, 10);
+        if (cell.type === 'checkbox') {
+          const show = rn >= sri && rn <= eri && cn >= sci && cn <= eci;
+          const found = this.checkboxes.find(cb => cb.ri === row && cb.ci === col);
+          if (found) {
+            found.setRect(cellRect);
+            found.show(show);
+          } else {
+            const checkbox = new Checkbox(row, col, cellRect, cell);
+            this.checkboxes.push(checkbox);
+            sheetEl.child(checkbox.el);
+            checkbox.el.show(show);
+          }
+        }
+      });
+    });
   }
 
   clear() {
