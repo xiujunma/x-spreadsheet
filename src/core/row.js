@@ -226,6 +226,20 @@ class Rows {
   delete(sri, eri) {
     const n = eri - sri + 1;
     const ndata = {};
+
+    let hasLockedCell = false;
+    for (let i = sri; i <= eri; i++) {
+      if (this.hasLockedCellRow(i)) {
+        hasLockedCell = true;
+        break;
+      }
+    }
+
+    if (hasLockedCell) {
+      // TODO
+      window.alert('Please unlock cell.');
+      return;
+    }
     this.each((ri, row) => {
       const nri = parseInt(ri, 10);
       if (nri < sri) {
@@ -235,7 +249,6 @@ class Rows {
       }
 
       this.eachCells(ri, (ci, cell) => {
-        if (cell && cell.properties && cell.properties.locked) return;
         if (cell.text && cell.text[0] === '=') {
           cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, 0, -n, (x, y) => y > eri));
         }
@@ -265,10 +278,23 @@ class Rows {
 
   deleteColumn(sci, eci) {
     const n = eci - sci + 1;
+    let hasLockedCell = false;
+    for (let i = sci; i <= eci; i++) {
+      if (this.hasLockedCellColumn(i)) {
+        hasLockedCell = true;
+        break;
+      }
+    }
+
+    if (hasLockedCell) {
+      // TODO
+      window.alert('Please unlock cell.');
+      return;
+    }
+
     this.each((ri, row) => {
       const rndata = {};
       this.eachCells(ri, (ci, cell) => {
-        if (cell && cell.properties && cell.properties.locked) return;
         const nci = parseInt(ci, 10);
         if (nci < sci) {
           rndata[nci] = cell;
@@ -350,6 +376,32 @@ class Rows {
   getData() {
     const { len } = this;
     return Object.assign({ len }, this._);
+  }
+
+  hasLockedCellColumn(ci) {
+    const entries = Object.entries(this._);
+    for (let i = 0; i < entries.length; i++) {
+      const row = entries[i][1];
+      if (row && row.cells) {
+        const cols = Object.entries(row.cells);
+        for (let j = 0; j < cols.length; j++) {
+          const col = cols[j];
+          if (parseInt(col[0], 10) === ci && col[1].properties && col[1].properties.locked) return true;
+        }
+      } 
+    }
+    return false;
+  }
+
+  hasLockedCellRow(ri) {
+    if (this._[ri] && this._[ri].cells) {
+      const entries = Object.entries(this._[ri].cells);
+      for (let i = 0; i < entries.length; i++) {
+        const entry = entries[i];
+        if (entry[1].properties && entry[1].properties.locked) return true;
+      }
+    }
+    return false;
   }
 }
 
