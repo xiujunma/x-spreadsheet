@@ -235,6 +235,7 @@ class Rows {
       }
 
       this.eachCells(ri, (ci, cell) => {
+        if (cell && cell.properties && cell.properties.locked) return;
         if (cell.text && cell.text[0] === '=') {
           cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, 0, -n, (x, y) => y > eri));
         }
@@ -267,6 +268,7 @@ class Rows {
     this.each((ri, row) => {
       const rndata = {};
       this.eachCells(ri, (ci, cell) => {
+        if (cell && cell.properties && cell.properties.locked) return;
         const nci = parseInt(ci, 10);
         if (nci < sci) {
           rndata[nci] = cell;
@@ -294,6 +296,7 @@ class Rows {
     if (row !== null) {
       const cell = this.getCell(ri, ci);
       if (cell !== null) {
+        if (cell.properties && cell.properties.locked) return;
         if (what === 'all') {
           delete row.cells[ci];
         } else if (what === 'text') {
