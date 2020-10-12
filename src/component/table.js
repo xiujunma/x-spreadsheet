@@ -76,7 +76,15 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     // render text
     let cellText;
     if (cell.type === 'store' || cell.type === 'view') {
-      cellText = '1000.00';
+      switch(cell.type) {
+        case 'store':
+          cellText = '1000.00';
+          break;
+        case 'view':
+          cellText = '2000.00';
+          break;
+      }
+
     } else {
       cellText = _cell.render(cell.text || '', formulam, (y, x) => (data.getCellTextOrDefault(x, y)), [], settings.evalEnabled, window.variables);
     }
