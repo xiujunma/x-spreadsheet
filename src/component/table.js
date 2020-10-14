@@ -9,11 +9,11 @@ import {
 } from '../canvas/draw';
 // gobal var
 const cellPaddingWidth = 5;
-const tableFixedHeaderCleanStyle = { fillStyle: '#f4f5f8' };
+const tableFixedHeaderCleanStyle = { fillStyle: '#e8e9e8' };
 const tableGridStyle = {
   fillStyle: '#fff',
   lineWidth: thinLineWidth,
-  strokeStyle: '#e6e6e6',
+  strokeStyle: '#d0d0d0',
 };
 function tableFixedHeaderStyle() {
   return {
@@ -22,7 +22,7 @@ function tableFixedHeaderStyle() {
     font: `500 ${npx(12)}px Source Sans Pro`,
     fillStyle: '#585757',
     lineWidth: thinLineWidth(),
-    strokeStyle: '#e6e6e6',
+    strokeStyle: '#d0d0d0',
   };
 }
 
@@ -260,7 +260,7 @@ function renderFixedLeftTopCell(fw, fh) {
   const { draw } = this;
   draw.save();
   // left-top-cell
-  draw.attr({ fillStyle: '#f4f5f8' })
+  draw.attr({ fillStyle: '#e8e9e8' })
     .fillRect(0, 0, fw, fh);
   draw.restore();
 }
