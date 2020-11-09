@@ -75,7 +75,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
   draw.rect(dbox, () => {
     // render text
     let cellText;
-    if (cell.type === 'store' || cell.type === 'view') {
+    if (!data.settings.evalEnabled && (cell.type === 'store' || cell.type === 'view')) {
       switch(cell.type) {
         case 'store':
           cellText = '1000.00';
