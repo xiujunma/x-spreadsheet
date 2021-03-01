@@ -5,7 +5,7 @@ export default class Checkbox {
         this.ri = ri;
         this.ci = ci;
         this.cell = cell;
-        this.checkboxEl = h('input').attr('type', 'checkbox');
+        this.checkboxEl = h('input').attr('type', 'checkbox').attr('data-row', ri).attr('data-column', ci);
         if (cell.value) {
             this.checkboxEl.attr('checked', 'true');
         }
