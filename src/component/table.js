@@ -399,6 +399,7 @@ class Table {
             this.checkboxes.push(checkbox);
             sheetEl.child(checkbox.el);
             checkbox.el.show(show);
+            cell.checkbox = checkbox
           }
         }
       });
