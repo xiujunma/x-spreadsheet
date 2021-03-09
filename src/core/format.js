@@ -12,6 +12,21 @@ const formatNumberRender = (v) => {
   return v;
 };
 
+const precision = (a) => {
+  if (!isFinite(a)) return 0;
+  var e = 1, p = 0;
+  while (Math.round(a * e) / e !== a) { e *= 10; p++; }
+  return p;
+}
+
+const formatPercent = (v) => {
+  const n = parseFloat(v);
+  const p = precision(n);
+
+  if (p < 2) return `${(n * 100)}%`
+  return `${(n * 100).toFixed(p - 2)}%`;
+}
+
 const baseFormats = [
   {
     key: 'normal',
@@ -38,10 +53,10 @@ const baseFormats = [
     type: 'number',
     label: '10.12%',
     render: v => {
-      if (isNaN(v)) {
+      if (isNaN(v) || !v) {
         return v;
       } else {
-        return `${v * 100}%`
+        return formatPercent(v);
       }
     },
   },
