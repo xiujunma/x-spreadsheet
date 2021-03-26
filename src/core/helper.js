@@ -119,16 +119,21 @@ export function numberCalc(type, a1, a2) {
   const num1 = Number(a1);
   const num2 = Number(a2);
   let ret = 0;
+  let strNum;
   if (type === '-') {
     ret = num1 - num2;
+    strNum = ret.toFixed(Math.max(al1, al2));
   } else if (type === '+') {
     ret = num1 + num2;
+    strNum = ret.toFixed(Math.max(al1, al2));
   } else if (type === '*') {
     ret = num1 * num2;
+    strNum = ret.toFixed(al1 + al2);
   } else if (type === '/') {
     ret = num1 / num2;
+    strNum = ret.toFixed(Math.abs(al1 - al2));
   }
-  return ret.toFixed(Math.max(al1, al2));
+  return parseFloat(strNum).toString();
 }
 
 export default {
