@@ -131,7 +131,7 @@ export function numberCalc(type, a1, a2) {
     strNum = ret.toFixed(al1 + al2);
   } else if (type === '/') {
     ret = num1 / num2;
-    strNum = ret.toFixed(Math.abs(al1 - al2));
+    strNum = ret.toFixed(7);
   }
   return parseFloat(strNum).toString();
 }
