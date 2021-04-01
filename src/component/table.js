@@ -227,6 +227,18 @@ function renderFixedHeaders(type, viewRange, w, h, tx, ty) {
       if (sri <= ii && ii < eri + 1) {
         renderSelectedHeaderCell.call(this, 0, y, w, rowHeight);
       }
+
+      // highlight row headers
+      if (data.rows._[i] && data.rows._[i].highlight) {
+        draw.rect({
+          x: 0,
+          y: y,
+          width: w,
+          height: rowHeight,
+          bgcolor: data.rows._[i].highlight
+        }, () => {});
+      }
+
       draw.fillText(ii + 1, w / 2, y + (rowHeight / 2));
       if (i > 0 && data.rows.isHide(i - 1)) {
         draw.save();
@@ -247,6 +259,18 @@ function renderFixedHeaders(type, viewRange, w, h, tx, ty) {
       if (sci <= ii && ii < eci + 1) {
         renderSelectedHeaderCell.call(this, x, 0, colWidth, h);
       }
+
+      // highlight column headers
+      if (data.cols._[i] && data.cols._[i].highlight) {
+        draw.rect({
+          x: x,
+          y: 0,
+          width: colWidth,
+          height: h,
+          bgcolor: data.cols._[i].highlight
+        }, () => {});
+      }
+
       draw.fillText(stringAt(ii), x + (colWidth / 2), h / 2);
       if (i > 0 && data.cols.isHide(i - 1)) {
         draw.save();
