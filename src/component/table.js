@@ -407,7 +407,7 @@ class Table {
     const {sri, eri, sci, eci} = viewRange;
     const sheetEl = new Element(this.el.parentNode);
     Object.keys(rows._).forEach(row => {
-      Object.keys(rows._[row].cells).forEach(col => {
+      if (rows._[row].cells) Object.keys(rows._[row].cells).forEach(col => {
         const cellRect = data.cellRect(row - sri, col - sci);
         const cell = rows._[row].cells[col];
         const rn = parseInt(row, 10);
