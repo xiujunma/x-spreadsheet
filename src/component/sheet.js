@@ -503,12 +503,16 @@ function insertDeleteRowColumn(type) {
     if (data.settings.mode === 'read') return;
     if (type === 'insert-row') {
         data.insert('row');
+        this.trigger('insert-row', data.selector.range);
     } else if (type === 'delete-row') {
         data.delete('row');
+        this.trigger('delete-row', data.selector.range);
     } else if (type === 'insert-column') {
         data.insert('column');
+        this.trigger('insert-column', data.selector.range);
     } else if (type === 'delete-column') {
         data.delete('column');
+        this.trigger('delete-column', data.selector.range);
     } else if (type === 'delete-cell') {
         data.deleteCell();
     } else if (type === 'delete-cell-format') {
