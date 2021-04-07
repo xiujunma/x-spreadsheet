@@ -75,10 +75,11 @@ function selectorSet(multiple, ri, ci, indexesUpdated = true, moving = false) {
         selector.setEnd(ri, ci, moving);
         this.trigger('cells-selected', cell, selector.range);
     } else {
-        // trigger click event
+        // trigger click event*
         selector.set(ri, ci, indexesUpdated);
         this.trigger('cell-selected', cell, ri, ci);
     }
+    if (this.editor.active) this.editor.setRange(selector.range);
     toolbar.reset();
     table.render();
 }
@@ -434,7 +435,10 @@ function editorSet() {
     if (cell && cell.refUneditable) return;
     if (data.settings.mode === 'read') return;
     editorSetOffset.call(this);
-    editor.setCell(data.getSelectedCell(), data.getSelectedValidator());
+    editor.setCell(data.getSelectedCell(), data.getSelectedValidator(), {
+        ri: data.selector.ri,
+        ci: data.selector.ci,
+    });
     clearClipboard.call(this);
 }
 
@@ -595,7 +599,8 @@ function sheetInitEvents() {
             overlayerMousemove.call(this, evt);
         })
         .on('mousedown', (evt) => {
-            editor.clear();
+            if (!editor.inputText.startsWith('=')) editor.clear();
+
             contextMenu.hide();
             cellDropdown.hide();
             // the left mouse button: mousedown → mouseup → click
@@ -663,11 +668,11 @@ function sheetInitEvents() {
         horizontalScrollbarMove.call(this, distance, evt);
     };
     // editor
-    editor.change = (state, itext) => {
+    editor.change = (state, itext, selected) => {
         if (itext.trim()[0] === '=') {
             itext = itext.replace(/[a-zA-Z]{1,3}\d+/g, word => word.toUpperCase());
         }
-        dataSetCellText.call(this, itext, state);
+        this.data.setCellText(selected.ri, selected.ci, itext, 'finished');
     };
     // modal validation
     modalValidation.change = (action, ...args) => {

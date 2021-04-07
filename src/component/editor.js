@@ -4,6 +4,7 @@ import Suggest from './suggest';
 import Datepicker from './datepicker';
 import { cssPrefix } from '../config';
 // import { mouseMoveUp } from '../event';
+import { xy2expr } from '../core/alphabet';
 
 function resetTextareaSize() {
   const { inputText } = this;
@@ -193,6 +194,7 @@ export default class Editor {
     this.cell = null;
     this.inputText = '';
     this.change = () => {};
+    this.active =false;
   }
 
   setFreezeLengths(width, height) {
@@ -204,7 +206,7 @@ export default class Editor {
     // const { cell } = this;
     // const cellText = (cell && cell.text) || '';
     if (this.inputText !== '') {
-      this.change('finished', this.inputText);
+      this.change('finished', this.inputText, this.selected);
     }
     this.cell = null;
     this.areaOffset = null;
@@ -214,6 +216,7 @@ export default class Editor {
     this.textlineEl.html('');
     resetSuggestItems.call(this);
     this.datepicker.hide();
+    this.active = false;
   }
 
   setOffset(offset, suggestPosition = 'top') {
@@ -248,7 +251,7 @@ export default class Editor {
     }
   }
 
-  setCell(cell, validator) {
+  setCell(cell, validator, selected) {
     // console.log('::', validator);
     const { el, datepicker, suggest } = this;
     el.show();
@@ -270,6 +273,8 @@ export default class Editor {
         suggest.search('');
       }
     }
+    this.active = true;
+    this.selected = selected;
   }
 
   setText(text) {
@@ -277,5 +282,29 @@ export default class Editor {
     // console.log('text>>:', text);
     setText.call(this, text, text.length);
     resetTextareaSize.call(this);
+  }
+
+  setRange(range) {
+    let location;
+    if (range.sri === range.eri && range.sci === range.eci) {
+      location = xy2expr(range.sci, range.sri);
+    } else {
+      const begin = xy2expr(range.sci, range.sri);
+      const end = xy2expr(range.eci, range.eri);
+      location = `${begin}:${end}`;
+    }
+    const insertIndex = this.textEl.el.selectionStart;
+    const end = this.textEl.el.selectionEnd;
+    const text = this.inputText.slice(0, insertIndex) + this.inputText.slice(end);
+    const formula = [text.slice(0, insertIndex), location, text.slice(insertIndex)].join('');
+    this.inputText = formula;
+
+    this.textEl.val(formula);
+    this.textlineEl.html(formula);
+
+    this.textEl.el.setSelectionRange(insertIndex, insertIndex + location.length);
+    setTimeout(() => {
+      this.textEl.el.focus();
+    }, 0);
   }
 }
