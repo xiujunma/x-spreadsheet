@@ -672,7 +672,11 @@ function sheetInitEvents() {
         if (itext.trim()[0] === '=') {
             itext = itext.replace(/[a-zA-Z]{1,3}\d+/g, word => word.toUpperCase());
         }
-        this.data.setCellText(selected.ri, selected.ci, itext, 'finished');
+        if (selected) {
+            this.data.setCellText(selected.ri, selected.ci, itext, 'finished');
+        } else {
+            dataSetCellText.call(this, itext, state);
+        }
     };
     // modal validation
     modalValidation.change = (action, ...args) => {

@@ -6,6 +6,13 @@ import { cssPrefix } from '../config';
 // import { mouseMoveUp } from '../event';
 import { xy2expr } from '../core/alphabet';
 
+const arrowKeyCodes = [
+  37, // arrow key left
+  38, // arrow key up
+  39, // arrow key right
+  40 // arrow key down
+];
+
 function resetTextareaSize() {
   const { inputText } = this;
   if (!/^\s*$/.test(inputText)) {
@@ -80,7 +87,7 @@ function inputEventHandler(evt) {
       }
       textlineEl.html(v);
       resetTextareaSize.call(this);
-      this.change('input', v);
+      this.change('input', v, this.selected);
     } else {
       evt.target.value = '';
     }
@@ -102,7 +109,7 @@ function inputEventHandler(evt) {
     }
     textlineEl.html(v);
     resetTextareaSize.call(this);
-    this.change('input', v);
+    this.change('input', v, this.selected);
   }
 }
 
@@ -195,6 +202,36 @@ export default class Editor {
     this.inputText = '';
     this.change = () => {};
     this.active =false;
+
+    this.textEl.el.onkeydown = event => {
+      if (arrowKeyCodes.indexOf(event.keyCode) > -1) {
+        this.suggest.hide();
+        event.preventDefault();
+
+        // create new event
+        const newEvent = document.createEvent('Event');
+        newEvent.initEvent(
+          'keydown', 
+          true, // bubbles?
+          true // cancelable?
+          );
+
+        const {
+          keyCode,
+          key, 
+          ctrlKey,
+          shiftKey,
+          metaKey
+        } = event;
+
+        newEvent.keyCode = keyCode;
+        newEvent.key = key;
+        newEvent.ctrlKey = ctrlKey;
+        newEvent.shiftKey = shiftKey;
+        newEvent.metaKey = metaKey;
+        window.dispatchEvent(newEvent);
+     }
+    };
   }
 
   setFreezeLengths(width, height) {
