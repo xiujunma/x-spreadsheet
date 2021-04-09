@@ -13,6 +13,8 @@ const arrowKeyCodes = [
   40 // arrow key down
 ];
 
+const operators = [ '+', '-', '*', '/'];
+
 function resetTextareaSize() {
   const { inputText } = this;
   if (!/^\s*$/.test(inputText)) {
@@ -205,20 +207,23 @@ export default class Editor {
 
     this.textEl.el.onkeydown = event => {
       if (arrowKeyCodes.indexOf(event.keyCode) > -1) {
+        if (!this.inputText.startsWith('=')) {
+          this.clear();
+        }
         this.suggest.hide();
         event.preventDefault();
 
         // create new event
         const newEvent = document.createEvent('Event');
         newEvent.initEvent(
-          'keydown', 
+          'keydown',
           true, // bubbles?
           true // cancelable?
           );
 
         const {
           keyCode,
-          key, 
+          key,
           ctrlKey,
           shiftKey,
           metaKey
@@ -230,6 +235,12 @@ export default class Editor {
         newEvent.shiftKey = shiftKey;
         newEvent.metaKey = metaKey;
         window.dispatchEvent(newEvent);
+     }
+
+     if (operators.indexOf(event.key) > -1) {
+       const { el } = this.textEl;
+       const end = el.selectionEnd;
+       el.setSelectionRange(end, end);
      }
     };
   }
