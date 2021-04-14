@@ -854,17 +854,21 @@ function sheetInitEvents() {
                 default:
                     break;
             }
-            let defaultEvents = [12, 16, 18, 20, 33, 34, 35, 36, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123];
+            
             if (key === 'Delete') {
                 insertDeleteRowColumn.call(this, 'delete-cell-text');
                 evt.preventDefault();
-            } else if (!defaultEvents.includes(keyCode)) {
+              } else if ((keyCode >= 65 && keyCode <= 90)
+                || (keyCode >= 48 && keyCode <= 57)
+                || (keyCode >= 96 && keyCode <= 105)
+                || evt.key === '='
+              ) {
                 dataSetCellText.call(this, evt.key, 'input');
                 editorSet.call(this);
-            } else if (keyCode === 113) {
+              } else if (keyCode === 113) {
                 // F2
                 editorSet.call(this);
-            }
+              }
         }
     });
 }
