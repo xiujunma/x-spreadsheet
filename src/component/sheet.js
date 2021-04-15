@@ -599,6 +599,12 @@ function toolbarChange(type, value) {
         } else {
             this.freeze(0, 0);
         }
+    } else if (type === 'addDecimal') {
+        // TODO 
+        console.log('addDecimal');
+    } else if (type === 'reduceDecimal') {
+        // TODO 
+        console.log('reduceDecimal');
     } else {
         data.setSelectedCellAttr(type, value);
         if (type === 'formula' && !data.selector.multiple()) {
