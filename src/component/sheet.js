@@ -15,6 +15,7 @@ import {xtoast} from './message';
 import {cssPrefix} from '../config';
 import {formulas} from '../core/formula';
 import CellDropdown from './cell_dropdown';
+import { getTextType } from '../core/helper';
 
 /**
  * @desc throttle fn
@@ -502,6 +503,41 @@ function dataSetCellText(text, state = 'finished') {
     }
 }
 
+function dataSetCellTextSelector(selector, text, type, state = 'finished') {
+    const {data, table} = this;
+
+    const {ri, ci} = selector;
+
+    const cell = data.getCell(ri, ci);
+
+    if (data.settings.mode === 'read' || (cell !== null && cell.refUneditable)){
+        return;
+    }
+
+    data.setCellText(ri, ci, text, state);
+
+    if (type === 'FORMULA' || type === 'NUMBER') {
+        const newCell = data.getCell(ri, ci);
+
+        if (!newCell.style && newCell.style !== 0) {
+            // add style
+            data.styles.push({
+                align: 'right'
+            });
+            newCell.style = data.styles.length - 1;
+        } else {
+            // change alignment
+            data.styles[newCell.style].aligh = 'right'
+        }
+    }
+
+    if (state === 'finished') {
+        table.render();
+    } else {
+        this.trigger('cell-edited', text, ri, ci);
+    }
+}
+
 function insertDeleteRowColumn(type) {
     const {data} = this;
     if (data.settings.mode === 'read') return;
@@ -672,11 +708,9 @@ function sheetInitEvents() {
         if (itext.trim()[0] === '=') {
             itext = itext.replace(/[a-zA-Z]{1,3}\d+/g, word => word.toUpperCase());
         }
-        if (selected) {
-            this.data.setCellText(selected.ri, selected.ci, itext, 'finished');
-        } else {
-            dataSetCellText.call(this, itext, state);
-        }
+
+        const type = getTextType(itext);
+        dataSetCellTextSelector.call(this, selected || this.data.selector, itext, type, state)
     };
     // modal validation
     modalValidation.change = (action, ...args) => {

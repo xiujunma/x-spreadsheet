@@ -136,6 +136,12 @@ export function numberCalc(type, a1, a2) {
   return parseFloat(strNum).toString();
 }
 
+export function getTextType(text) {
+  if (text.indexOf('=') === 0) return 'FORMULA';
+  if (!isNaN(text)) return 'NUMBER';
+  return 'NONE';
+}
+
 export default {
   cloneDeep,
   merge: (...sources) => mergeDeep({}, ...sources),
@@ -147,4 +153,5 @@ export default {
   rangeReduceIf,
   deleteProperty,
   numberCalc,
+  getTextType,
 };
