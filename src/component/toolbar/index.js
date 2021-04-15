@@ -27,6 +27,7 @@ import More from './more';
 import { h } from '../element';
 import { cssPrefix } from '../../config';
 import { bind } from '../event';
+import Decimal from './decimal';
 
 function buildDivider() {
   return h('div', `${cssPrefix}-toolbar-divider`);
@@ -131,6 +132,11 @@ export default class Toolbar {
         this.formulaEl = new Formula(),
         this.moreEl = new More(),
       ],
+      buildDivider(),
+      [
+        this.addDecimalEl = new Decimal('addDecimal'),
+        this.reduceDecimalEl = new Decimal('reduceDecimal'),
+      ]
     ];
 
     this.el = h('div', `${cssPrefix}-toolbar`);

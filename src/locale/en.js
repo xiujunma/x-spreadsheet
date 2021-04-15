@@ -23,6 +23,8 @@ export default {
     autofilter: 'Filter',
     formula: 'Functions',
     more: 'More',
+    addDecimal: 'Add Decimal Places',
+    reduceDecimal: 'Reduce Decimal Places'
   },
   contextmenu: {
     copy: 'Copy',
