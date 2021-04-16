@@ -2,12 +2,12 @@ import { tf } from '../locale/locale';
 
 const formatStringRender = v => v;
 
-const formatNumberRender = (v) => {
+const formatNumberRender = (v, decimal = 2) => {
   // match "-12.1" or "12" or "12.1"
   if (/^(-?\d*.?\d*)$/.test(v)) {
-    const v1 = Number(v).toFixed(2).toString();
-    const [first, ...parts] = v1.split('\\.');
-    return [first.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'), ...parts];
+    const v1 = Number(v).toFixed(decimal).toString();
+    const [first, ...parts] = v1.split('.');
+    return [first.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'), ...parts].join('.');
   }
   return v;
 };
@@ -19,12 +19,15 @@ const precision = (a) => {
   return p;
 }
 
-const formatPercent = (v) => {
+const formatPercent = (v, decimal = 2) => {
   const n = parseFloat(v);
-  const p = precision(n);
-
-  if (p < 2) return `${(n * 100)}%`
-  return `${(n * 100).toFixed(p - 2)}%`;
+  if(!decimal) {
+    const p = precision(n);
+    if (p < 2) return `${(n * 100)}%`
+    return `${(n * 100).toFixed(n - 2)}%`;
+  } else {
+    return `${(n * 100).toFixed(decimal - 2)}%`;
+  }
 }
 
 const baseFormats = [
@@ -52,34 +55,28 @@ const baseFormats = [
     title: tf('format.percent'),
     type: 'number',
     label: '10.12%',
-    render: v => {
-      if (isNaN(v) || !v) {
-        return v;
-      } else {
-        return formatPercent(v);
-      }
-    },
+    render: formatPercent,
   },
   {
     key: 'rmb',
     title: tf('format.rmb'),
     type: 'number',
     label: '￥10.00',
-    render: v => `￥${formatNumberRender(v)}`,
+    render: (v, decimal) => `￥${formatNumberRender(v, decimal)}`,
   },
   {
     key: 'usd',
     title: tf('format.usd'),
     type: 'number',
     label: '$10.00',
-    render: v => `$${formatNumberRender(v)}`,
+    render: (v, decimal) => `$${formatNumberRender(v, decimal)}`,
   },
   {
     key: 'eur',
     title: tf('format.eur'),
     type: 'number',
     label: '€10.00',
-    render: v => `€${formatNumberRender(v)}`,
+    render: (v, decimal) => `€${formatNumberRender(v, decimal)}`,
   },
   {
     key: 'date',

@@ -92,8 +92,11 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     }
 
     if (style.format) {
-      // console.log(data.formatm, '>>', cell.format);
-      cellText = formatm[style.format].render(cellText);
+      if (['number', 'percent', 'usd', 'rmb', 'eur'].indexOf(style.format) > -1 && Number.isInteger(style.decimal)) {
+        cellText = formatm[style.format].render(cellText, style.decimal);
+      } else {
+        cellText = formatm[style.format].render(cellText);
+      }
     }
 
     cell.evaluatedValue = cellText;

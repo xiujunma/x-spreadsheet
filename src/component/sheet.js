@@ -573,7 +573,7 @@ function insertDeleteRowColumn(type) {
 }
 
 function toolbarChange(type, value) {
-    const {data} = this;
+    const {data, table} = this;
     if (type === 'undo') {
         this.undo();
     } else if (type === 'redo') {
@@ -599,12 +599,30 @@ function toolbarChange(type, value) {
         } else {
             this.freeze(0, 0);
         }
-    } else if (type === 'addDecimal') {
-        // TODO 
-        console.log('addDecimal');
-    } else if (type === 'reduceDecimal') {
-        // TODO 
-        console.log('reduceDecimal');
+    } else if (type === 'addDecimal' || type === 'reduceDecimal') {
+        const delta = type === 'addDecimal' ? 1 : -1;
+        const {sri, eri, sci, eci} = data.selector.range;
+        for (let r = sri; r <= eri; r++) {
+            for (let c = sci; c <= eci; c++) {
+                const cell = data.getCell(r, c);
+                if (!cell || !Number.isInteger(cell.style)) continue;
+
+                const style = data.styles[cell.style];
+                if (!Number.isInteger(style.decimal)) {
+                    style.decimal = type === 'addDecimal' ? 3 : 1;
+                } else {
+                    style.decimal += delta;
+                }
+
+                if (style && style.format === 'percent') {
+                    if (style.decimal < 2) style.decimal = 2;
+                } else {
+                    if (style.decimal < 0) style.decimal = 0;
+                }
+                if (style.decimal > 8) style.decimal = 8;
+            }
+        }
+        table.render();
     } else {
         data.setSelectedCellAttr(type, value);
         if (type === 'formula' && !data.selector.multiple()) {
