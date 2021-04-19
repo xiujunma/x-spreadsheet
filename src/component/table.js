@@ -92,10 +92,14 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     }
 
     if (style.format) {
-      if (['number', 'percent', 'usd', 'rmb', 'eur'].indexOf(style.format) > -1 && Number.isInteger(style.decimal)) {
-        cellText = formatm[style.format].render(cellText, style.decimal);
+      if (!data.settings.evalEnabled && cellText.indexOf('=') === 0) {
+        cellText = cellText
       } else {
-        cellText = formatm[style.format].render(cellText);
+        if (['number', 'percent', 'usd', 'rmb', 'eur'].indexOf(style.format) > -1 && Number.isInteger(style.decimal)) {
+          cellText = formatm[style.format].render(cellText, style.decimal);
+        } else {
+          cellText = formatm[style.format].render(cellText);
+        }
       }
     }
 
