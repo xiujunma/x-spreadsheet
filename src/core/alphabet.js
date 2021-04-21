@@ -71,6 +71,25 @@ export function xy2expr(x, y) {
   return `${stringAt(x)}${y + 1}`;
 }
 
+function splitRef(src) {
+  let x = '';
+  let y = '';
+  for (let i = 0; i < src.length; i += 1) {
+    if (src.charAt(i) >= '0' && src.charAt(i) <= '9') {
+      y += src.charAt(i);
+    } else {
+      const c = src.charAt(i);
+      if (c === '$') {
+        if (i === 0) x += c;
+        else y += c;
+      } else {
+        x += c;
+      }
+    }
+  }
+  return [x, y];
+}
+
 /** translate A1-tag src by (xn, yn)
  * @date 2019-10-10
  * @export
@@ -81,9 +100,13 @@ export function xy2expr(x, y) {
  */
 export function expr2expr(src, xn, yn, condition = () => true) {
   if (xn === 0 && yn === 0) return src;
-  const [x, y] = expr2xy(src);
+  const [x, y] = expr2xy(src.replace(/\$/g, ''));
   if (!condition(x, y)) return src;
-  return xy2expr(x + xn, y + yn);
+
+  let [xexp, yexp] = splitRef(src);
+  if (!xexp.startsWith('$')) xexp = stringAt(indexAt(xexp) + xn);
+  if (!yexp.startsWith('$')) yexp = `${parseInt(yexp, 10) + yn}`;
+  return xexp + yexp;
 }
 
 export default {

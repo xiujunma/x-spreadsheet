@@ -212,6 +212,7 @@ const evaluateVariables = function(src, variables) {
 
 const cellRender = (src, formulaMap, getCellText, cellList = [], evalEnabled = true, variables = {}) => {
   if (src[0] === '=' && evalEnabled) {
+    src = src.replace(/\$/g, '');
     src = evaluateVariables(src, variables);
     const stack = infixExprToSuffixExpr(src.substring(1));
     if (stack.length <= 0) return src;

@@ -92,7 +92,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     }
 
     if (style.format) {
-      if (!data.settings.evalEnabled && cellText.indexOf('=') === 0) {
+      if (!data.settings.evalEnabled && typeof cellText === 'string' && cellText.indexOf('=') === 0) {
         cellText = cellText
       } else {
         if (['number', 'percent', 'usd', 'rmb', 'eur'].indexOf(style.format) > -1 && Number.isInteger(style.decimal)) {
