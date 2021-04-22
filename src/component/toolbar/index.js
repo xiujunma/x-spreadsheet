@@ -28,6 +28,7 @@ import { h } from '../element';
 import { cssPrefix } from '../../config';
 import { bind } from '../event';
 import Decimal from './decimal';
+import IconItem from './icon_item';
 
 function buildDivider() {
   return h('div', `${cssPrefix}-toolbar-divider`);
@@ -136,7 +137,18 @@ export default class Toolbar {
       [
         this.addDecimalEl = new Decimal('addDecimal'),
         this.reduceDecimalEl = new Decimal('reduceDecimal'),
-      ]
+      ],
+      buildDivider(),
+      (() => {
+        const els = [];
+        if (data.settings.dynamicColumns) {
+          els.push(this.dynamicColumnsEl = new IconItem('dynamicColumns'));
+        }
+        if (data.settings.multiCellChange) {
+          els.push(this.multiCellChangeEl = new IconItem('multiCellChange'));
+        }
+        return els;
+      })()
     ];
 
     this.el = h('div', `${cssPrefix}-toolbar`);

@@ -1,5 +1,5 @@
 import helper from './helper';
-import { expr2expr } from './alphabet';
+import { expr2expr, expr2exprIgnoreAbsolute } from './alphabet';
 
 class Rows {
   constructor({ len, height }) {
@@ -213,7 +213,7 @@ class Rows {
 
       this.eachCells(ri, (ci, cell) => {
         if (cell.text && cell.text[0] === '=') {
-          cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2expr(word, 0, n, (x, y) => y >= sri));
+          cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, n, (x, y) => y >= sri));
         }
       });
 
@@ -250,7 +250,7 @@ class Rows {
 
       this.eachCells(ri, (ci, cell) => {
         if (cell.text && cell.text[0] === '=') {
-          cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2expr(word, 0, -n, (x, y) => y > eri));
+          cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, -n, (x, y) => y > eri));
         }
       });
 
@@ -268,7 +268,7 @@ class Rows {
           nci += n;
         }
         if (cell.text && cell.text[0] === '=') {
-          cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2expr(word, n, 0, x => x >= sci));
+          cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, n, 0, x => x >= sci));
         }
         rndata[nci] = cell;
       });
@@ -302,7 +302,7 @@ class Rows {
           rndata[nci - n] = cell;
         }
         if (cell.text && cell.text[0] === '=') {
-          cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2expr(word, -n, 0, x => x > eci));
+          cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, -n, 0, x => x > eci));
         }
       });
       row.cells = rndata;

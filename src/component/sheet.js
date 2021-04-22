@@ -623,6 +623,8 @@ function toolbarChange(type, value) {
             }
         }
         table.render();
+    } else if (type === 'dynamicColumns' || type === 'multiCellChange') {
+        this.trigger(type, data.selector.range);
     } else {
         data.setSelectedCellAttr(type, value);
         if (type === 'formula' && !data.selector.multiple()) {

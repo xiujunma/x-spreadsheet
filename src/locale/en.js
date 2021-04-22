@@ -24,7 +24,9 @@ export default {
     formula: 'Functions',
     more: 'More',
     addDecimal: 'Add Decimal Places',
-    reduceDecimal: 'Reduce Decimal Places'
+    reduceDecimal: 'Reduce Decimal Places',
+    dynamicColumns: 'Dynamic Columns',
+    multiCellChange: 'Multi Cell Change'
   },
   contextmenu: {
     copy: 'Copy',

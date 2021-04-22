@@ -109,10 +109,30 @@ export function expr2expr(src, xn, yn, condition = () => true) {
   return xexp + yexp;
 }
 
+export function expr2exprIgnoreAbsolute(src, xn, yn, condition = () => true) {
+  if (xn === 0 && yn === 0) return src;
+  const [x, y] = expr2xy(src.replace(/\$/g, ''));
+  if (!condition(x, y)) return src;
+
+  let [xexp, yexp] = splitRef(src);
+  if (!xexp.startsWith('$')) {
+    xexp = stringAt(indexAt(xexp) + xn);
+  } else {
+    xexp = '$' + stringAt(indexAt(xexp.replace(/\$/, '')) + xn);
+  }
+  if (!yexp.startsWith('$')) {
+    yexp = `${parseInt(yexp, 10) + yn}`;
+  } else {
+    yexp = `$${parseInt(yexp.replace(/\$/, ''), 10) + yn}`;
+  }
+  return xexp + yexp;
+}
+
 export default {
   stringAt,
   indexAt,
   expr2xy,
   xy2expr,
   expr2expr,
+  expr2exprIgnoreAbsolute
 };
