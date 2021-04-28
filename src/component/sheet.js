@@ -661,7 +661,7 @@ function sheetInitEvents() {
             overlayerMousemove.call(this, evt);
         })
         .on('mousedown', (evt) => {
-            if (!editor.inputText.startsWith('=')) editor.clear();
+            if (!editor.isOpenOperator()) editor.clear();
 
             contextMenu.hide();
             cellDropdown.hide();

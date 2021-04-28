@@ -5,6 +5,7 @@ import { formulam } from '../core/formula';
 import { formatm } from '../core/format';
 import { Element } from './element';
 import Checkbox from '../component/checkbox';
+import CellRange from '../core/cell_range';
 
 import {
   Draw, DrawBox, thinLineWidth, npx,
@@ -164,7 +165,7 @@ function renderContent(viewRange, fw, fh, tx, ty) {
   // 1 render cell
   draw.save();
   draw.translate(0, -exceptRowTotalHeight);
-  viewRange.each((ri, ci) => {
+  new CellRange(0,0, data.rows.len, data.cols.len).each((ri, ci) => {
     renderCell(draw, data, ri, ci);
   }, ri => filteredTranslateFunc(ri));
   draw.restore();

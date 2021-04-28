@@ -63,6 +63,9 @@ function keydownEventHandler(evt) {
     evt.stopPropagation();
   }
   if (keyCode === 13 && !altKey) evt.preventDefault();
+  if (keyCode === 27) {
+    this.clear(true);
+  }
 }
 
 function inputEventHandler(evt) {
@@ -207,34 +210,33 @@ export default class Editor {
 
     this.textEl.el.onkeydown = event => {
       if (arrowKeyCodes.indexOf(event.keyCode) > -1) {
-        if (!this.inputText.startsWith('=')) {
-          this.clear();
-        }
         this.suggest.hide();
-        event.preventDefault();
+        if (this.isOpenOperator()) {
+          event.preventDefault();
 
-        // create new event
-        const newEvent = document.createEvent('Event');
-        newEvent.initEvent(
-          'keydown',
-          true, // bubbles?
-          true // cancelable?
-          );
-
-        const {
-          keyCode,
-          key,
-          ctrlKey,
-          shiftKey,
-          metaKey
-        } = event;
-
-        newEvent.keyCode = keyCode;
-        newEvent.key = key;
-        newEvent.ctrlKey = ctrlKey;
-        newEvent.shiftKey = shiftKey;
-        newEvent.metaKey = metaKey;
-        window.dispatchEvent(newEvent);
+          // create new event
+          const newEvent = document.createEvent('Event');
+          newEvent.initEvent(
+            'keydown',
+            true, // bubbles?
+            true // cancelable?
+            );
+  
+          const {
+            keyCode,
+            key,
+            ctrlKey,
+            shiftKey,
+            metaKey
+          } = event;
+  
+          newEvent.keyCode = keyCode;
+          newEvent.key = key;
+          newEvent.ctrlKey = ctrlKey;
+          newEvent.shiftKey = shiftKey;
+          newEvent.metaKey = metaKey;
+          window.dispatchEvent(newEvent);
+        }
      }
 
      if (operators.indexOf(event.key) > -1) {
@@ -245,17 +247,31 @@ export default class Editor {
     };
   }
 
+  isOpenOperator() {
+    const text = this.inputText;
+    if (!text) return false;
+    const {selectionStart, selectionEnd} = this.textEl.el;
+    const remain = text.replace(text.substring(selectionStart, selectionEnd), '');
+    if (!remain) return false;
+    return ['=', '*', '-', '/', '+'].some(op => remain.indexOf(op) === remain.length - 1);
+  }
+
   setFreezeLengths(width, height) {
     this.freeze.w = width;
     this.freeze.h = height;
   }
 
-  clear() {
+  clear(discard = false) {
     // const { cell } = this;
     // const cellText = (cell && cell.text) || '';
-    if (this.inputText !== '') {
-      this.change('finished', this.inputText, this.selected);
+    if (!discard) {
+      if (this.inputText !== '') {
+        this.change('finished', this.inputText, this.selected);
+      }
+    } else {
+      this.change('finished', this.originValue, this.selected);
     }
+
     this.cell = null;
     this.areaOffset = null;
     this.inputText = '';
@@ -302,6 +318,9 @@ export default class Editor {
   setCell(cell, validator, selected) {
     // console.log('::', validator);
     const { el, datepicker, suggest } = this;
+
+    this.originValue = cell && cell.text ? cell.text : '';
+
     el.show();
     this.cell = cell;
     const text = (cell && cell.text) || '';
