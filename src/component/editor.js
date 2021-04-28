@@ -253,7 +253,7 @@ export default class Editor {
     const {selectionStart, selectionEnd} = this.textEl.el;
     const remain = text.replace(text.substring(selectionStart, selectionEnd), '');
     if (!remain) return false;
-    return ['=', '*', '-', '/', '+'].some(op => remain.indexOf(op) === remain.length - 1);
+    return ['=', '*', '-', '/', '+'].some(op => remain[remain.length - 1] === op);
   }
 
   setFreezeLengths(width, height) {
