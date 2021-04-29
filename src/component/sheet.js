@@ -924,8 +924,8 @@ function sheetInitEvents() {
                 || evt.key === '='
                 || ['_', '+', '-', '{', '}', '|', '[', ']', '\\', ':', '"', ';', '\'', '<', '>', '?', ',', '.', '/', '*'].indexOf(evt.key) > -1
               ) {
-                dataSetCellText.call(this, evt.key, 'input');
                 editorSet.call(this);
+                editor.setText(evt.key);
               } else if (keyCode === 113) {
                 // F2
                 editorSet.call(this);
