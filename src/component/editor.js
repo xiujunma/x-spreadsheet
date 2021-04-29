@@ -251,7 +251,7 @@ export default class Editor {
     const text = this.inputText;
     if (!text) return false;
     const {selectionStart, selectionEnd} = this.textEl.el;
-    const remain = text.replace(text.substring(selectionStart, selectionEnd), '');
+    const remain = text.slice(0, selectionStart) + text.slice(selectionEnd);
     if (!remain) return false;
     return ['=', '*', '-', '/', '+'].some(op => remain[remain.length - 1] === op);
   }
