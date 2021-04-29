@@ -922,6 +922,7 @@ function sheetInitEvents() {
                 || (keyCode >= 48 && keyCode <= 57)
                 || (keyCode >= 96 && keyCode <= 105)
                 || evt.key === '='
+                || ['_', '+', '-', '{', '}', '|', '[', ']', '\\', ':', '"', ';', '\'', '<', '>', '?', ',', '.', '/', '*'].indexOf(evt.key) > -1
               ) {
                 dataSetCellText.call(this, evt.key, 'input');
                 editorSet.call(this);

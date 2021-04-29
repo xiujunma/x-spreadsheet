@@ -165,7 +165,7 @@ function renderContent(viewRange, fw, fh, tx, ty) {
   // 1 render cell
   draw.save();
   draw.translate(0, -exceptRowTotalHeight);
-  new CellRange(0,0, data.rows.len, data.cols.len).each((ri, ci) => {
+  new CellRange(viewRange.sri, viewRange.sci, data.rows.len, data.cols.len, viewRange.w, viewRange.h).each((ri, ci) => {
     renderCell(draw, data, ri, ci);
   }, ri => filteredTranslateFunc(ri));
   draw.restore();
