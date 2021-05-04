@@ -17,6 +17,7 @@ export default class CellDropdown {
     constructor() {
         this.el = h('div', `${cssPrefix}-suggest`)
             .css('position', 'absolute')
+            .css('max-height', '240px')
             .css('left', '0').css('top', '0')
             .show();
     }

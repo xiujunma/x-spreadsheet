@@ -120,6 +120,8 @@ class Spreadsheet {
     this.sheet.cellDropdown.setDropdown(rect.left, rect.top, style.format || 'text', options, (value) => {
       this.cellText(ri, ci, value);
       this.reRender();
+      const cell = this.sheet.data.getCell(ri, ci);
+      this.sheet.trigger('cell-selected', cell, ri, ci);
     });
   }
 
