@@ -135,8 +135,8 @@ export default class Toolbar {
       ],
       buildDivider(),
       [
-        this.addDecimalEl = new Decimal('addDecimal'),
         this.reduceDecimalEl = new Decimal('reduceDecimal'),
+        this.addDecimalEl = new Decimal('addDecimal')
       ],
       buildDivider(),
       (() => {

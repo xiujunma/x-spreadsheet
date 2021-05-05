@@ -23,8 +23,8 @@ export default {
     autofilter: 'Filter',
     formula: 'Functions',
     more: 'More',
-    addDecimal: 'Add Decimal Places',
-    reduceDecimal: 'Reduce Decimal Places',
+    addDecimal: 'Increase Decimal Places',
+    reduceDecimal: 'Decrease Decimal Places',
     dynamicColumns: 'Dynamic Columns',
     multiCellChange: 'Multi Cell Change'
   },

@@ -12,6 +12,16 @@ const formatNumberRender = (v, decimal = 2) => {
   return v;
 };
 
+const formatNumberRenderWithoutCommas = (v, decimal = 2) => {
+  // match "-12.1" or "12" or "12.1"
+  if (/^(-?\d*.?\d*)$/.test(v)) {
+    const v1 = Number(v).toFixed(decimal).toString();
+    const [first, ...parts] = v1.split('.');
+    return [first.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1'), ...parts].join('.');
+  }
+  return v;
+};
+
 const precision = (a) => {
   if (!isFinite(a)) return 0;
   var e = 1, p = 0;
@@ -49,6 +59,13 @@ const baseFormats = [
     type: 'number',
     label: '1,000.12',
     render: formatNumberRender,
+  },
+  {
+    key: 'number-without-commas',
+    title: tf('format.number'),
+    type: 'number',
+    label: '1000.12',
+    render: formatNumberRenderWithoutCommas
   },
   {
     key: 'percent',

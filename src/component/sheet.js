@@ -522,12 +522,18 @@ function dataSetCellTextSelector(selector, text, type, state = 'finished') {
         if (!newCell.style && newCell.style !== 0) {
             // add style
             data.styles.push({
-                align: 'right'
+                align: 'right',
+                format: 'number',
+                decimal: 0
             });
             newCell.style = data.styles.length - 1;
         } else {
             // change alignment
-            data.styles[newCell.style].aligh = 'right'
+            Object.assign(data.styles[newCell.style], {
+                align: 'right',
+                format: 'number',
+                decimal: 0
+            });
         }
     }
 
