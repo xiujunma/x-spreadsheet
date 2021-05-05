@@ -527,13 +527,6 @@ function dataSetCellTextSelector(selector, text, type, state = 'finished') {
                 decimal: 0
             });
             newCell.style = data.styles.length - 1;
-        } else {
-            // change alignment
-            Object.assign(data.styles[newCell.style], {
-                align: 'right',
-                format: 'number',
-                decimal: 0
-            });
         }
     }
 
