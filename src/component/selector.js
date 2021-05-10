@@ -19,7 +19,7 @@ class SelectorElement {
       .children(this.areaEl, this.clipboardEl, this.autofillEl)
       .hide();
     if (useHideInput) {
-      this.hideInput = h('input', '')
+      this.hideInput = h('input', 'selectorInput')
         .on('compositionend', (evt) => {
           this.inputChange(evt.target.value);
         });

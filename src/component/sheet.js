@@ -777,8 +777,11 @@ function sheetInitEvents() {
     });
 
     bind(window, 'paste', (evt) => {
-        paste.call(this, 'all', evt);
-        evt.preventDefault();
+        const target = evt.target.tagName.toLowerCase();
+        if (target === 'body' || (target === 'input' && evt.target.className === 'selectorInput')) {
+            paste.call(this, 'all', evt);
+            evt.preventDefault();
+        }
     });
 
     // for selector
