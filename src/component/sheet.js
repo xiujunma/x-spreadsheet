@@ -516,7 +516,7 @@ function dataSetCellTextSelector(selector, text, type, state = 'finished') {
 
     data.setCellText(ri, ci, text, state);
 
-    if (type === 'FORMULA' || type === 'NUMBER') {
+    if ((state === 'finished') && type === 'FORMULA' || type === 'NUMBER') {
         const newCell = data.getCell(ri, ci);
 
         if (!newCell.style && newCell.style !== 0) {
