@@ -137,8 +137,8 @@ export function numberCalc(type, a1, a2) {
 }
 
 export function getTextType(text) {
-  if (text.indexOf('=') === 0) return 'FORMULA';
-  if (!isNaN(text)) return 'NUMBER';
+  if (text.trim().indexOf('=') === 0) return 'FORMULA';
+  if (text.trim() && !isNaN(text.trim())) return 'NUMBER';
   return 'NONE';
 }
 
