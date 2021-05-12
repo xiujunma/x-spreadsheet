@@ -80,7 +80,8 @@ function selectorSet(multiple, ri, ci, indexesUpdated = true, moving = false) {
         selector.set(ri, ci, indexesUpdated);
         this.trigger('cell-selected', cell, ri, ci);
     }
-    if (this.editor.active) this.editor.setRange(selector.range);
+    if (this.editor.active && this.editor.mode === 'edit') this.editor.setRange(selector.range);
+    else this.editor.clear();
     toolbar.reset();
     table.render();
 }
@@ -429,13 +430,14 @@ function editorSetOffset() {
     editor.setOffset(sOffset, sPosition);
 }
 
-function editorSet() {
+function editorSet(mode = 'edit') {
     const {editor, data} = this;
     const cell = data.getSelectedCell();
     // prevent the certain cells from editing
     if (cell && cell.refUneditable) return;
     if (data.settings.mode === 'read') return;
     editorSetOffset.call(this);
+    editor.mode = mode
     editor.setCell(data.getSelectedCell(), data.getSelectedValidator(), {
         ri: data.selector.ri,
         ci: data.selector.ci,
@@ -926,7 +928,7 @@ function sheetInitEvents() {
                 || evt.key === '='
                 || ['_', '+', '-', '{', '}', '|', '[', ']', '\\', ':', '"', ';', '\'', '<', '>', '?', ',', '.', '/', '*'].indexOf(evt.key) > -1
               ) {
-                editorSet.call(this);
+                editorSet.call(this, evt.key === '=' ? 'edit' : 'entry');
                 editor.setText(evt.key);
               } else if (keyCode === 113) {
                 // F2

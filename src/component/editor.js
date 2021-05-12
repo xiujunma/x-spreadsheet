@@ -173,6 +173,7 @@ function dateFormat(d) {
 
 export default class Editor {
   constructor(formulas, viewFn, rowHeight) {
+    this.mode = 'edit'; // edit | entry
     this.viewFn = viewFn;
     this.rowHeight = rowHeight;
     this.formulas = formulas;
@@ -211,7 +212,7 @@ export default class Editor {
     this.textEl.el.onkeydown = event => {
       if (arrowKeyCodes.indexOf(event.keyCode) > -1) {
         this.suggest.hide();
-        if (this.isOpenOperator()) {
+        if (this.mode === 'entry' || this.isOpenOperator()) {
           event.preventDefault();
 
           // create new event
