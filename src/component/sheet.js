@@ -399,6 +399,53 @@ function overlayerMousedown(evt) {
             } else if (e.buttons === 1 && !e.shiftKey) {
                 selectorSet.call(this, true, ri, ci, true, true);
             }
+
+            const tOffset = this.getTableOffset();
+            const {top} = this.verticalScrollbar.scroll();
+            const {left} = this.horizontalScrollbar.scroll();
+            const {rows, cols} = this.data;
+            const loopValue = (ii, vFunc) => {
+                let i = ii;
+                let v = 0;
+                do {
+                    v = vFunc(i);
+                    i += 1;
+                } while (v <= 0);
+                return v;
+            };
+
+            if (e.offsetY > tOffset.height + tOffset.top - 32) {
+                const rii = this.data.scroll.ri + 1;
+                if (rii < rows.len) {
+                    const rh = loopValue(rii, i => rows.getHeight(i));
+                    this.verticalScrollbar.move({top: top + rh - 1});
+                }
+            }
+
+            if (e.offsetY - tOffset.top < 32 ) {
+                const rii = this.data.scroll.ri - 1;
+                if (rii >= 0) {
+                    const rh = loopValue(rii, i => rows.getHeight(i));
+                    this.verticalScrollbar.move({top: rii === 0 ? 0 : top - rh});
+                }
+            }
+
+            if (e.offsetX > tOffset.width + tOffset.left - 64) {
+                const cii = this.data.scroll.ci + 1;
+                if (cii < cols.len) {
+                    const cw = loopValue(cii, i => cols.getWidth(i));
+                    this.horizontalScrollbar.move({left: left + cw - 1});
+                }
+            }
+
+            if (e.offsetX - tOffset.left < 64) {
+                const cii = this.data.scroll.ci - 1;
+                if (cii >= 0) {
+                    const cw = loopValue(cii, i => cols.getWidth(i));
+                    this.horizontalScrollbar.move({left: cii === 0 ? 0 : left - cw});
+                }
+            }
+
         }, () => {
             if (isAutofillEl && selector.arange && data.settings.mode !== 'read') {
                 if (data.autofill(selector.arange, 'all', msg => xtoast('Tip', msg))) {
