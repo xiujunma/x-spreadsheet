@@ -650,13 +650,22 @@ function toolbarChange(type, value) {
     } else if (type === 'addDecimal' || type === 'reduceDecimal') {
         const delta = type === 'addDecimal' ? 1 : -1;
         const {sri, eri, sci, eci} = data.selector.range;
+        const isStyleShared = style => {
+            let count = 0;
+            Object.values(data.rows._).forEach(row => {
+                Object.values(row.cells).forEach(cell => {
+                    if (cell.style === style) count += 1;
+                });
+            });
+            return count > 1;
+        };
         for (let r = sri; r <= eri; r++) {
             for (let c = sci; c <= eci; c++) {
                 const cell = data.getCell(r, c);
                 if (!cell || !Number.isInteger(cell.style)) continue;
-                
-                // clone the existing style
-                const style = Object.assign({}, data.styles[cell.style]);
+                const shared = isStyleShared(cell.style);
+                // clone the existing style if the style is being shared between cells.
+                const style = shared ? Object.assign({}, data.styles[cell.style]) : data.styles[cell.style];
                 if (!Number.isInteger(style.decimal)) {
                     style.decimal = type === 'addDecimal' ? 3 : 1;
                 } else {
@@ -669,7 +678,7 @@ function toolbarChange(type, value) {
                     if (style.decimal < 0) style.decimal = 0;
                 }
                 if (style.decimal > 8) style.decimal = 8;
-                cell.style = data.styles.push(style) - 1;
+                if (shared) cell.style = data.styles.push(style) - 1;
             }
         }
         table.render();
