@@ -654,8 +654,9 @@ function toolbarChange(type, value) {
             for (let c = sci; c <= eci; c++) {
                 const cell = data.getCell(r, c);
                 if (!cell || !Number.isInteger(cell.style)) continue;
-
-                const style = data.styles[cell.style];
+                
+                // clone the existing style
+                const style = Object.assign({}, data.styles[cell.style]);
                 if (!Number.isInteger(style.decimal)) {
                     style.decimal = type === 'addDecimal' ? 3 : 1;
                 } else {
@@ -668,6 +669,7 @@ function toolbarChange(type, value) {
                     if (style.decimal < 0) style.decimal = 0;
                 }
                 if (style.decimal > 8) style.decimal = 8;
+                cell.style = data.styles.push(style) - 1;
             }
         }
         table.render();
