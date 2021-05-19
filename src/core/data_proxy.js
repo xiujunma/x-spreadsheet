@@ -936,7 +936,6 @@ export default class DataProxy {
   setCellText(ri, ci, text, state) {
     const { rows, history, validations } = this;
     if (state === 'finished') {
-      rows.setCellText(ri, ci, '');
       history.add(this.getData());
       rows.setCellText(ri, ci, text);
     } else {
