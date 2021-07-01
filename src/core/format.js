@@ -34,7 +34,7 @@ const formatPercent = (v, decimal = 2) => {
   if(!decimal) {
     const p = precision(n);
     if (p <= 2) return `${(n * 100)}%`
-    return `${(n * 100).toFixed(n - 2)}%`;
+    return `${(n * 100).toFixed(p - 2)}%`;
   } else {
     return `${(n * 100).toFixed(decimal - 2)}%`;
   }
