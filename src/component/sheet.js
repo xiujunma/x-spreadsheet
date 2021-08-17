@@ -322,6 +322,11 @@ function cut() {
 function paste(what, evt) {
     const {data} = this;
     if (data.settings.mode === 'read') return;
+    const rowCount = data.clipboard.range.eri - data.clipboard.range.sri + 1;
+    if(data.selector.ri + rowCount > data.rows.len)
+    {
+        data.insert('row', rowCount);
+    }
     if (data.paste(what, msg => xtoast('Tip', msg))) {
         sheetReset.call(this);
     } else if (evt) {
@@ -590,7 +595,8 @@ function insertDeleteRowColumn(type) {
     const {data} = this;
     if (data.settings.mode === 'read') return;
     if (type === 'insert-row') {
-        data.insert('row');
+        const rowCount = data.selector.range.eri - data.selector.range.sri + 1;
+        data.insert('row', rowCount);
         this.trigger('insert-row', data.selector.range);
     } else if (type === 'delete-row') {
         data.delete('row');
@@ -976,7 +982,7 @@ function sheetInitEvents() {
                 default:
                     break;
             }
-            
+
             if (key === 'Delete') {
                 insertDeleteRowColumn.call(this, 'delete-cell-text');
                 evt.preventDefault();
