@@ -78,16 +78,8 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
   draw.rect(dbox, () => {
     // render text
     let cellText;
-    if (!data.settings.evalEnabled && (cell.type === 'store' || cell.type === 'view')) {
-      switch(cell.type) {
-        case 'store':
-          cellText = '1000.00';
-          break;
-        case 'view':
-          cellText = '2000.00';
-          break;
-      }
-
+    if (!data.settings.evalEnabled) {
+      cellText = cell.text;
     } else {
       cellText = _cell.render(cell.text || '', formulam, (y, x) => (data.getCellTextOrDefault(x, y)), [], settings.evalEnabled, window.variables);
     }
