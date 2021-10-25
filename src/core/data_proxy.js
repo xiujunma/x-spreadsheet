@@ -331,8 +331,8 @@ export default class DataProxy {
     this.freeze = [0, 0];
     this.styles = []; // Array<Style>
     this.merges = new Merges(); // [CellRange, ...]
-    this.rows = new Rows(this.settings.row);
-    this.cols = new Cols(this.settings.col);
+    this.rows = new Rows(this.settings.row, this.settings.evalEnabled);
+    this.cols = new Cols(this.settings.col, this.settings.evalEnabled);
     this.validations = new Validations();
     this.hyperlinks = {};
     this.comments = {};
@@ -1051,7 +1051,7 @@ export default class DataProxy {
       .forEach(it => cb(it));
   }
 
-  hideRowsOrCols() {
+  hideRowsOrCols(hide = true) {
     const { rows, cols, selector } = this;
     const [rlen, clen] = selector.size();
     const {
@@ -1059,11 +1059,11 @@ export default class DataProxy {
     } = selector.range;
     if (rlen === rows.len) {
       for (let ci = sci; ci <= eci; ci += 1) {
-        cols.setHide(ci, true);
+        cols.setHide(ci, hide);
       }
     } else if (clen === cols.len) {
       for (let ri = sri; ri <= eri; ri += 1) {
-        rows.setHide(ri, true);
+        rows.setHide(ri, hide);
       }
     }
   }

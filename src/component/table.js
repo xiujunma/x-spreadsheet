@@ -239,6 +239,13 @@ function renderFixedHeaders(type, viewRange, w, h, tx, ty) {
         }, () => {});
       }
 
+      if (data.rows._[i] && data.rows._[i].hide) {
+        draw.save();
+        draw.attr({ fillStyle: '#ff0000', font: '20px Arial' });
+        draw.fillText('X', w / 2, y + (rowHeight / 2));
+        draw.restore();
+      }
+
       draw.fillText(ii + 1, w / 2, y + (rowHeight / 2));
       if (i > 0 && data.rows.isHide(i - 1)) {
         draw.save();
@@ -269,6 +276,13 @@ function renderFixedHeaders(type, viewRange, w, h, tx, ty) {
           height: h,
           bgcolor: data.cols._[i].highlight
         }, () => {});
+      }
+      
+      if (data.cols._[i] && data.cols._[i].hide) {
+        draw.save();
+        draw.attr({ fillStyle: '#ff0000', font: '20px Arial' });
+        draw.fillText('X', x + (colWidth / 2), h / 2);
+        draw.restore();
       }
 
       draw.fillText(stringAt(ii), x + (colWidth / 2), h / 2);

@@ -341,6 +341,11 @@ function hideRowsOrCols() {
     sheetReset.call(this);
 }
 
+function unhideRowsOrColsForContextMenu() {
+    this.data.hideRowsOrCols(false);
+    sheetReset.call(this);
+}
+
 function unhideRowsOrCols(type, index) {
     this.data.unhideRowsOrCols(type, index);
     sheetReset.call(this);
@@ -828,6 +833,8 @@ function sheetInitEvents() {
             paste.call(this, 'format');
         } else if (type === 'hide') {
             hideRowsOrCols.call(this);
+        } else if (type === 'unhide') {
+            unhideRowsOrColsForContextMenu.call(this);
         } else {
             insertDeleteRowColumn.call(this, type);
             if (type.indexOf('delete') >= 0) this.trigger('cell-deleted');
