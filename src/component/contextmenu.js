@@ -63,10 +63,13 @@ export default class ContextMenu {
   // range: select range
   setMode(mode) {
     const hideEl = this.menuItems[12];
+    const unhideEl = this.menuItems[13];
     if (mode === 'row-col') {
       hideEl.show();
+      unhideEl.show();
     } else {
       hideEl.hide();
+      unhideEl.hide();
     }
   }
 
