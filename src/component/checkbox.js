@@ -13,6 +13,10 @@ export default class Checkbox {
         if (cell.value) {
             this.checkboxEl.attr('checked', 'true');
         }
+
+        if (cell.disabled) {
+            this.checkboxEl.attr('disabled', 'true');
+        }
         
         const paddingLeft = 60 + parseInt((rect.width - 20) / 2);
         const paddingTop = 25 + parseInt((rect.height - 20) / 2);
