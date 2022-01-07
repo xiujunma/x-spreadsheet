@@ -422,13 +422,15 @@ class Table {
     const sheetEl = new Element(this.el.parentNode);
     Object.keys(rows._).forEach(row => {
       if (rows._[row].cells) Object.keys(rows._[row].cells).forEach(col => {
-        const cellRect = data.cellRect(row - sri, col - sci);
         const cell = rows._[row].cells[col];
         const rn = parseInt(row, 10);
         const cn = parseInt(col, 10);
         if (cell.type === 'checkbox') {
           const show = rn >= sri && rn <= eri && cn >= sci && cn <= eci;
           const found = this.checkboxes.find(cb => cb.ri === row && cb.ci === col);
+          const cellRect = data.cellRect(row, col);
+          cellRect.top -= data.scroll.y;
+          cellRect.left -= data.scroll.x;
           if (found) {
             found.setRect(cellRect);
             found.show(show);
