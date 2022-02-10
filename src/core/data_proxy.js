@@ -143,6 +143,8 @@ function copyPaste(srcCellRange, dstCellRange, what, autofill = false) {
       if (rn <= 0 && cn <= 0) return;
       merges.add(new CellRange(ri, ci, ri + rn, ci + cn));
     }
+    const inspector = this.settings.pasteInspector || (() => true);
+    inspector(srcCellRange, dstCellRange, ri, ci, cell);
   });
 }
 
