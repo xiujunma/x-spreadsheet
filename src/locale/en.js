@@ -35,6 +35,7 @@ export default {
     pasteValue: 'Paste values only',
     pasteFormat: 'Paste format only',
     hide: 'Hide',
+    unhide: 'Unhide',
     insertRow: 'Insert row',
     insertColumn: 'Insert column',
     deleteSheet: 'Delete',

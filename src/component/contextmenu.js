@@ -17,6 +17,7 @@ const menuItems = [
   { key: 'delete-column', title: tf('contextmenu.deleteColumn') },
   { key: 'delete-cell', title: tf('contextmenu.deleteCell') },
   { key: 'hide', title: tf('contextmenu.hide') },
+  { key: 'unhide', title: tf('contextmenu.unhide') },
   { key: 'divider' },
   { key: 'validation', title: tf('contextmenu.validation') },
   { key: 'divider' },
@@ -62,10 +63,13 @@ export default class ContextMenu {
   // range: select range
   setMode(mode) {
     const hideEl = this.menuItems[12];
+    const unhideEl = this.menuItems[13];
     if (mode === 'row-col') {
       hideEl.show();
+      unhideEl.show();
     } else {
       hideEl.hide();
+      unhideEl.hide();
     }
   }
 

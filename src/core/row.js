@@ -2,11 +2,12 @@ import helper from './helper';
 import { expr2expr, expr2exprIgnoreAbsolute } from './alphabet';
 
 class Rows {
-  constructor({ len, height }) {
+  constructor({ len, height }, evalEnabled = false) {
     this._ = {};
     this.len = len;
     // default row height
     this.height = height;
+    this.evalEnabled = evalEnabled;
   }
 
   getHeight(ri) {
@@ -34,8 +35,11 @@ class Rows {
   }
 
   isHide(ri) {
-    const row = this.get(ri);
-    return row && row.hide;
+    if (this.evalEnabled) {
+      const row = this.get(ri);
+      return row && row.hide;
+    }
+    return false;
   }
 
   setHide(ri, v) {

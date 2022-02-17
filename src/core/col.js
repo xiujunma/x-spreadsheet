@@ -3,12 +3,13 @@ import helper from './helper';
 class Cols {
   constructor({
     len, width, indexWidth, minWidth,
-  }) {
+  }, evalEnabled = false) {
     this._ = {};
     this.len = len;
     this.width = width;
     this.indexWidth = indexWidth;
     this.minWidth = minWidth;
+    this.evalEnabled = evalEnabled;
   }
 
   setData(d) {
@@ -54,8 +55,11 @@ class Cols {
   }
 
   isHide(ci) {
-    const col = this._[ci];
-    return col && col.hide;
+    if (this.evalEnabled) {
+      const col = this._[ci];
+      return col && col.hide;
+    }
+    return false;
   }
 
   setHide(ci, v) {

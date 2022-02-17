@@ -78,16 +78,8 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
   draw.rect(dbox, () => {
     // render text
     let cellText;
-    if (!data.settings.evalEnabled && (cell.type === 'store' || cell.type === 'view')) {
-      switch(cell.type) {
-        case 'store':
-          cellText = '1000.00';
-          break;
-        case 'view':
-          cellText = '2000.00';
-          break;
-      }
-
+    if (!data.settings.evalEnabled) {
+      cellText = cell.text;
     } else {
       cellText = _cell.render(cell.text || '', formulam, (y, x) => (data.getCellTextOrDefault(x, y)), [], settings.evalEnabled, window.variables);
     }
@@ -247,6 +239,13 @@ function renderFixedHeaders(type, viewRange, w, h, tx, ty) {
         }, () => {});
       }
 
+      if (data.rows._[i] && data.rows._[i].hide) {
+        draw.save();
+        draw.attr({ fillStyle: '#ff0000', font: '20px Arial' });
+        draw.fillText('X', w / 2, y + (rowHeight / 2));
+        draw.restore();
+      }
+
       draw.fillText(ii + 1, w / 2, y + (rowHeight / 2));
       if (i > 0 && data.rows.isHide(i - 1)) {
         draw.save();
@@ -277,6 +276,13 @@ function renderFixedHeaders(type, viewRange, w, h, tx, ty) {
           height: h,
           bgcolor: data.cols._[i].highlight
         }, () => {});
+      }
+      
+      if (data.cols._[i] && data.cols._[i].hide) {
+        draw.save();
+        draw.attr({ fillStyle: '#ff0000', font: '20px Arial' });
+        draw.fillText('X', x + (colWidth / 2), h / 2);
+        draw.restore();
       }
 
       draw.fillText(stringAt(ii), x + (colWidth / 2), h / 2);
@@ -416,13 +422,15 @@ class Table {
     const sheetEl = new Element(this.el.parentNode);
     Object.keys(rows._).forEach(row => {
       if (rows._[row].cells) Object.keys(rows._[row].cells).forEach(col => {
-        const cellRect = data.cellRect(row - sri, col - sci);
         const cell = rows._[row].cells[col];
         const rn = parseInt(row, 10);
         const cn = parseInt(col, 10);
         if (cell.type === 'checkbox') {
           const show = rn >= sri && rn <= eri && cn >= sci && cn <= eci;
           const found = this.checkboxes.find(cb => cb.ri === row && cb.ci === col);
+          const cellRect = data.cellRect(row, col);
+          cellRect.top -= data.scroll.y;
+          cellRect.left -= data.scroll.x;
           if (found) {
             found.setRect(cellRect);
             found.show(show);
