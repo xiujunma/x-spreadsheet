@@ -368,8 +368,6 @@ function toolbarChangePaintformatPaste() {
 
 function overlayerMousedown(evt) {
     // console.log(':::::overlayer.mousedown:', evt.detail, evt.button, evt.buttons, evt.shiftKey);
-    // console.log('evt.target.className:', evt.target.className);
-    console.log(evt);
     const {
         selector, data, table, sortFilter,
     } = this;
@@ -392,7 +390,6 @@ function overlayerMousedown(evt) {
         }
     }
 
-    // console.log('ri:', ri, ', ci:', ci);
     if (!evt.shiftKey) {
         // console.log('selectorSetStart:::');
         if (isAutofillEl) {
