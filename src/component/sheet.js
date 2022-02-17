@@ -409,8 +409,8 @@ function overlayerMousedown(evt) {
                 selector.showAutofill(ri, ci);
             } else if (e.buttons === 1 && !e.shiftKey) {
                 selectorSet.call(this, true, ri, ci, true, true);
-            
-
+            }
+            if(e.buttons === 1 || isAutofillEl){
                 const tOffset = this.getTableOffset();
                 const {top} = this.verticalScrollbar.scroll();
                 const {left} = this.horizontalScrollbar.scroll();
