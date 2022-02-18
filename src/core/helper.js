@@ -114,26 +114,22 @@ export function numberCalc(type, a1, a2) {
   if (Number.isNaN(a1) || Number.isNaN(a2)) {
     return a1 + type + a2;
   }
-  const al1 = digits(a1);
-  const al2 = digits(a2);
+  
   const num1 = Number(a1);
   const num2 = Number(a2);
-  let ret = 0;
-  let strNum;
-  if (type === '-') {
-    ret = num1 - num2;
-    strNum = ret.toFixed(Math.max(al1, al2));
-  } else if (type === '+') {
-    ret = num1 + num2;
-    strNum = ret.toFixed(Math.max(al1, al2));
-  } else if (type === '*') {
-    ret = num1 * num2;
-    strNum = ret.toFixed(al1 + al2);
-  } else if (type === '/') {
-    ret = num1 / num2;
-    strNum = ret.toFixed(7);
+
+  switch (type) {
+    case '-':
+      return (num1 - num2).toString();
+    case '+':
+      return (num1 + num2).toString();
+    case '*':
+      return (num1 * num2).toString();
+    case '/':
+      return (num1 / num2).toString();
+    default:
+      return a1 + type + a2;
   }
-  return parseFloat(strNum).toString();
 }
 
 export function getTextType(text) {
