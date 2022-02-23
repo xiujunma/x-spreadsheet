@@ -254,7 +254,7 @@ class Rows {
 
       this.eachCells(ri, (ci, cell) => {
         if (cell.text && cell.text[0] === '=') {
-          cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, -n, (x, y) => y > eri));
+          cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, -n, (x, y) => y >= eri));
         }
       });
 
