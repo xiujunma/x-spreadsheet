@@ -18,12 +18,12 @@ const baseFormulas = [
   {
     key: 'SUM',
     title: tf('formula.sum'),
-    render: ary => ary.reduce((a, b) => numberCalc('+', a, b), 0),
+    render: ary => ary.filter(a => !isNaN(a)).reduce((a, b) => numberCalc('+', a, b), 0),
   },
   {
     key: 'AVERAGE',
     title: tf('formula.average'),
-    render: ary => ary.reduce((a, b) => Number(a) + Number(b), 0) / ary.length,
+    render: ary => ary.filter(a => !isNaN(a)).reduce((a, b) => Number(a) + Number(b), 0) / ary.length,
   },
   {
     key: 'MAX',
