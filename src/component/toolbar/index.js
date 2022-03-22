@@ -147,11 +147,11 @@ export default class Toolbar {
         if (data.settings.multiCellChange) {
           els.push(this.multiCellChangeEl = new IconItem('multiCellChange'));
         }
+        if (data.settings.unlockCells) {
+          els.push(this.multiCellChangeEl = new IconItem('unlockCells'));
+        }
         return els;
       })(),
-      [
-        new IconItem('unlockCells'),
-      ],
     ];
 
     this.el = h('div', `${cssPrefix}-toolbar`);
