@@ -26,7 +26,8 @@ export default {
     addDecimal: 'Increase Decimal Places',
     reduceDecimal: 'Decrease Decimal Places',
     dynamicColumns: 'Dynamic Columns',
-    multiCellChange: 'Multi Cell Change'
+    multiCellChange: 'Multi Cell Change',
+    unlockCells: 'Unlock Cells',
   },
   contextmenu: {
     copy: 'Copy',

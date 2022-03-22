@@ -631,6 +631,7 @@ function insertDeleteRowColumn(type) {
 
 function toolbarChange(type, value) {
     const {data, table} = this;
+    const {sri, eri, sci, eci} = data.selector.range;
     if (type === 'undo') {
         this.undo();
     } else if (type === 'redo') {
@@ -658,7 +659,6 @@ function toolbarChange(type, value) {
         }
     } else if (type === 'addDecimal' || type === 'reduceDecimal') {
         const delta = type === 'addDecimal' ? 1 : -1;
-        const {sri, eri, sci, eci} = data.selector.range;
         const isStyleShared = style => {
             let count = 0;
             Object.values(data.rows._).forEach(row => {
@@ -693,6 +693,29 @@ function toolbarChange(type, value) {
         table.render();
     } else if (type === 'dynamicColumns' || type === 'multiCellChange') {
         this.trigger(type, data.selector.range);
+    } else if (type === 'unlockCells') {
+        let allCellUnlocked = true;
+        for (let r1 = sri; r1 <= eri; r1++) {
+            for (let c1 = sci; c1 <= eci; c1++) {
+                const cell1 = data.getCell(r1, c1);
+                if (!cell1 || !cell1.unlocked) {
+                    allCellUnlocked = false;
+                    break;
+                }
+            }
+        }
+
+        for (let r2 = sri; r2 <= eri; r2++) {
+            for (let c2 = sci; c2 <= eci; c2++) {
+                let cell2 = data.getCell(r2, c2);
+                if (!cell2) {
+                    data.setCellText(r2, c2, '');
+                    cell2 = data.getCell(r2, c2);
+                }
+                cell2.unlocked = !allCellUnlocked;
+            }
+        }
+        table.render();
     } else {
         data.setSelectedCellAttr(type, value);
         if (type === 'formula' && !data.selector.multiple()) {

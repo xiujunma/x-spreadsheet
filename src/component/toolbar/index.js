@@ -148,7 +148,10 @@ export default class Toolbar {
           els.push(this.multiCellChangeEl = new IconItem('multiCellChange'));
         }
         return els;
-      })()
+      })(),
+      [
+        new IconItem('unlockCells'),
+      ],
     ];
 
     this.el = h('div', `${cssPrefix}-toolbar`);
