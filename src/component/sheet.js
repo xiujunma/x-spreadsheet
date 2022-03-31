@@ -827,7 +827,7 @@ function sheetInitEvents() {
         }
 
         const type = getTextType(itext);
-        if (state === 'finished') dataSetCellTextSelector.call(this, selected || this.data.selector, itext, type, state)
+        dataSetCellTextSelector.call(this, selected || this.data.selector, itext, type, state)
     };
     // modal validation
     modalValidation.change = (action, ...args) => {
