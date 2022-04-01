@@ -17,15 +17,7 @@ const menuItems = [
   { key: 'delete-column', title: tf('contextmenu.deleteColumn') },
   { key: 'delete-cell', title: tf('contextmenu.deleteCell') },
   { key: 'hide', title: tf('contextmenu.hide') },
-  { key: 'unhide', title: tf('contextmenu.unhide') },
-  { key: 'divider' },
-  { key: 'validation', title: tf('contextmenu.validation') },
-  { key: 'divider' },
-  { key: 'cell-printable', title: tf('contextmenu.cellprintable') },
-  { key: 'cell-non-printable', title: tf('contextmenu.cellnonprintable') },
-  { key: 'divider' },
-  { key: 'cell-editable', title: tf('contextmenu.celleditable') },
-  { key: 'cell-non-editable', title: tf('contextmenu.cellnoneditable') },
+  { key: 'unhide', title: tf('contextmenu.unhide') }
 ];
 
 function buildMenuItem(item) {
