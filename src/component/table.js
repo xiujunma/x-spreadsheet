@@ -129,8 +129,8 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       // console.log('error:', rindex, cindex, error);
       draw.error(dbox);
     }
-    if (frozen) {
-      draw.frozen(dbox);
+    if (cell.unlocked) {
+      draw.indicator(dbox);
     }
   });
 }

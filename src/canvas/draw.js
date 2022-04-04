@@ -363,7 +363,7 @@ class Draw {
     ctx.restore();
   }
 
-  frozen(box) {
+  indicator(box) {
     const { ctx } = this;
     const { x, y, width } = box;
     const sx = x + width - 1;
