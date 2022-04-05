@@ -624,6 +624,14 @@ function insertDeleteRowColumn(type) {
         data.setSelectedCellAttr('editable', true);
     } else if (type === 'cell-non-editable') {
         data.setSelectedCellAttr('editable', false);
+    } else if (type === 'unlock') {
+        const cells = data.getSelectedCells();
+        let unlocked = true;
+        if (cells.length > 0 && cells.every(cell => cell.unlocked)) {
+            unlocked = false;
+        }
+
+        data.setSelectedCellAttr('unlocked', unlocked);
     }
     clearClipboard.call(this);
     sheetReset.call(this);

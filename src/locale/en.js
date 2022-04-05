@@ -49,6 +49,7 @@ export default {
     cellnonprintable: 'Disable export',
     celleditable: 'Enable editing',
     cellnoneditable: 'Disable editing',
+    unlock: 'Unlock cell',
   },
   print: {
     size: 'Paper size',

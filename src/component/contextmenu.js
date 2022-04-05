@@ -17,7 +17,9 @@ const menuItems = [
   { key: 'delete-column', title: tf('contextmenu.deleteColumn') },
   { key: 'delete-cell', title: tf('contextmenu.deleteCell') },
   { key: 'hide', title: tf('contextmenu.hide') },
-  { key: 'unhide', title: tf('contextmenu.unhide') }
+  { key: 'unhide', title: tf('contextmenu.unhide') },
+  { key: 'divider' },
+  { key: 'unlock', title: tf('contextmenu.unlock') },
 ];
 
 function buildMenuItem(item) {

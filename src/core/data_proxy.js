@@ -588,6 +588,20 @@ export default class DataProxy {
     return this.rows.getCell(nri, ci);
   }
 
+  getSelectedCells() {
+    const { range } = this.selector;
+    const cells = [];
+    for (let ri = range.sri; ri <= range.eri; ri++) {
+      for (let ci = range.sci; ci <= range.eci; ci++) {
+        const cell = this.rows.getCell(ri, ci);
+        if (cell) {
+          cells.push(cell);
+        }
+      }
+    }
+    return cells;
+  }
+
   xyInSelectedRect(x, y) {
     const {
       left, top, width, height,
