@@ -18,8 +18,6 @@ const menuItems = [
   { key: 'delete-cell', title: tf('contextmenu.deleteCell') },
   { key: 'hide', title: tf('contextmenu.hide') },
   { key: 'unhide', title: tf('contextmenu.unhide') },
-  { key: 'divider' },
-  { key: 'unlock', title: tf('contextmenu.unlock') },
 ];
 
 function buildMenuItem(item) {
@@ -37,13 +35,17 @@ function buildMenuItem(item) {
     );
 }
 
-function buildMenu() {
+function buildMenu(unlockable) {
+  if (unlockable) {
+    menuItems.push({ key: 'divider' });
+    menuItems.push({ key: 'unlock', title: tf('contextmenu.unlock') });
+  }
   return menuItems.map(it => buildMenuItem.call(this, it));
 }
 
 export default class ContextMenu {
-  constructor(viewFn, isHide = false) {
-    this.menuItems = buildMenu.call(this);
+  constructor(viewFn, isHide = false, unlockable = true) {
+    this.menuItems = buildMenu.call(this, unlockable);
     this.el = h('div', `${cssPrefix}-contextmenu`)
       .children(...this.menuItems)
       .hide();

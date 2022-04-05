@@ -1064,7 +1064,7 @@ export default class Sheet {
         // data validation
         this.modalValidation = new ModalValidation();
         // contextMenu
-        this.contextMenu = new ContextMenu(() => this.getRect(), !showContextmenu);
+        this.contextMenu = new ContextMenu(() => this.getRect(), !showContextmenu, data.settings.unlockCells);
         // selector
         this.selector = new Selector(data);
         this.overlayerCEl = h('div', `${cssPrefix}-overlayer-content`)
