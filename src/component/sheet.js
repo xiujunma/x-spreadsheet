@@ -599,6 +599,7 @@ function dataSetCellTextSelector(selector, text, type, state = 'finished') {
 
 function insertDeleteRowColumn(type) {
     const {data} = this;
+    if (!data.settings.showContextmenu) return;
     if (data.settings.mode === 'read') return;
     if (type === 'insert-row') {
         const rowCount = data.selector.range.eri - data.selector.range.sri + 1;
@@ -1031,8 +1032,11 @@ function sheetInitEvents() {
                 || evt.key === '='
                 || ['_', '+', '-', '{', '}', '|', '[', ']', '\\', ':', '"', ';', '\'', '<', '>', '?', ',', '.', '/', '*'].indexOf(evt.key) > -1
               ) {
-                editorSet.call(this, evt.key === '=' ? 'edit' : 'entry');
-                editor.setText(evt.key);
+                const cell = this.data.getSelectedCell();
+                if (!cell || !cell.hasOwnProperty('editable') || cell.editable) {
+                    editorSet.call(this, evt.key === '=' ? 'edit' : 'entry');
+                    editor.setText(evt.key);
+                }
               } else if (keyCode === 113) {
                 // F2
                 editorSet.call(this);
