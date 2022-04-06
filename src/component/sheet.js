@@ -309,18 +309,21 @@ function clearClipboard() {
 
 function copy() {
     const {data, selector} = this;
+    if (!data.settings.showContextmenu) return;
     data.copy();
     selector.showClipboard();
 }
 
 function cut() {
     const {data, selector} = this;
+    if (!data.settings.showContextmenu) return;
     data.cut();
     selector.showClipboard();
 }
 
 function paste(what, evt) {
     const {data} = this;
+    if (!data.settings.showContextmenu) return;
     if (data.settings.mode === 'read') return;
     const rowCount = data.clipboard.range.eri - data.clipboard.range.sri + 1;
     if(data.selector.ri + rowCount > data.rows.len)
@@ -1151,6 +1154,7 @@ export default class Sheet {
 
     reload() {
         sheetReset.call(this);
+        this.contextMenu.isHide = !this.data.settings.showContextmenu;
         return this;
     }
 
