@@ -96,20 +96,6 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       }
     }
 
-    if (cell.unlocked) {
-      const ctx = draw.ctx;
-      const size = 8;
-      ctx.save();
-      ctx.beginPath();
-      ctx.moveTo(dbox.x + dbox.width - size, dbox.y);
-      ctx.lineTo(dbox.x + dbox.width, dbox.y + size);
-      ctx.lineTo(dbox.x + dbox.width, dbox.y - size);
-      ctx.lineTo(dbox.x + dbox.width - size, dbox.y);
-      ctx.fillStyle = 'green';
-      ctx.fill();
-      ctx.restore();
-    }
-
     cell.evaluatedValue = cellText;
 
     const font = Object.assign({}, style.font);
@@ -129,7 +115,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       // console.log('error:', rindex, cindex, error);
       draw.error(dbox);
     }
-    if (cell.unlocked) {
+    if (cell.unlocked && data.settings.unlockCells) {
       draw.indicator(dbox);
     }
   });

@@ -527,6 +527,7 @@ export default class DataProxy {
       } else {
         selector.range.each((ri, ci) => {
           const cell = rows.getCellOrNew(ri, ci);
+          if (!cell.text) cell.text = '';
           let cstyle = {};
           if (cell.style !== undefined) {
             cstyle = helper.cloneDeep(styles[cell.style]);
