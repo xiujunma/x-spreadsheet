@@ -494,7 +494,9 @@ function editorSet(mode = 'edit') {
     // prevent the certain cells from editing
     if (cell && cell.refUneditable) return;
     if (data.settings.mode === 'read') return;
-    if (!data.settings.blankCellEditable && !cell) return;
+    if (!data.settings.blankCellEditable && !cell) {
+        return true; // disable editor set text
+    }
     editorSetOffset.call(this);
     editor.mode = mode
     editor.setCell(data.getSelectedCell(), data.getSelectedValidator(), {
@@ -1035,8 +1037,8 @@ function sheetInitEvents() {
               ) {
                 const cell = this.data.getSelectedCell();
                 if (!cell || !cell.hasOwnProperty('editable') || cell.editable) {
-                    editorSet.call(this, evt.key === '=' ? 'edit' : 'entry');
-                    editor.setText(evt.key);
+                    const r = editorSet.call(this, evt.key === '=' ? 'edit' : 'entry');
+                    if (!r) editor.setText(evt.key);
                 }
               } else if (keyCode === 113) {
                 // F2
