@@ -1162,6 +1162,9 @@ export default class Sheet {
     reload() {
         sheetReset.call(this);
         this.contextMenu.isHide = !this.data.settings.showContextmenu;
+        if (!this.data.settings.showContextmenu) {
+            this.selector.cornerEl = h('div');
+        }
         return this;
     }
 

@@ -6,10 +6,15 @@ const selectorHeightBorderWidth = 2 * 2 - 1;
 let startZIndex = 10;
 
 class SelectorElement {
-  constructor(useHideInput = false) {
+  constructor(useHideInput = false, autoFillable = true) {
     this.useHideInput = useHideInput;
     this.inputChange = () => {};
-    this.cornerEl = h('div', `${cssPrefix}-selector-corner`);
+    if (autoFillable) {
+      this.cornerEl = h('div', `${cssPrefix}-selector-corner`);
+    } else {
+      this.cornerEl = h('div');
+    }
+
     this.areaEl = h('div', `${cssPrefix}-selector-area`)
       .child(this.cornerEl).hide();
     this.clipboardEl = h('div', `${cssPrefix}-selector-clipboard`).hide();
@@ -197,7 +202,7 @@ export default class Selector {
   constructor(data) {
     this.inputChange = () => {};
     this.data = data;
-    this.br = new SelectorElement(true);
+    this.br = new SelectorElement(true, data.settings.showContextmenu);
     this.t = new SelectorElement();
     this.l = new SelectorElement();
     this.tl = new SelectorElement();
