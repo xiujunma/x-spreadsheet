@@ -494,6 +494,7 @@ function editorSet(mode = 'edit') {
     // prevent the certain cells from editing
     if (cell && cell.refUneditable) return;
     if (data.settings.mode === 'read') return;
+    if (!data.settings.blankCellEditable && !cell) return;
     editorSetOffset.call(this);
     editor.mode = mode
     editor.setCell(data.getSelectedCell(), data.getSelectedValidator(), {
