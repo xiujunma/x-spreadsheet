@@ -1163,7 +1163,7 @@ export default class Sheet {
         sheetReset.call(this);
         this.contextMenu.isHide = !this.data.settings.showContextmenu;
         if (!this.data.settings.showContextmenu) {
-            this.selector.cornerEl = h('div');
+            this.selector.br.cornerEl.removeClass(`${cssPrefix}-selector-corner`);
         }
         return this;
     }
