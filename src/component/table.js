@@ -208,6 +208,9 @@ function renderFixedHeaders(type, viewRange, w, h, tx, ty) {
   draw.save();
   // draw rect background
   draw.attr(tableFixedHeaderCleanStyle);
+  if (data.settings.highlightSpreadsheet) {
+    draw.attr({ fillStyle: data.settings.highlightSpreadsheet });
+  }
   if (type === 'all' || type === 'left') draw.fillRect(0, nty, w, sumHeight);
   if (type === 'all' || type === 'top') draw.fillRect(ntx, 0, sumWidth, h);
 
@@ -300,11 +303,14 @@ function renderFixedHeaders(type, viewRange, w, h, tx, ty) {
 }
 
 function renderFixedLeftTopCell(fw, fh) {
-  const { draw } = this;
+  const { draw, data } = this;
   draw.save();
   // left-top-cell
-  draw.attr({ fillStyle: '#e8e9e8' })
-    .fillRect(0, 0, fw, fh);
+  draw.attr({ fillStyle: '#e8e9e8' });
+  if (data.settings.highlightSpreadsheet) {
+    draw.attr({ fillStyle: data.settings.highlightSpreadsheet });
+  }
+  draw.fillRect(0, 0, fw, fh);
   draw.restore();
 }
 
