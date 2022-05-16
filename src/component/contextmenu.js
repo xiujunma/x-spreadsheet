@@ -35,17 +35,23 @@ function buildMenuItem(item) {
     );
 }
 
-function buildMenu(unlockable) {
-  if (unlockable) {
+function buildMenu(unlockable, drilldown) {
+  if (unlockable || drilldown) {
     menuItems.push({ key: 'divider' });
-    menuItems.push({ key: 'unlock', title: tf('contextmenu.unlock') });
+    if(unlockable){
+      menuItems.push({ key: 'unlock', title: tf('contextmenu.unlock') });
+    }
+    if (drilldown){
+      menuItems.push({ key: 'drilldown', title: tf('contextmenu.drilldown') });
+    }
   }
+  
   return menuItems.map(it => buildMenuItem.call(this, it));
 }
 
 export default class ContextMenu {
-  constructor(viewFn, isHide = false, unlockable = true) {
-    this.menuItems = buildMenu.call(this, unlockable);
+  constructor(viewFn, isHide = false, unlockable = true, drilldown = false) {
+    this.menuItems = buildMenu.call(this, unlockable, drilldown);
     this.el = h('div', `${cssPrefix}-contextmenu`)
       .children(...this.menuItems)
       .hide();

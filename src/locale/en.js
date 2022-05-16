@@ -50,6 +50,7 @@ export default {
     celleditable: 'Enable editing',
     cellnoneditable: 'Disable editing',
     unlock: 'Unlock cell',
+    drilldown: 'Drilldown',
   },
   print: {
     size: 'Paper size',
