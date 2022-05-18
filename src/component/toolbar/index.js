@@ -56,7 +56,6 @@ function moreResize() {
     el, btns, moreEl, btns2,
   } = this;
   const { moreBtns, contentEl } = moreEl.dd;
-  el.css('width', `${this.widthFn() - 60}px`);
   const elBox = el.box();
 
   let sumWidth = 160;
