@@ -16,6 +16,7 @@ import {cssPrefix} from '../config';
 import {formulas} from '../core/formula';
 import CellDropdown from './cell_dropdown';
 import { getTextType } from '../core/helper';
+import { expr2xy } from '../core/alphabet';
 
 /**
  * @desc throttle fn
@@ -64,6 +65,35 @@ function scrollbarMove() {
     }
 }
 
+function highlightReferenceCells(ri, ci) {
+    const { table, data } = this;
+    const cell = data.getCell(ri, ci);
+    const cells = [];
+    if (cell && cell.text.trim().indexOf('=') === 0) {
+        const regSingle = /(?<!:)[a-zA-Z]+[0-9]+(?!:)/gi;
+        const regRange = /[a-zA-Z]+[0-9]+:[a-zA-Z]+[0-9]+/gi;
+        const singleCellMatch = cell.text.match(regSingle);
+        if (singleCellMatch) {
+            singleCellMatch.forEach(loc => cells.push(expr2xy(loc)));
+        }
+
+        const rangeCellMatch = cell.text.match(regRange);
+        if (rangeCellMatch) {
+            rangeCellMatch.forEach(range => {
+                const [ loc1, loc2 ] = range.split(':');
+                const [ r1, c1 ] = expr2xy(loc1);
+                const [ r2, c2 ] = expr2xy(loc2);
+                for (let r = r1; r <= r2; r++) {
+                    for (let c = c1; c <= c2; c++) {
+                        cells.push([r, c]);
+                    }
+                }
+            });
+        }
+    }
+    data.referenceCells = cells;
+}
+
 function selectorSet(multiple, ri, ci, indexesUpdated = true, moving = false) {
     if (ri === -1 && ci === -1) return;
     const {
@@ -83,6 +113,7 @@ function selectorSet(multiple, ri, ci, indexesUpdated = true, moving = false) {
     if (this.editor.active && this.editor.mode === 'edit') this.editor.setRange(selector.range);
     else this.editor.clear();
     toolbar.reset();
+    if (!multiple) highlightReferenceCells.call(this, ri, ci);
     table.render();
 }
 

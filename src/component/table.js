@@ -60,8 +60,10 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     nrindex = sortedRowMap.get(rindex);
   }
 
-  const cell = data.getCell(nrindex, cindex);
-  if (cell === null) return;
+  const referenced = data.referenceCells && data.referenceCells.some(c => c[0] === cindex && c[1] === nrindex);
+  let cell = data.getCell(nrindex, cindex);
+  if (cell === null && !referenced) return;
+  if (cell === null) cell = { text : ''}; 
   let frozen = false;
   if ('editable' in cell && cell.editable === false) {
     frozen = true;
@@ -69,7 +71,8 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
 
   const style = data.getCellStyleOrDefault(nrindex, cindex);
   const dbox = getDrawBox(data, rindex, cindex, yoffset);
-  dbox.bgcolor = style.bgcolor;
+
+  dbox.bgcolor = referenced ? '#F7D566' : style.bgcolor;
   if (style.border !== undefined) {
     dbox.setBorders(style.border);
     // bboxes.push({ ri: rindex, ci: cindex, box: dbox });
