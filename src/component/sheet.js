@@ -70,19 +70,19 @@ function highlightReferenceCells(ri, ci) {
     const cell = data.getCell(ri, ci);
     const cells = [];
     if (cell && cell.text.trim().indexOf('=') === 0) {
-        const regSingle = /(?<!:)[a-zA-Z]+[0-9]+(?!:)/gi;
-        const regRange = /[a-zA-Z]+[0-9]+:[a-zA-Z]+[0-9]+/gi;
+        const regSingle = /(?<!:)\$?[a-zA-Z]+\$?[0-9]+(?!:)/gi;
+        const regRange = /\$?[a-zA-Z]+\$?[0-9]+:\$?[a-zA-Z]+\$?[0-9]+/gi;
         const singleCellMatch = cell.text.match(regSingle);
         if (singleCellMatch) {
-            singleCellMatch.forEach(loc => cells.push(expr2xy(loc)));
+            singleCellMatch.forEach(loc => cells.push(expr2xy(loc.replace(/\$/gi, ''))));
         }
 
         const rangeCellMatch = cell.text.match(regRange);
         if (rangeCellMatch) {
             rangeCellMatch.forEach(range => {
                 const [ loc1, loc2 ] = range.split(':');
-                const [ r1, c1 ] = expr2xy(loc1);
-                const [ r2, c2 ] = expr2xy(loc2);
+                const [ r1, c1 ] = expr2xy(loc1.replace(/\$/gi, ''));
+                const [ r2, c2 ] = expr2xy(loc2.replace(/\$/gi, ''));
                 for (let r = r1; r <= r2; r++) {
                     for (let c = c1; c <= c2; c++) {
                         cells.push([r, c]);
