@@ -4,6 +4,7 @@ import { cssPrefix } from '../config';
 import { tf } from '../locale/locale';
 
 const menuItems = [
+  { key: 'drilldown', title: tf('contextmenu.drilldown') },
   { key: 'copy', title: tf('contextmenu.copy'), label: 'Ctrl+C' },
   { key: 'cut', title: tf('contextmenu.cut'), label: 'Ctrl+X' },
   { key: 'paste', title: tf('contextmenu.paste'), label: 'Ctrl+V' },
@@ -17,7 +18,7 @@ const menuItems = [
   { key: 'delete-column', title: tf('contextmenu.deleteColumn') },
   { key: 'delete-cell', title: tf('contextmenu.deleteCell') },
   { key: 'hide', title: tf('contextmenu.hide') },
-  { key: 'unhide', title: tf('contextmenu.unhide') },
+  { key: 'unhide', title: tf('contextmenu.unhide') }
 ];
 
 function buildMenuItem(item) {
@@ -35,23 +36,17 @@ function buildMenuItem(item) {
     );
 }
 
-function buildMenu(unlockable, drilldown) {
-  if (unlockable || drilldown) {
+function buildMenu(unlockable) {
+  if(unlockable){
     menuItems.push({ key: 'divider' });
-    if(unlockable){
-      menuItems.push({ key: 'unlock', title: tf('contextmenu.unlock') });
-    }
-    if (drilldown){
-      menuItems.push({ key: 'drilldown', title: tf('contextmenu.drilldown') });
-    }
+    menuItems.push({ key: 'unlock', title: tf('contextmenu.unlock') });
   }
-  
   return menuItems.map(it => buildMenuItem.call(this, it));
 }
 
 export default class ContextMenu {
-  constructor(viewFn, isHide = false, unlockable = true, drilldown = false) {
-    this.menuItems = buildMenu.call(this, unlockable, drilldown);
+  constructor(viewFn, isHide = false, unlockable = true) {
+    this.menuItems = buildMenu.call(this, unlockable);
     this.el = h('div', `${cssPrefix}-contextmenu`)
       .children(...this.menuItems)
       .hide();
@@ -72,6 +67,16 @@ export default class ContextMenu {
     } else {
       hideEl.hide();
       unhideEl.hide();
+    }
+  }
+
+  setDrilldown(canDrillDown){
+    const drillEl = this.menuItems[0];
+    if(canDrillDown){
+      drillEl.show();
+    }
+    else{
+      drillEl.hide();
     }
   }
 

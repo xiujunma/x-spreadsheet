@@ -662,6 +662,8 @@ function insertDeleteRowColumn(type) {
         data.setSelectedCellAttr('editable', true);
     } else if (type === 'cell-non-editable') {
         data.setSelectedCellAttr('editable', false);
+    } else if (type === 'drilldown') {
+        this.trigger(type, data);
     } else if (type === 'unlock') {
         const cells = data.getSelectedCells();
         let unlocked = true;
