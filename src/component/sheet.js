@@ -73,11 +73,11 @@ function highlightReferenceCells(ri, ci) {
         const regSingle = /(?<!:)\$?[a-zA-Z]+\$?[0-9]+(?!:)/gi;
         const regRange = /\$?[a-zA-Z]+\$?[0-9]+:\$?[a-zA-Z]+\$?[0-9]+/gi;
         const singleCellMatch = cell.text.match(regSingle);
-        if (singleCellMatch) {
+        const rangeCellMatch = cell.text.match(regRange);
+        if (singleCellMatch && !rangeCellMatch) {
             singleCellMatch.forEach(loc => cells.push(expr2xy(loc.replace(/\$/gi, ''))));
         }
 
-        const rangeCellMatch = cell.text.match(regRange);
         if (rangeCellMatch) {
             rangeCellMatch.forEach(range => {
                 const [ loc1, loc2 ] = range.split(':');
