@@ -82,7 +82,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     // render text
     let cellText;
     if (!data.settings.evalEnabled) {
-      cellText = cell.text;
+      cellText = cell.text || '';
     } else {
       cellText = _cell.render(cell.text || '', formulam, (y, x) => (data.getCellTextOrDefault(x, y)), [], settings.evalEnabled, window.variables);
     }
