@@ -123,6 +123,10 @@ const baseFormats = [
     label: '24:01:00',
     render: formatStringRender,
   },
+  {
+    key: 'more',
+    title: (() => {return 'More Formats'})
+  }
 ];
 
 // const formats = (ary = []) => {

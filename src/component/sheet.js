@@ -764,6 +764,9 @@ function toolbarChange(type, value) {
             }
         }
         table.render();
+    } else if (type === 'format' && value === 'more') {
+        this.trigger('moreFormat', data.selector.range);
+        sheetReset.call(this);
     } else {
         data.setSelectedCellAttr(type, value);
         if (type === 'formula' && !data.selector.multiple()) {
