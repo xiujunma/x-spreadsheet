@@ -69,6 +69,8 @@ export default {
     time: 'Time',
     datetime: 'Date time',
     duration: 'Duration',
+    accounting: 'Accounting',
+    currency: 'Currency',
   },
   formula: {
     sum: 'Sum',

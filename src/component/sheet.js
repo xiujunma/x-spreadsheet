@@ -765,7 +765,14 @@ function toolbarChange(type, value) {
         }
         table.render();
     } else if (type === 'format' && value === 'more') {
-        this.trigger('moreFormat', data.selector.range);
+        let cell = null, style = null;
+        if (!data.selector.multiple()) {
+            cell = data.getCell(sri, sci);
+            if (cell && !isNaN(cell.style)) {
+                style = Object.assign({}, data.styles[cell.style])
+            }
+        }
+        this.trigger('moreFormat', data.selector.range, cell, style);
         sheetReset.call(this);
     } else {
         data.setSelectedCellAttr(type, value);

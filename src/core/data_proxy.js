@@ -533,7 +533,7 @@ export default class DataProxy {
             cstyle = helper.cloneDeep(styles[cell.style]);
           }
           if (property === 'format') {
-            cstyle.format = value;
+            cstyle = Object.assign(cstyle, value);
             cell.style = this.addStyle(cstyle);
           } else if (property === 'font-bold' || property === 'font-italic'
             || property === 'font-name' || property === 'font-size') {

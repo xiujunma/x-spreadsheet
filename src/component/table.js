@@ -91,8 +91,8 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       if (!data.settings.evalEnabled && typeof cellText === 'string' && cellText.indexOf('=') === 0) {
         cellText = cellText
       } else {
-        if (['number', 'percent', 'usd', 'rmb', 'eur'].some(format => style.format.indexOf(format) === 0) && Number.isInteger(style.decimal)) {
-          cellText = formatm[style.format].render(cellText, style.decimal);
+        if (['number', 'percent', 'currency', 'accounting'].some(format => style.format.indexOf(format) === 0) && Number.isInteger(style.decimal)) {
+          cellText = formatm[style.format].render(cellText, style);
         } else {
           cellText = formatm[style.format].render(cellText);
         }
@@ -103,12 +103,25 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
 
     const font = Object.assign({}, style.font);
     font.size = getFontSizePxByPt(font.size);
-    // console.log('style:', style);
-    draw.text(cellText, dbox, {
+
+    const textColor = (style.negativeInRed && parseFloat(cell.text) < 0) ? 'red' : style.color;
+
+    if (style.format === 'accounting' && style.symbol) {
+      draw.text(style.symbol, dbox, {
+        align: 'left',
+        valign: style.valign,
+        font,
+        color: textColor,
+        strike: style.strike,
+        underline: style.underline,
+      }, style.textwrap);
+    }
+
+    draw.text((style.zeroAsDash && parseFloat(cell.text) === 0) ? '-' : cellText, dbox, {
       align: style.align,
       valign: style.valign,
       font,
-      color: style.color,
+      color: textColor,
       strike: style.strike,
       underline: style.underline,
     }, style.textwrap);

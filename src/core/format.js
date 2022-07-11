@@ -1,54 +1,121 @@
 import { tf } from '../locale/locale';
 
+
+
 const formatStringRender = v => v;
 
-const formatNumberRender = (v, decimal = 2) => {
-  // match "-12.1" or "12" or "12.1"
-  if (/^(-?\d*.?\d*)$/.test(v)) {
-    const v1 = Number(v).toFixed(decimal).toString();
-    const [first, ...parts] = v1.split('.');
-    return [first.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'), ...parts].join('.');
+const formatNumberRender = (number, options) => {
+  const {
+    decimal,
+    thousandSeparator,
+    negativeInParentheses,
+    negativeInRed,
+    zeroAsDash,
+  } = options;
+
+  if (zeroAsDash && number === 0) return '-';
+
+  let formatted = new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: decimal,
+    minimumFractionDigits: decimal,
+    useGrouping: thousandSeparator,
+  }).format(Math.abs(number));
+
+  if (number < 0) {
+    if (negativeInParentheses) {
+      formatted = `(${formatted})`;
+    } else if (!negativeInRed) {
+      formatted = `-${formatted}`;
+    }
   }
-  return v;
+
+  return formatted;
 };
 
-const formatNumberRenderWithoutCommas = (v, decimal = 2) => {
-  // match "-12.1" or "12" or "12.1"
-  if (/^(-?\d*.?\d*)$/.test(v)) {
-    const v1 = Number(v).toFixed(decimal).toString();
-    const [first, ...parts] = v1.split('.');
-    return [first.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1'), ...parts].join('.');
+const formatCurrencyRender = (number, options) => {
+  const {
+    decimal,
+    negativeInParentheses,
+    negativeInRed,
+    symbol,
+    zeroAsDash,
+  } = options;
+
+  if (zeroAsDash && number === 0) return `${symbol} -`;
+
+  let formatted = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: (symbol => {
+      switch (symbol) {
+        case '$':
+          return 'USD';
+        case '€':
+          return 'EUR';
+        default:
+          return undefined;
+      }
+    })(symbol),
+    maximumFractionDigits: decimal,
+    minimumFractionDigits: decimal,
+    useGrouping: true,
+  }).format(Math.abs(number));
+
+  if (number < 0) {
+    if (negativeInParentheses) {
+      formatted = `(${formatted})`;
+    } else if (!negativeInRed) {
+      formatted = `-${formatted}`;
+    }
   }
-  return v;
+
+  return formatted;
 };
 
-const precision = (a) => {
-  if (!isFinite(a)) return 0;
-  var e = 1, p = 0;
-  while (Math.round(a * e) / e !== a) { e *= 10; p++; }
-  return p;
-}
+const formatAccountingRender = (number, options) => {
+  const {
+    decimal,
+    negativeInParentheses,
+    negativeInRed,
+    symbol,
+  } = options;
 
-const formatPercent = (v, decimal = 2) => {
-  const n = parseFloat(v);
-  if(!decimal) {
-    const p = precision(n);
-    if (p <= 2) return `${(n * 100)}%`
-    return `${(n * 100).toFixed(p - 2)}%`;
-  } else {
-    return `${(n * 100).toFixed(decimal - 2)}%`;
+  if (number === 0) return `${symbol} -`;
+
+  let formatted = new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: decimal,
+    minimumFractionDigits: decimal,
+    useGrouping: true,
+  }).format(Math.abs(number));
+
+  if (number < 0) {
+    if (negativeInParentheses) {
+      formatted = `(${formatted})`;
+    } else if (!negativeInRed) {
+      formatted = `-${formatted}`;
+    }
   }
-}
+
+  return formatted;
+};
+
+const formatPercentRender = (number, options) => {
+  const {
+    decimal,
+    zeroAsDash,
+  } = options;
+  if (number === 0 && zeroAsDash) return '-%';
+  const formatted = new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: decimal,
+    minimumFractionDigits: decimal,
+    useGrouping: false,
+  }).format(number * 100);
+  return `${formatted}%`;
+};
+
 
 const baseFormats = [
   {
     key: 'normal',
-    title: tf('format.normal'),
-    type: 'string',
-    render: formatStringRender,
-  },
-  {
-    key: 'text',
     title: tf('format.text'),
     type: 'string',
     render: formatStringRender,
@@ -61,39 +128,25 @@ const baseFormats = [
     render: formatNumberRender,
   },
   {
-    key: 'number-without-commas',
-    title: tf('format.number'),
+    key: 'currency',
+    title: tf('format.currency'),
     type: 'number',
-    label: '1000.12',
-    render: formatNumberRenderWithoutCommas
+    label: '$1,000.12',
+    render: formatCurrencyRender,
+  },
+  {
+    key: 'accounting',
+    title: tf('format.accounting'),
+    type: 'number',
+    label: '$1,000.12',
+    render: formatAccountingRender,
   },
   {
     key: 'percent',
     title: tf('format.percent'),
     type: 'number',
     label: '10.12%',
-    render: formatPercent,
-  },
-  {
-    key: 'rmb',
-    title: tf('format.rmb'),
-    type: 'number',
-    label: '￥10.00',
-    render: (v, decimal) => `￥${formatNumberRender(v, decimal)}`,
-  },
-  {
-    key: 'usd',
-    title: tf('format.usd'),
-    type: 'number',
-    label: '$10.00',
-    render: (v, decimal) => `$${formatNumberRender(v, decimal)}`,
-  },
-  {
-    key: 'eur',
-    title: tf('format.eur'),
-    type: 'number',
-    label: '€10.00',
-    render: (v, decimal) => `€${formatNumberRender(v, decimal)}`,
+    render: formatPercentRender,
   },
   {
     key: 'date',
