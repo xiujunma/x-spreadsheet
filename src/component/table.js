@@ -87,6 +87,9 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       cellText = _cell.render(cell.text || '', formulam, (y, x) => (data.getCellTextOrDefault(x, y)), [], settings.evalEnabled, window.variables);
     }
 
+    const textColor = (style.negativeInRed && parseFloat(cellText) < 0) ? 'red' : style.color;
+    cell.evaluatedValue = cellText;
+    
     if (style.format) {
       if (!data.settings.evalEnabled && typeof cellText === 'string' && cellText.indexOf('=') === 0) {
         cellText = cellText
@@ -99,12 +102,8 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       }
     }
 
-    cell.evaluatedValue = cellText;
-
     const font = Object.assign({}, style.font);
     font.size = getFontSizePxByPt(font.size);
-
-    const textColor = (style.negativeInRed && parseFloat(cellText) < 0) ? 'red' : style.color;
 
     if (style.format === 'accounting' && style.symbol) {
       draw.text(style.symbol, dbox, {
