@@ -533,7 +533,66 @@ export default class DataProxy {
             cstyle = helper.cloneDeep(styles[cell.style]);
           }
           if (property === 'format') {
-            cstyle = Object.assign(cstyle, value);
+            let styleObject;
+            if (typeof value === 'string') {
+              switch (value) {
+                case 'number':
+                  styleObject = {
+                    format: 'number',
+                    decimal: 2,
+                    thousandSeparator: true,
+                    negativeInParentheses: false,
+                    negativeInRed: false,
+                    zeroAsDash: false,
+                    align: 'right',
+                  };
+                  break;
+                case 'currency':
+                  styleObject = {
+                    format: 'currency',
+                    decimal: 2,
+                    thousandSeparator: true,
+                    symbol: '$',
+                    negativeInParentheses: false,
+                    negativeInRed: false,
+                    zeroAsDash: false,
+                    align: 'right',
+                  };
+                  break;
+                case 'accounting':
+                  styleObject = {
+                    format: 'accounting',
+                    decimal: 2,
+                    thousandSeparator: true,
+                    symbol: '$',
+                    negativeInParentheses: true,
+                    negativeInRed: false,
+                    zeroAsDash: false,
+                    align: 'right',
+                  };
+                  break;
+                case 'percent':
+                  styleObject = {
+                    format: 'percent',
+                    decimal: 0,
+                    align: 'right',
+                  };
+                  break;
+                case 'normal':
+                  styleObject = {
+                    format: 'normal',
+                  };
+                  break;
+                default:
+                  styleObject = {
+                    format: 'normal',
+                  };
+              }
+            } else {
+              styleObject = value;
+            }
+
+            cstyle = Object.assign(cstyle, styleObject);
             cell.style = this.addStyle(cstyle);
           } else if (property === 'font-bold' || property === 'font-italic'
             || property === 'font-name' || property === 'font-size') {

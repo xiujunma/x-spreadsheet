@@ -117,7 +117,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       }, style.textwrap);
     }
 
-    draw.text((style.zeroAsDash && parseFloat(cell.text) === 0) ? '-' : cellText, dbox, {
+    draw.text((style.zeroAsDash && (parseFloat(cell.text) === 0 || !cell.text)) ? '-' : cellText, dbox, {
       align: style.align,
       valign: style.valign,
       font,
