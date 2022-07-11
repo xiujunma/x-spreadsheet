@@ -567,7 +567,7 @@ export default class DataProxy {
                     symbol: '$',
                     negativeInParentheses: true,
                     negativeInRed: false,
-                    zeroAsDash: false,
+                    zeroAsDash: true,
                     align: 'right',
                   };
                   break;
