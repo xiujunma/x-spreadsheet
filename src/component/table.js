@@ -104,7 +104,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     const font = Object.assign({}, style.font);
     font.size = getFontSizePxByPt(font.size);
 
-    const textColor = (style.negativeInRed && parseFloat(cell.text) < 0) ? 'red' : style.color;
+    const textColor = (style.negativeInRed && parseFloat(cellText) < 0) ? 'red' : style.color;
 
     if (style.format === 'accounting' && style.symbol) {
       draw.text(style.symbol, dbox, {
@@ -117,7 +117,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       }, style.textwrap);
     }
 
-    draw.text((style.zeroAsDash && (parseFloat(cell.text) === 0 || !cell.text)) ? '-' : cellText, dbox, {
+    draw.text((style.zeroAsDash && (parseFloat(cellText) === 0 || !cellText)) ? '-' : cellText, dbox, {
       align: style.align,
       valign: style.valign,
       font,
