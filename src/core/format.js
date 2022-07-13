@@ -98,7 +98,7 @@ const formatAccountingRender = (number, options) => {
   return formatted;
 };
 
-const formatPercentRender = (number, options) => {
+const formatPercentageRender = (number, options) => {
   const {
     decimal,
     zeroAsDash,
@@ -142,11 +142,11 @@ const baseFormats = [
     render: formatAccountingRender,
   },
   {
-    key: 'percent',
-    title: tf('format.percent'),
+    key: 'percentage',
+    title: tf('format.percentage'),
     type: 'number',
     label: '10.12%',
-    render: formatPercentRender,
+    render: formatPercentageRender,
   },
   {
     key: 'date',
