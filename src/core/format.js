@@ -76,10 +76,9 @@ const formatAccountingRender = (number, options) => {
     decimal,
     negativeInParentheses,
     negativeInRed,
-    symbol,
   } = options;
 
-  if (number === 0) return `${symbol} -`;
+  if (number === 0) return '-';
 
   let formatted = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: decimal,
@@ -109,7 +108,7 @@ const formatPercentageRender = (number, options) => {
     minimumFractionDigits: decimal,
     useGrouping: false,
   }).format(number * 100);
-  if (isNaN(number)) return '';
+
   return `${formatted}%`;
 };
 
