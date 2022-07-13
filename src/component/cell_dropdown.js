@@ -7,7 +7,7 @@ function formatItem(format, value) {
     switch(format) {
         case 'number':
             return formatNumberRender(value);
-        case 'percent':
+        case 'percentage':
             return `${value * 100}%`
         default:
             return value;

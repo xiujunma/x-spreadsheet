@@ -109,6 +109,7 @@ const formatPercentageRender = (number, options) => {
     minimumFractionDigits: decimal,
     useGrouping: false,
   }).format(number * 100);
+  if (isNaN(number)) return '';
   return `${formatted}%`;
 };
 

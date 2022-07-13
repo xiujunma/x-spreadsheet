@@ -571,9 +571,9 @@ export default class DataProxy {
                     align: 'right',
                   };
                   break;
-                case 'percent':
+                case 'percentage':
                   styleObject = {
-                    format: 'percent',
+                    format: 'percentage',
                     decimal: 0,
                     align: 'right',
                   };

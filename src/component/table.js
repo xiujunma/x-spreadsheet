@@ -94,7 +94,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       if (!data.settings.evalEnabled && typeof cellText === 'string' && cellText.indexOf('=') === 0) {
         cellText = cellText
       } else {
-        if (['number', 'percent', 'currency', 'accounting'].some(format => style.format.indexOf(format) === 0)) {
+        if (['number', 'percentage', 'currency', 'accounting'].some(format => style.format.indexOf(format) === 0)) {
           cellText = formatm[style.format].render(parseFloat(cellText), style);
         } else {
           cellText = formatm[style.format].render(cellText);

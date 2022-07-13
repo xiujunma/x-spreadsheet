@@ -729,7 +729,7 @@ function toolbarChange(type, value) {
                     style.decimal += delta;
                 }
 
-                if (style && style.format === 'percent') {
+                if (style && style.format === 'percentage') {
                     if (style.decimal < 2) style.decimal = 2;
                 } else {
                     if (style.decimal < 0) style.decimal = 0;
