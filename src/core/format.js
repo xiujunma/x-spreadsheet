@@ -4,7 +4,7 @@ import { tf } from '../locale/locale';
 
 const formatStringRender = v => v;
 
-const formatNumberRender = (number, options) => {
+const formatNumberRender = (text, options) => {
   const {
     decimal,
     thousandSeparator,
@@ -12,6 +12,10 @@ const formatNumberRender = (number, options) => {
     negativeInRed,
     zeroAsDash,
   } = options;
+
+  const number = parseFloat(text);
+
+  if (isNaN(number)) return text;
 
   if (zeroAsDash && number === 0) return '-';
 
@@ -32,7 +36,7 @@ const formatNumberRender = (number, options) => {
   return formatted;
 };
 
-const formatCurrencyRender = (number, options) => {
+const formatCurrencyRender = (text, options) => {
   const {
     decimal,
     negativeInParentheses,
@@ -40,6 +44,10 @@ const formatCurrencyRender = (number, options) => {
     symbol,
     zeroAsDash,
   } = options;
+
+  const number = parseFloat(text);
+
+  if (isNaN(number)) return text;
 
   if (zeroAsDash && number === 0) return `${symbol} -`;
 
@@ -71,12 +79,16 @@ const formatCurrencyRender = (number, options) => {
   return formatted;
 };
 
-const formatAccountingRender = (number, options) => {
+const formatAccountingRender = (text, options) => {
   const {
     decimal,
     negativeInParentheses,
     negativeInRed,
   } = options;
+
+  const number = parseFloat(text);
+
+  if (isNaN(number)) return text;
 
   if (number === 0) return '-';
 
@@ -97,11 +109,16 @@ const formatAccountingRender = (number, options) => {
   return formatted;
 };
 
-const formatPercentageRender = (number, options) => {
+const formatPercentageRender = (text, options) => {
   const {
     decimal,
     zeroAsDash,
   } = options;
+
+  const number = parseFloat(text);
+
+  if (isNaN(number)) return text;
+
   if (number === 0 && zeroAsDash) return '-%';
   const formatted = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: decimal,
