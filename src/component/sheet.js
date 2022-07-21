@@ -1208,6 +1208,13 @@ export default class Sheet {
         if (!this.data.settings.showContextmenu) {
             this.selector.br.cornerEl.removeClass(`${cssPrefix}-selector-corner`);
         }
+
+        if (this.data.settings.showToolbar) {
+            this.toolbar.el.show();
+        } else {
+            this.toolbar.el.hide();
+        }
+
         return this;
     }
 

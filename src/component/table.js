@@ -388,7 +388,7 @@ class Table {
   render() {
     // resize canvas
     const { data } = this;
-    const { rows, cols } = data;
+    const { rows, cols, settings } = data;
     // fixed width of header
     const fw = cols.indexWidth;
     // fixed height of header
@@ -403,10 +403,10 @@ class Table {
     const ty = data.freezeTotalHeight();
     const { x, y } = data.scroll;
     // 1
-    renderContentGrid.call(this, viewRange, fw, fh, tx, ty);
+    if (!settings.plainMode) renderContentGrid.call(this, viewRange, fw, fh, tx, ty);
     renderContent.call(this, viewRange, fw, fh, -x, -y);
-    renderFixedHeaders.call(this, 'all', viewRange, fw, fh, tx, ty);
-    renderFixedLeftTopCell.call(this, fw, fh);
+    if (!settings.plainMode) renderFixedHeaders.call(this, 'all', viewRange, fw, fh, tx, ty);
+    if (!settings.plainMode) renderFixedLeftTopCell.call(this, fw, fh);
     const [fri, fci] = data.freeze;
     if (fri > 0 || fci > 0) {
       // 2
@@ -415,9 +415,9 @@ class Table {
         vr.sri = 0;
         vr.eri = fri - 1;
         vr.h = ty;
-        renderContentGrid.call(this, vr, fw, fh, tx, 0);
+        if (!settings.plainMode) renderContentGrid.call(this, vr, fw, fh, tx, 0);
         renderContent.call(this, vr, fw, fh, -x, 0);
-        renderFixedHeaders.call(this, 'top', vr, fw, fh, tx, 0);
+        if (!settings.plainMode) renderFixedHeaders.call(this, 'top', vr, fw, fh, tx, 0);
       }
       // 3
       if (fci > 0) {
@@ -425,14 +425,14 @@ class Table {
         vr.sci = 0;
         vr.eci = fci - 1;
         vr.w = tx;
-        renderContentGrid.call(this, vr, fw, fh, 0, ty);
-        renderFixedHeaders.call(this, 'left', vr, fw, fh, 0, ty);
+        if (!settings.plainMode) renderContentGrid.call(this, vr, fw, fh, 0, ty);
+        if (!settings.plainMode) renderFixedHeaders.call(this, 'left', vr, fw, fh, 0, ty);
         renderContent.call(this, vr, fw, fh, 0, -y);
       }
       // 4
       const freezeViewRange = data.freezeViewRange();
-      renderContentGrid.call(this, freezeViewRange, fw, fh, 0, 0);
-      renderFixedHeaders.call(this, 'all', freezeViewRange, fw, fh, 0, 0);
+      if (!settings.plainMode) renderContentGrid.call(this, freezeViewRange, fw, fh, 0, 0);
+      if (!settings.plainMode) renderFixedHeaders.call(this, 'all', freezeViewRange, fw, fh, 0, 0);
       renderContent.call(this, freezeViewRange, fw, fh, 0, 0);
       // 5
       renderFreezeHighlightLine.call(this, fw, fh, tx, ty);
