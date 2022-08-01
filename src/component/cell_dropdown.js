@@ -1,14 +1,14 @@
 import { Element, h } from './element';
 import { cssPrefix } from '../config';
-import { formatNumberRender } from '../core/format';
+import { formatNumberRender, formatPercentageRender } from '../core/format';
 
 
-function formatItem(format, value) {
-    switch(format) {
+function formatItem(style, value) {
+    switch(style.format) {
         case 'number':
-            return formatNumberRender(value);
+            return formatNumberRender(value, style);
         case 'percentage':
-            return `${value * 100}%`
+            return formatPercentageRender(value, style);
         default:
             return value;
     }
@@ -22,7 +22,7 @@ export default class CellDropdown {
             .show();
     }
 
-    setDropdown(x, y, format, list, callback) {
+    setDropdown(x, y, style, list, callback) {
         this.el.html('');
         list.forEach(item => {
             const formattedValue = formatItem(format, item);

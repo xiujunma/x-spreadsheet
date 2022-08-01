@@ -117,7 +117,7 @@ class Spreadsheet {
   setCellDropdown(ri, ci, options) {
     const rect = this.datas[0].getSelectedRect();
     const style = this.cellStyle(ri, ci);
-    this.sheet.cellDropdown.setDropdown(rect.left, rect.top, style.format || 'text', options, (value) => {
+    this.sheet.cellDropdown.setDropdown(rect.left, rect.top, style || 'text', options, (value) => {
       this.cellText(ri, ci, value);
       this.reRender();
       const cell = this.sheet.data.getCell(ri, ci);
