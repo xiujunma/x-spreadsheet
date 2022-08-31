@@ -640,8 +640,11 @@ function insertDeleteRowColumn(type) {
         data.insert('row', rowCount);
         this.trigger('insert-row', data.selector.range);
     } else if (type === 'delete-row') {
-        data.delete('row');
-        this.trigger('delete-row', data.selector.range);
+        const result = this.trigger('delete-row-before', data.selector.range);
+        if (result) {
+            data.delete('row');
+            this.trigger('delete-row', data.selector.range);
+        }
     } else if (type === 'insert-column') {
         data.insert('column');
         this.trigger('insert-column', data.selector.range);
@@ -1161,8 +1164,9 @@ export default class Sheet {
     trigger(eventName, ...args) {
         const {eventMap} = this;
         if (eventMap.has(eventName)) {
-            eventMap.get(eventName).call(this, ...args);
+            return eventMap.get(eventName).call(this, ...args);
         }
+        return true;
     }
 
     resetData(data) {
