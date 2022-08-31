@@ -1164,7 +1164,8 @@ export default class Sheet {
     trigger(eventName, ...args) {
         const {eventMap} = this;
         if (eventMap.has(eventName)) {
-            return eventMap.get(eventName).call(this, ...args);
+            const r = eventMap.get(eventName).call(this, ...args);
+            if (typeof r === 'boolean') return r;
         }
         return true;
     }
