@@ -269,11 +269,11 @@ class Rows {
 
         if (cell.type === 'total' || cell.type === 'subtotal') {
           if (cell.properties.totalForCell) {
-            cell.properties.totalForCell = cell.properties.totalForCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, n, (x, y) => y >= sri));
+            cell.properties.totalForCell = cell.properties.totalForCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, -n, (x, y) => y >= sri));
           }
 
           if (cell.properties.totalByCell) {
-            cell.properties.totalByCell = cell.properties.totalByCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, n, (x, y) => y >= sri));
+            cell.properties.totalByCell = cell.properties.totalByCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, -n, (x, y) => y >= sri));
           }
         }
       });
