@@ -58,7 +58,7 @@ function moreResize() {
   const { moreBtns, contentEl } = moreEl.dd;
   const elBox = el.box();
 
-  let sumWidth = 160;
+  let sumWidth = 80;
   let sumWidth2 = 12;
   const list1 = [];
   const list2 = [];
@@ -130,12 +130,11 @@ export default class Toolbar {
         this.freezeEl = new Freeze(),
         this.autofilterEl = new Autofilter(),
         this.formulaEl = new Formula(),
-        this.moreEl = new More(),
       ],
       buildDivider(),
       [
         this.reduceDecimalEl = new Decimal('reduceDecimal'),
-        this.addDecimalEl = new Decimal('addDecimal')
+        this.addDecimalEl = new Decimal('addDecimal'),
       ],
       buildDivider(),
       (() => {
@@ -151,6 +150,9 @@ export default class Toolbar {
         }
         return els;
       })(),
+      [
+        this.moreEl = new More(),
+      ],
     ];
 
     this.el = h('div', `${cssPrefix}-toolbar`);
@@ -178,10 +180,14 @@ export default class Toolbar {
         initBtns2.call(this);
         moreResize.call(this);
       }, 0);
-      bind(window, 'resize', () => {
-        moreResize.call(this);
-      });
+      // bind(window, 'resize', () => {
+      //   moreResize.call(this);
+      // });
     }
+  }
+
+  resize() {
+    moreResize.call(this);
   }
 
   paintformatActive() {
