@@ -89,6 +89,7 @@ class Rows {
 
   getCellOrNew(ri, ci) {
     const row = this.getOrNew(ri);
+    if (!row.cells) row.cells = {};
     row.cells[ci] = row.cells[ci] || {};
     return row.cells[ci];
   }
@@ -165,6 +166,18 @@ class Rows {
                   //     const index = Number(result[0]) + n - 1;
                   //     ncell.text = text.substring(0, result.index) + index;
                   //   }
+                  }
+
+                  if (ncell.type === 'total' || ncell.type === 'subtotal') {
+                    if (ncell.properties.totalForCell) {
+                      ncell.properties.totalForCell = ncell.properties.totalForCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, (word) => {
+                        let [xn, yn] = [0, 0];
+                        xn = nci - j;
+                        yn = nri - i;
+                        if (/^\d+$/.test(word)) return word;
+                        return expr2expr(word, xn, yn);
+                      });
+                    }
                   }
                 }
                 this.setCell(nri, nci, ncell, what);
