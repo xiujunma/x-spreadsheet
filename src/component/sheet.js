@@ -738,6 +738,7 @@ function toolbarChange(type, value) {
                 if (shared) cell.style = data.styles.push(style) - 1;
             }
         }
+        this.trigger('decimalChange');
         table.render();
     } else if (type === 'dynamicColumns' || type === 'multiCellChange') {
         this.trigger(type, data.selector.range);
