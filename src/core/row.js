@@ -89,6 +89,7 @@ class Rows {
 
   getCellOrNew(ri, ci) {
     const row = this.getOrNew(ri);
+    if (!row.cells) row.cells = {};
     row.cells[ci] = row.cells[ci] || {};
     return row.cells[ci];
   }
@@ -166,6 +167,18 @@ class Rows {
                   //     ncell.text = text.substring(0, result.index) + index;
                   //   }
                   }
+
+                  if (ncell.type === 'total' || ncell.type === 'subtotal') {
+                    if (ncell.properties.totalForCell) {
+                      ncell.properties.totalForCell = ncell.properties.totalForCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, (word) => {
+                        let [xn, yn] = [0, 0];
+                        xn = nci - j;
+                        yn = nri - i;
+                        if (/^\d+$/.test(word)) return word;
+                        return expr2expr(word, xn, yn);
+                      });
+                    }
+                  }
                 }
                 this.setCell(nri, nci, ncell, what);
                 cb(nri, nci, ncell);
@@ -219,6 +232,16 @@ class Rows {
         if (cell.text && cell.text[0] === '=') {
           cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, n, (x, y) => y >= sri));
         }
+
+        if (cell.type === 'total' || cell.type === 'subtotal') {
+          if (cell.properties.totalForCell) {
+            cell.properties.totalForCell = cell.properties.totalForCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, n, (x, y) => y >= sri));
+          }
+
+          if (cell.properties.totalByCell) {
+            cell.properties.totalByCell = cell.properties.totalByCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, n, (x, y) => y >= sri));
+          }
+        }
       });
 
       ndata[nri] = row;
@@ -256,6 +279,16 @@ class Rows {
         if (cell.text && cell.text[0] === '=') {
           cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, -n, (x, y) => y >= eri));
         }
+
+        if (cell.type === 'total' || cell.type === 'subtotal') {
+          if (cell.properties.totalForCell) {
+            cell.properties.totalForCell = cell.properties.totalForCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, -n, (x, y) => y >= sri));
+          }
+
+          if (cell.properties.totalByCell) {
+            cell.properties.totalByCell = cell.properties.totalByCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, -n, (x, y) => y >= sri));
+          }
+        }
       });
 
     });
@@ -274,6 +307,17 @@ class Rows {
         if (cell.text && cell.text[0] === '=') {
           cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, n, 0, x => x >= sci));
         }
+
+        if (cell.type === 'total' || cell.type === 'subtotal') {
+          if (cell.properties.totalForCell) {
+            cell.properties.totalForCell = cell.properties.totalForCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, n, 0, x => x >= sci));
+          }
+
+          if (cell.properties.totalByCell) {
+            cell.properties.totalByCell = cell.properties.totalByCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, n, 0, x => x >= sci));
+          }
+        }
+
         rndata[nci] = cell;
       });
       row.cells = rndata;
@@ -308,6 +352,17 @@ class Rows {
         if (cell.text && cell.text[0] === '=') {
           cell.text = cell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, -n, 0, x => x > eci));
         }
+
+        if (cell.type === 'total' || cell.type === 'subtotal') {
+          if (cell.properties.totalForCell) {
+            cell.properties.totalForCell = cell.properties.totalForCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, -n, 0, x => x > eci));
+          }
+
+          if (cell.properties.totalByCell) {
+            cell.properties.totalByCell = cell.properties.totalByCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, -n, 0, x => x > eci));
+          }
+        }
+
       });
       row.cells = rndata;
     });
