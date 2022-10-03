@@ -134,6 +134,7 @@ function setText(text, position) {
   textEl.val(text);
   textlineEl.html(text);
   setTextareaRange.call(this, position);
+  this.change('input', text, this.selected);
 }
 
 function suggestItemClick(it) {
