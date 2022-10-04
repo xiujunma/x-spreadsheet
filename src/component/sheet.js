@@ -1084,8 +1084,11 @@ function sheetInitEvents() {
               ) {
                 const cell = this.data.getSelectedCell();
                 if (!cell || !cell.hasOwnProperty('editable') || cell.editable) {
+                    editor.selected = {ri: this.data.selector.ri, ci: this.data.selector.ci}
                     const r = editorSet.call(this, evt.key === '=' ? 'edit' : 'entry');
-                    if (!r) editor.setText(evt.key);
+                    if(!r){
+                        editor.setText(evt.key);
+                    }
                 }
               } else if (keyCode === 113) {
                 // F2
