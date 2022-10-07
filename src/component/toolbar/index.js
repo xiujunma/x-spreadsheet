@@ -62,15 +62,17 @@ function moreResize() {
   let sumWidth2 = 12;
   const list1 = [];
   const list2 = [];
+  if(btns.length > 0){
   btns2.forEach(([it, w], index) => {
-    sumWidth += w;
-    if (index === btns2.length - 1 || sumWidth < elBox.width) {
-      list1.push(it);
-    } else {
-      sumWidth2 += w;
-      list2.push(it);
-    }
-  });
+      sumWidth += w;
+      if (index === btns2.length - 1 || sumWidth < elBox.width) {
+        list1.push(it);
+      } else {
+        sumWidth2 += w;
+        list2.push(it);
+      }
+    });
+  }
   btns.html('').children(...list1);
   moreBtns.html('').children(...list2);
   contentEl.css('width', `${sumWidth2}px`);

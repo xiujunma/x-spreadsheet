@@ -88,12 +88,11 @@ function moreResize() {
   const { moreBtns, contentEl } = ddMore;
   el.css('width', `${this.widthFn() - 60}px`);
   const elBox = el.box();
-
   let sumWidth = 160;
   let sumWidth2 = 12;
   const list1 = [];
   const list2 = [];
-  if(btns2.length > 0){
+  if (btns2.length > 0) {
     btns2.forEach(([it, w], index) => {
       sumWidth += w;
       if (index === btns2.length - 1 || sumWidth < elBox.width) {
