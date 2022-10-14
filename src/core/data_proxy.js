@@ -507,6 +507,19 @@ export default class DataProxy {
       } else if (property === 'formula') {
         // console.log('>>>', selector.multiple());
         const { ri, ci, range } = selector;
+
+        const applyFormulaStyle = cell => {
+          cell.style = this.addStyle({
+            format: 'number',
+            decimal: 2,
+            thousandSeparator: true,
+            negativeInParentheses: false,
+            negativeInRed: false,
+            zeroAsDash: false,
+            align: 'right',
+          });
+        };
+
         if (selector.multiple()) {
           const [rn, cn] = selector.size();
           const {
@@ -516,14 +529,17 @@ export default class DataProxy {
             for (let i = sci; i <= eci; i += 1) {
               const cell = rows.getCellOrNew(eri + 1, i);
               cell.text = `=${value}(${xy2expr(i, sri)}:${xy2expr(i, eri)})`;
+              applyFormulaStyle(cell);
             }
           } else if (cn > 1) {
             const cell = rows.getCellOrNew(ri, eci + 1);
             cell.text = `=${value}(${xy2expr(sci, ri)}:${xy2expr(eci, ri)})`;
+            applyFormulaStyle(cell);
           }
         } else {
           const cell = rows.getCellOrNew(ri, ci);
           cell.text = `=${value}()`;
+          applyFormulaStyle(cell);
         }
       } else {
         selector.range.each((ri, ci) => {
