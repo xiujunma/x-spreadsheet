@@ -51,6 +51,8 @@ export default {
     cellnoneditable: 'Disable editing',
     unlock: 'Unlock cell',
     drilldown: 'Drilldown',
+    rowHeight: 'Row Height...',
+    colWidth: 'Column Width...',
   },
   print: {
     size: 'Paper size',

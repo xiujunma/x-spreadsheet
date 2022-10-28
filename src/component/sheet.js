@@ -560,7 +560,15 @@ function horizontalScrollbarMove(distance) {
 function rowResizerFinished(cRect, distance) {
     const {ri} = cRect;
     const {table, selector, data} = this;
-    data.rows.setHeight(ri, distance);
+    const {sri, eri} = selector.range;
+    if (ri >= sri && ri <= eri) {
+        for (let row = sri; row <= eri; row++) {
+            data.rows.setHeight(row, distance);
+        }
+    } else {
+        data.rows.setHeight(ri, distance);
+    }
+
     table.render();
     selector.resetAreaOffset();
     verticalScrollbarSet.call(this);
@@ -571,8 +579,15 @@ function rowResizerFinished(cRect, distance) {
 function colResizerFinished(cRect, distance) {
     const {ci} = cRect;
     const {table, selector, data} = this;
-    data.cols.setWidth(ci, distance);
-    // console.log('data:', data);
+    const {sci , eci} = selector.range;
+    if (ci >= sci && ci <= eci) {
+        for (let col = sci; col <= eci; col++) {
+            data.cols.setWidth(col, distance);
+        }
+    } else {
+        data.cols.setWidth(ci, distance);
+    }
+
     table.render();
     selector.resetAreaOffset();
     horizontalScrollbarSet.call(this);
@@ -675,6 +690,18 @@ function insertDeleteRowColumn(type) {
         }
 
         data.setSelectedCellAttr('unlocked', unlocked);
+    } else if (type === 'row-height') {
+        const ri = data.selector.range.sri;
+        const defaultHeight = data.rows.getHeight(ri);
+        this.trigger(type, defaultHeight, height => {
+            rowResizerFinished.call(this, {ri}, height);
+        });
+    } else if (type === 'col-width') {
+        const ci = data.selector.range.sci;
+        const defaultWidth = data.cols.getWidth(ci);
+        this.trigger(type, defaultWidth, width => {
+            colResizerFinished.call(this, {ci}, width);
+        });
     }
     clearClipboard.call(this);
     sheetReset.call(this);
@@ -1110,7 +1137,7 @@ export default class Sheet {
         // table
         this.tableEl = h('canvas', `${cssPrefix}-table`);
         // resizer
-        this.rowResizer = new Resizer(false, data.rows.height);
+        this.rowResizer = new Resizer(false, data.settings.row.minHeight);
         this.colResizer = new Resizer(true, data.cols.minWidth);
         // scrollbar
         this.verticalScrollbar = new Scrollbar(true);

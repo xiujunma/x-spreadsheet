@@ -82,12 +82,13 @@ const defaultSettings = {
   row: {
     len: 100,
     height: 25,
+    minHeight: 10,
   },
   col: {
     len: 26,
     width: 100,
     indexWidth: 60,
-    minWidth: 60,
+    minWidth: 10,
   },
   style: {
     bgcolor: '#ffffff',
