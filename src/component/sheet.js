@@ -639,6 +639,13 @@ function dataSetCellTextSelector(selector, text, type, state = 'finished') {
         }
     }
 
+    if (state === 'finished' && type === 'NONE') {
+        const newCell = data.getCell(ri, ci);
+        if (!isNaN(newCell.style)) {
+            delete newCell.style;
+        }
+    }
+
     if (state === 'finished') {
         table.render();
     } else {
