@@ -1238,6 +1238,8 @@ export default class DataProxy {
         this.freeze = [y, x];
       } else if (property === 'autofilter') {
         this.autoFilter.setData(d[property]);
+      } else if (property === 'extraData') {
+        this.setExtraData(d.extraData);
       } else if (d[property] !== undefined) {
         this[property] = d[property];
       }
@@ -1249,6 +1251,8 @@ export default class DataProxy {
     const {
       name, freeze, styles, merges, rows, cols, validations, autoFilter,
     } = this;
+
+    const extraData = this.getExtraData();
     return {
       name,
       freeze: xy2expr(freeze[1], freeze[0]),
@@ -1258,6 +1262,11 @@ export default class DataProxy {
       cols: cols.getData(),
       validations: validations.getData(),
       autofilter: autoFilter.getData(),
+      extraData,
     };
   }
+
+  getExtraData() {}
+
+  setExtraData() {}
 }
