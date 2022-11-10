@@ -944,6 +944,8 @@ function sheetInitEvents() {
             cut.call(this);
         } else if (type === 'paste') {
             paste.call(this, 'all');
+        } else if (type === 'paste-special') {
+            this.trigger('paste-special', this.data.clipboard.range, this.data.selector.range);
         } else if (type === 'paste-value') {
             paste.call(this, 'text');
         } else if (type === 'paste-format') {

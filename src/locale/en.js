@@ -33,6 +33,7 @@ export default {
     copy: 'Copy',
     cut: 'Cut',
     paste: 'Paste',
+    pasteSpecial: 'Paste Special',
     pasteValue: 'Paste values only',
     pasteFormat: 'Paste format only',
     hide: 'Hide',
