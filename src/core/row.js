@@ -179,6 +179,18 @@ class Rows {
                       });
                     }
                   }
+
+                  if (ncell.type === 'reference' && ncell.properties.refCell !== 'AUTO') {
+                    if (ncell.properties.refCell) {
+                      ncell.properties.refCell = ncell.properties.refCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, (word) => {
+                        let [xn, yn] = [0, 0];
+                        xn = nci - j;
+                        yn = nri - i;
+                        if (/^\d+$/.test(word)) return word;
+                        return expr2expr(word, xn, yn);
+                      });
+                    }
+                  }
                 }
                 this.setCell(nri, nci, ncell, what);
                 cb(nri, nci, ncell);
@@ -242,6 +254,10 @@ class Rows {
             cell.properties.totalByCell = cell.properties.totalByCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, n, (x, y) => y >= sri));
           }
         }
+
+        if (cell.type === 'reference' && cell.properties.refCell !== 'AUTO') {
+          cell.properties.refCell = cell.properties.refCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, n, (x, y) => y >= sri));
+        }
       });
 
       ndata[nri] = row;
@@ -289,6 +305,10 @@ class Rows {
             cell.properties.totalByCell = cell.properties.totalByCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, -n, (x, y) => y >= sri));
           }
         }
+
+        if (cell.type === 'reference' && cell.properties.refCell !== 'AUTO') {
+          cell.properties.refCell = cell.properties.refCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, 0, -n, (x, y) => y >= sri));
+        }
       });
 
     });
@@ -317,7 +337,9 @@ class Rows {
             cell.properties.totalByCell = cell.properties.totalByCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, n, 0, x => x >= sci));
           }
         }
-
+        if (cell.type === 'reference' && cell.properties.refCell !== 'AUTO') {
+          cell.properties.refCell = cell.properties.refCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, n, 0, x => x >= sci));
+        }
         rndata[nci] = cell;
       });
       row.cells = rndata;
@@ -362,7 +384,9 @@ class Rows {
             cell.properties.totalByCell = cell.properties.totalByCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, -n, 0, x => x > eci));
           }
         }
-
+        if (cell.type === 'reference' && cell.properties.refCell !== 'AUTO') {
+          cell.properties.refCell = cell.properties.refCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, word => expr2exprIgnoreAbsolute(word, -n, 0, x => x > eci));
+        }
       });
       row.cells = rndata;
     });
