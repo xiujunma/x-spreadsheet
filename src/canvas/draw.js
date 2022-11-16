@@ -1,4 +1,4 @@
-/* global window */
+/* global window, Image, document */
 function dpr() {
   return window.devicePixelRatio || 1;
 }
@@ -266,6 +266,16 @@ class Draw {
       ty += font.size + 2;
     });
     ctx.restore();
+    return this;
+  }
+
+  image(src, box) {
+    const { ctx } = this;
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      ctx.drawImage(img, box.x, box.y);
+    };
     return this;
   }
 
