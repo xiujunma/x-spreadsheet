@@ -619,7 +619,11 @@ export default class DataProxy {
             cstyle.font = Object.assign(cstyle.font || {}, nfont);
             cell.style = this.addStyle(cstyle);
           } else if (property.indexOf('align-') === 0) {
-            cstyle.align = property.replace('align-', '');
+            if (value) {
+              cstyle.align = property.replace('align-', '');
+            } else {
+              cstyle.align = '';
+            }
             cell.style = this.addStyle(cstyle);
           } else if (property === 'strike' || property === 'textwrap'
             || property === 'underline'
