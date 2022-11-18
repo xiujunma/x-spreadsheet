@@ -92,7 +92,7 @@ const defaultSettings = {
   },
   style: {
     bgcolor: '#ffffff',
-    align: 'left',
+    align: '',
     valign: 'middle',
     textwrap: false,
     strike: false,
@@ -104,7 +104,7 @@ const defaultSettings = {
       bold: false,
       italic: false,
     },
-    format: 'normal',
+    format: 'general',
   },
 };
 
@@ -617,6 +617,9 @@ export default class DataProxy {
             const nfont = {};
             nfont[property.split('-')[1]] = value;
             cstyle.font = Object.assign(cstyle.font || {}, nfont);
+            cell.style = this.addStyle(cstyle);
+          } else if (property.indexOf('align-') === 0) {
+            cstyle.align = property.replace('align-', '');
             cell.style = this.addStyle(cstyle);
           } else if (property === 'strike' || property === 'textwrap'
             || property === 'underline'

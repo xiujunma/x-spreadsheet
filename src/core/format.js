@@ -132,6 +132,12 @@ const formatPercentageRender = (text, options) => {
 
 const baseFormats = [
   {
+    key: 'general',
+    title: tf('format.general'),
+    type: 'string',
+    render: formatStringRender,
+  },
+  {
     key: 'normal',
     title: tf('format.text'),
     type: 'string',

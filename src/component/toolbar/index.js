@@ -1,8 +1,8 @@
 /* global window */
 
-import Align from './align';
+// import Align from './align';
 import Valign from './valign';
-import Autofilter from './autofilter';
+// import Autofilter from './autofilter';
 import Bold from './bold';
 import Italic from './italic';
 import Strike from './strike';
@@ -16,19 +16,22 @@ import FontSize from './font_size';
 import Font from './font';
 import Format from './format';
 import Formula from './formula';
-import Freeze from './freeze';
+// import Freeze from './freeze';
 import Merge from './merge';
 import Redo from './redo';
 import Undo from './undo';
-import Print from './print';
+// import Print from './print';
 import Textwrap from './textwrap';
 import More from './more';
 
 import { h } from '../element';
 import { cssPrefix } from '../../config';
-import { bind } from '../event';
+// import { bind } from '../event';
 import Decimal from './decimal';
 import IconItem from './icon_item';
+import AlignLeft from './align_left';
+import AlignCenter from './align_center';
+import AlignRight from './align_right';
 
 function buildDivider() {
   return h('div', `${cssPrefix}-toolbar-divider`);
@@ -94,7 +97,7 @@ export default class Toolbar {
       [
         this.undoEl = new Undo(),
         this.redoEl = new Redo(),
-        new Print(),
+        // new Print(),
         this.paintformatEl = new Paintformat(),
         this.clearformatEl = new Clearformat(),
       ],
@@ -123,14 +126,17 @@ export default class Toolbar {
       ],
       buildDivider(),
       [
-        this.alignEl = new Align(style.align),
+        // this.alignEl = new Align(style.align),
+        this.alignLeftEl = new AlignLeft(),
+        this.alignCenterEl = new AlignCenter(),
+        this.alignRightEl = new AlignRight(),
         this.valignEl = new Valign(style.valign),
         this.textwrapEl = new Textwrap(),
       ],
       buildDivider(),
       [
-        this.freezeEl = new Freeze(),
-        this.autofilterEl = new Autofilter(),
+        // this.freezeEl = new Freeze(),
+        // this.autofilterEl = new Autofilter(),
         this.formulaEl = new Formula(),
       ],
       buildDivider(),
@@ -217,7 +223,7 @@ export default class Toolbar {
     this.undoEl.setState(!data.canUndo());
     this.redoEl.setState(!data.canRedo());
     this.mergeEl.setState(data.canUnmerge(), !data.selector.multiple());
-    this.autofilterEl.setState(!data.canAutofilter());
+    // this.autofilterEl.setState(!data.canAutofilter());
     // this.mergeEl.disabled();
     // console.log('selectedCell:', style, cell);
     const { font, format } = style;
@@ -230,10 +236,13 @@ export default class Toolbar {
     this.strikeEl.setState(style.strike);
     this.textColorEl.setState(style.color);
     this.fillColorEl.setState(style.bgcolor);
-    this.alignEl.setState(style.align);
+    // this.alignEl.setState(style.align);
+    this.alignLeftEl.setState(style.align === 'left');
+    this.alignCenterEl.setState(style.align === 'center');
+    this.alignRightEl.setState(style.align === 'right');
     this.valignEl.setState(style.valign);
     this.textwrapEl.setState(style.textwrap);
     // console.log('freeze is Active:', data.freezeIsActive());
-    this.freezeEl.setState(data.freezeIsActive());
+    // this.freezeEl.setState(data.freezeIsActive());
   }
 }

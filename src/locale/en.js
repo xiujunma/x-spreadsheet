@@ -17,6 +17,9 @@ export default {
     border: 'Borders',
     merge: 'Merge cells',
     align: 'Horizontal align',
+    alignRight: 'Align Right',
+    alignCenter: 'Align Center',
+    alignLeft: 'Align Left',
     valign: 'Vertical align',
     textwrap: 'Text wrapping',
     freeze: 'Freeze cell',
@@ -61,6 +64,7 @@ export default {
     orientations: ['Landscape', 'Portrait'],
   },
   format: {
+    general: 'General',
     normal: 'Normal',
     text: 'Plain Text',
     number: 'Number',

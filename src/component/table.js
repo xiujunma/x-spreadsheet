@@ -1,3 +1,4 @@
+/* global isNaN */
 import { stringAt } from '../core/alphabet';
 import { getFontSizePxByPt } from '../core/font';
 import _cell from '../core/cell';
@@ -117,7 +118,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     }
 
     draw.text((style.zeroAsDash && (parseFloat(cellText) === 0 || !cellText)) ? '-' : cellText, dbox, {
-      align: style.align,
+      align: style.align || ((!isNaN(cellText) || cellText[0] === '=') ? 'right' : 'left'),
       valign: style.valign,
       font,
       color: textColor,
