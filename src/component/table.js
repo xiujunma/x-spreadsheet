@@ -117,14 +117,18 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       }, style.textwrap);
     }
 
-    draw.text((style.zeroAsDash && (parseFloat(cellText) === 0 || !cellText)) ? '-' : cellText, dbox, {
-      align: style.align || ((!isNaN(cellText) || cellText[0] === '=') ? 'right' : 'left'),
-      valign: style.valign,
-      font,
-      color: textColor,
-      strike: style.strike,
-      underline: style.underline,
-    }, style.textwrap);
+    if (cell.type === 'img') {
+      draw.image(cell.properties.src, dbox);
+    } else {
+      draw.text((style.zeroAsDash && (parseFloat(cellText) === 0 || !cellText)) ? '-' : cellText, dbox, {
+        align: style.align || ((!isNaN(cellText) || cellText[0] === '=') ? 'right' : 'left'),
+        valign: style.valign,
+        font,
+        color: textColor,
+        strike: style.strike,
+        underline: style.underline,
+      }, style.textwrap);
+    }
     // error
     const error = data.validations.getError(rindex, cindex);
     if (error) {
