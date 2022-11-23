@@ -601,6 +601,11 @@ export default class DataProxy {
                     format: 'normal',
                   };
                   break;
+                case 'general':
+                  styleObject = {
+                    format: 'general',
+                  };
+                  break;
                 default:
                   styleObject = {
                     format: 'normal',
