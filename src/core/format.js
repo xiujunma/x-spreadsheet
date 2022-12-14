@@ -60,7 +60,7 @@ const formatCurrencyRender = (text, options) => {
         case '€':
           return 'EUR';
         default:
-          return undefined;
+          return 'USD';
       }
     })(symbol),
     maximumFractionDigits: decimal,
