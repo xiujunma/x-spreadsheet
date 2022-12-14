@@ -319,7 +319,7 @@ export default class Editor {
   }
 
   setCell(cell, validator, selected) {
-    // console.log('::', validator);
+    this.selected = selected;
     const { el, datepicker, suggest } = this;
 
     this.originValue = cell && cell.text ? cell.text : '';
