@@ -16,7 +16,7 @@ import FontSize from './font_size';
 import Font from './font';
 import Format from './format';
 import Formula from './formula';
-// import Freeze from './freeze';
+import Freeze from './freeze';
 import Merge from './merge';
 import Redo from './redo';
 import Undo from './undo';
@@ -135,7 +135,7 @@ export default class Toolbar {
       ],
       buildDivider(),
       [
-        // this.freezeEl = new Freeze(),
+        this.freezeEl = new Freeze(),
         // this.autofilterEl = new Autofilter(),
         this.formulaEl = new Formula(),
       ],
