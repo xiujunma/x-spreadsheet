@@ -58,10 +58,11 @@ const baseFormulas = [
     key: 'ROUND',
     title: tf('formula.round'),
     render: ([v, d]) => {
-      if (d >= 0) {
-        return Number(v).toFixed(d);
+      const digit = Number(d || 0);
+      if (digit >= 0) {
+        return Number(v).toFixed(digit);
       }
-      const exp = Math.abs(d);
+      const exp = Math.abs(digit);
       return Number(v / (10 ** exp)).toFixed(0) * (10 ** exp);
     },
   },
