@@ -57,7 +57,13 @@ const baseFormulas = [
   }, {
     key: 'ROUND',
     title: tf('formula.round'),
-    render: ([v, d]) => Number(v).toFixed(d),
+    render: ([v, d]) => {
+      if (d >= 0) {
+        return Number(v).toFixed(d);
+      }
+      const exp = Math.abs(d);
+      return Number(v / (10 ** exp)).toFixed(0) * (10 ** exp);
+    },
   },
   /* support:  1 + A1 + B2 * 3
   {
