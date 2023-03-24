@@ -55,16 +55,9 @@ const baseFormulas = [
     title: tf('formula.concat'),
     render: ary => ary.join(''),
   }, {
-    key: 'ROUND',
-    title: tf('formula.round'),
-    render: ([v, d]) => {
-      const digit = Number(d || 0);
-      if (digit >= 0) {
-        return Number(v).toFixed(digit);
-      }
-      const exp = Math.abs(digit);
-      return Number(v / (10 ** exp)).toFixed(0) * (10 ** exp);
-    },
+    key: 'ROUNDUP',
+    title: tf('formula.roundUp'),
+    render: ([v]) => Math.ceil(Number(v)),
   },
   /* support:  1 + A1 + B2 * 3
   {

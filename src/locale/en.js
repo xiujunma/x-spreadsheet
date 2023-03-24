@@ -89,6 +89,7 @@ export default {
     or: 'OR',
     concat: 'Concat',
     round: 'Round',
+    roundUp: 'RoundUp',
   },
   validation: {
     required: 'it must be required',
