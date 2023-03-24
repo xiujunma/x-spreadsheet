@@ -54,6 +54,10 @@ const baseFormulas = [
     key: 'CONCAT',
     title: tf('formula.concat'),
     render: ary => ary.join(''),
+  }, {
+    key: 'ROUND',
+    title: tf('formula.round'),
+    render: ([v, d]) => Number(v).toFixed(d),
   },
   /* support:  1 + A1 + B2 * 3
   {
