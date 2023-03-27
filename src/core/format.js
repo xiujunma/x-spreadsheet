@@ -129,6 +129,10 @@ const formatPercentageRender = (text, options) => {
   return `${formatted}%`;
 };
 
+const formatDateRender = (text) => {
+  const date = new Date(Date.parse(text));
+  return Intl.DateTimeFormat().format(date);
+};
 
 const baseFormats = [
   {
@@ -176,28 +180,7 @@ const baseFormats = [
     title: tf('format.date'),
     type: 'date',
     label: '26/09/2008',
-    render: formatStringRender,
-  },
-  {
-    key: 'time',
-    title: tf('format.time'),
-    type: 'date',
-    label: '15:59:00',
-    render: formatStringRender,
-  },
-  {
-    key: 'datetime',
-    title: tf('format.datetime'),
-    type: 'date',
-    label: '26/09/2008 15:59:00',
-    render: formatStringRender,
-  },
-  {
-    key: 'duration',
-    title: tf('format.duration'),
-    type: 'date',
-    label: '24:01:00',
-    render: formatStringRender,
+    render: formatDateRender,
   },
   {
     key: 'more',
@@ -222,5 +205,5 @@ export default {
 export {
   formatm,
   baseFormats,
-  formatNumberRender
+  formatNumberRender,
 };

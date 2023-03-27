@@ -606,6 +606,21 @@ export default class DataProxy {
                     format: 'general',
                   };
                   break;
+                case 'date':
+                  styleObject = {
+                    format: 'date',
+                  };
+                  break;
+                case 'time':
+                  styleObject = {
+                    format: 'time',
+                  };
+                  break;
+                case 'datetime':
+                  styleObject = {
+                    format: 'datetime',
+                  };
+                  break;
                 default:
                   styleObject = {
                     format: 'normal',
