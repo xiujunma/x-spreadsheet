@@ -184,7 +184,7 @@ const baseFormats = [
     key: 'date',
     title: tf('format.date'),
     type: 'date',
-    label: '26/09/2008',
+    label: '11/23/2008',
     render: formatDateRender,
   },
   {
