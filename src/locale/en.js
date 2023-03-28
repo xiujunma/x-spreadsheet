@@ -90,6 +90,7 @@ export default {
     concat: 'Concat',
     round: 'Round',
     roundUp: 'RoundUp',
+    roundDown: 'RoundDown',
   },
   validation: {
     required: 'it must be required',

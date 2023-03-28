@@ -55,9 +55,17 @@ const baseFormulas = [
     title: tf('formula.concat'),
     render: ary => ary.join(''),
   }, {
+    key: 'ROUND',
+    title: tf('formula.round'),
+    render: ([v]) => Math.round(Number(v)),
+  }, {
     key: 'ROUNDUP',
     title: tf('formula.roundUp'),
     render: ([v]) => Math.ceil(Number(v)),
+  }, {
+    key: 'ROUNDDOWN',
+    title: tf('formula.roundDown'),
+    render: ([v]) => Math.floor(Number(v)),
   },
   /* support:  1 + A1 + B2 * 3
   {

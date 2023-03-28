@@ -130,8 +130,13 @@ const formatPercentageRender = (text, options) => {
 };
 
 const formatDateRender = (text) => {
-  const date = new Date(Date.parse(text));
-  return Intl.DateTimeFormat().format(date);
+  try {
+    const date = new Date(Date.parse(text));
+    return Intl.DateTimeFormat().format(date);
+  } catch (e) {
+    console.warn(e);
+    return text;
+  }
 };
 
 const baseFormats = [
