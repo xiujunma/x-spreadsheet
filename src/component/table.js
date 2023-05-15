@@ -451,11 +451,11 @@ class Table {
         const rn = parseInt(row, 10);
         const cn = parseInt(col, 10);
         if (cell.type === 'checkbox') {
-          const show = rn >= sri && rn <= eri && cn >= sci && cn <= eci;
+          const show = ((rn >= sri && rn <= eri) || rn < fri) && ((cn >= sci && cn <= eci) || cn < fci);
           const found = this.checkboxes.find(cb => cb.ri === row && cb.ci === col);
           const cellRect = data.cellRect(row, col);
-          cellRect.top -= data.scroll.y;
-          cellRect.left -= data.scroll.x;
+          if (rn >= fri) cellRect.top -= data.scroll.y;
+          if (cn >= fci) cellRect.left -= data.scroll.x;
           if (found) {
             found.setRect(cellRect);
             found.show(show);
