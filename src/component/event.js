@@ -28,12 +28,26 @@ export function bindClickoutside(el, cb) {
   };
   bind(window.document.body, 'click', el.xclickoutside);
 }
+
+let timer = null;
+let moving = false;
+function reduce(fn, time) {
+  return (evt) => {
+    if (moving) return;
+    fn(evt);
+    moving = true;
+    clearTimeout(timer);
+    timer = setTimeout(() => { moving = false; }, time);
+  };
+}
+
 export function mouseMoveUp(target, movefunc, upfunc) {
-  bind(target, 'mousemove', movefunc);
+  const movefuncReduced = reduce(movefunc, 100);
+  bind(target, 'mousemove', movefuncReduced);
   const t = target;
   t.xEvtUp = (evt) => {
     // console.log('mouseup>>>');
-    unbind(target, 'mousemove', movefunc);
+    unbind(target, 'mousemove', movefuncReduced);
     unbind(target, 'mouseup', target.xEvtUp);
     upfunc(evt);
   };
