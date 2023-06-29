@@ -464,7 +464,7 @@ function overlayerMousedown(evt) {
                     }
                 }
 
-                if (e.offsetY - tOffset.top < 32 ) {
+                if (e.offsetY - tOffset.top < -32 ) {
                     const rii = this.data.scroll.ri - 1;
                     if (rii >= 0) {
                         const rh = loopValue(rii, i => rows.getHeight(i));
