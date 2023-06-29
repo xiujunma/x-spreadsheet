@@ -480,7 +480,7 @@ function overlayerMousedown(evt) {
                     }
                 }
 
-                if (e.offsetX - tOffset.left < 64) {
+                if (e.offsetX - tOffset.left < -64) {
                     const cii = this.data.scroll.ci - 1;
                     if (cii >= 0) {
                         const cw = loopValue(cii, i => cols.getWidth(i));
