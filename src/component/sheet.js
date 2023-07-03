@@ -496,7 +496,7 @@ function overlayerMousedown(evt) {
             }
             selector.hideAutofill();
             toolbarChangePaintformatPaste.call(this);
-        });
+        }, 100);
     }
 
     if (!isAutofillEl && evt.buttons === 1) {

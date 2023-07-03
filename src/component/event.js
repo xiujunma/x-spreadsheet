@@ -41,8 +41,12 @@ function reduce(fn, time) {
   };
 }
 
-export function mouseMoveUp(target, movefunc, upfunc) {
-  const movefuncReduced = reduce(movefunc, 100);
+export function mouseMoveUp(target, movefunc, upfunc, reduceTime = 0) {
+  let movefuncReduced = movefunc;
+  if (reduceTime > 0) {
+    movefuncReduced = reduce(movefunc, 100);
+  }
+
   bind(target, 'mousemove', movefuncReduced);
   const t = target;
   t.xEvtUp = (evt) => {
