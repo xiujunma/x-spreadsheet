@@ -625,26 +625,19 @@ function dataSetCellTextSelector(selector, text, type, state = 'finished') {
 
     data.setCellText(ri, ci, text, state);
 
-    // if (state === 'finished' && (type === 'FORMULA' || type === 'NUMBER')) {
-    //     const newCell = data.getCell(ri, ci);
+    if (state === 'finished' && (type === 'FORMULA' || type === 'NUMBER')) {
+        const newCell = data.getCell(ri, ci);
 
-    //     if (!newCell.style && newCell.style !== 0) {
-    //         // add style
-    //         data.styles.push({
-    //             align: 'right',
-    //             format: 'number',
-    //             decimal: 0
-    //         });
-    //         newCell.style = data.styles.length - 1;
-    //     }
-    // }
-
-    // if (state === 'finished' && type === 'NONE') {
-    //     const newCell = data.getCell(ri, ci);
-    //     if (!isNaN(newCell.style)) {
-    //         delete newCell.style;
-    //     }
-    // }
+        if (isNaN(newCell.style)) {
+            // add style
+            data.styles.push({
+                align: 'right',
+                format: 'number',
+                decimal: 0
+            });
+            newCell.style = data.styles.length - 1;
+        }
+    }
 
     if (state === 'finished') {
         table.render();
