@@ -628,7 +628,7 @@ function dataSetCellTextSelector(selector, text, type, state = 'finished') {
     if (state === 'finished' && (type === 'FORMULA' || type === 'NUMBER')) {
         const newCell = data.getCell(ri, ci);
 
-        if (isNaN(newCell.style)) {
+        if (newCell && isNaN(newCell.style)) {
             // add style
             data.styles.push({
                 align: 'right',
