@@ -636,6 +636,10 @@ function dataSetCellTextSelector(selector, text, type, state = 'finished') {
                 decimal: 0
             });
             newCell.style = data.styles.length - 1;
+        } else if (newCell && data.styles[newCell.style] && data.styles[newCell.style].format !== 'number') {
+            const existingStyle = Object.assign({}, data.styles[newCell.style]);
+            existingStyle.format = 'number';
+            newCell.style = data.styles.push(existingStyle) - 1;
         }
     }
 
