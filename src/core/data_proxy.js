@@ -919,7 +919,7 @@ export default class DataProxy {
       } else if (type === 'column') {
         rows.insertColumn(sci, n);
         si = sci;
-        cols.len += 1;
+        cols.len += n;
         Object.keys(cols._).reverse().forEach((colIndex) => {
           const col = parseInt(colIndex, 10);
           if (col >= sci) {
