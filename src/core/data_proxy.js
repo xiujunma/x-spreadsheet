@@ -955,11 +955,11 @@ export default class DataProxy {
         rows.deleteColumn(sci, eci);
         si = range.sci;
         size = csize;
-        cols.len -= 1;
+        cols.len -= (eci - sci + 1);
         Object.keys(cols._).forEach((colIndex) => {
           const col = parseInt(colIndex, 10);
           if (col >= sci) {
-            cols._[col - 1] = cols._[col];
+            if (col > eci) cols._[col - (eci - sci + 1)] = cols._[col];
             delete cols._[col];
           }
         });
