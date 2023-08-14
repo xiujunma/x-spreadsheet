@@ -920,6 +920,13 @@ export default class DataProxy {
         rows.insertColumn(sci, n);
         si = sci;
         cols.len += 1;
+        Object.keys(cols._).reverse().forEach((colIndex) => {
+          const col = parseInt(colIndex, 10);
+          if (col >= sci) {
+            cols._[col + n] = cols._[col];
+            delete cols._[col];
+          }
+        });
       }
       merges.shift(type, si, n, (ri, ci, rn, cn) => {
         const cell = rows.getCell(ri, ci);
@@ -949,6 +956,13 @@ export default class DataProxy {
         si = range.sci;
         size = csize;
         cols.len -= 1;
+        Object.keys(cols._).forEach((colIndex) => {
+          const col = parseInt(colIndex, 10);
+          if (col >= sci) {
+            cols._[col - 1] = cols._[col];
+            delete cols._[col];
+          }
+        });
       }
       // console.log('type:', type, ', si:', si, ', size:', size);
       merges.shift(type, si, -size, (ri, ci, rn, cn) => {
