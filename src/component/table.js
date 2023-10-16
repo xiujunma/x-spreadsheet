@@ -138,6 +138,10 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     if (cell.unlocked && data.settings.unlockCells) {
       draw.indicator(dbox);
     }
+
+    if (cell.hasConversation) {
+      draw.indicator(dbox, 'rgba(255, 0, 0, 1)');
+    }
   });
 }
 
