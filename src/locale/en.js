@@ -55,6 +55,7 @@ export default {
     cellnoneditable: 'Disable editing',
     unlock: 'Unlock cell',
     drilldown: 'Drilldown',
+    conversation: 'Start a conversation',
     rowHeight: 'Row Height...',
     colWidth: 'Column Width...',
   },

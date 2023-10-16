@@ -5,6 +5,7 @@ import { tf } from '../locale/locale';
 
 const menuItems = [
   { key: 'drilldown', title: tf('contextmenu.drilldown') },
+  { key: 'conversation', title: tf('contextmenu.conversation') },
   { key: 'copy', title: tf('contextmenu.copy'), label: 'Ctrl+C' },
   { key: 'cut', title: tf('contextmenu.cut'), label: 'Ctrl+X' },
   { key: 'paste', title: tf('contextmenu.paste'), label: 'Ctrl+V' },
@@ -81,6 +82,15 @@ export default class ContextMenu {
     }
     else{
       drillEl.hide();
+    }
+  }
+
+  setConversationMenuItem(conversationEnabled) {
+    const conversationEl = this.menuItems[1];
+    if (conversationEnabled) {
+      conversationEl.show();
+    } else {
+      conversationEl.hide();
     }
   }
 
