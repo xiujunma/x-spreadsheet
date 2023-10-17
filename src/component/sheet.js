@@ -688,7 +688,8 @@ function insertDeleteRowColumn(type) {
         this.trigger(type, data);
     } else if (type === 'conversation') {
         const cells = data.getSelectedCells();
-        this.trigger(type, cells);
+        const range = data.selector.range;
+        this.trigger(type, cells, range);
     } else if (type === 'unlock') {
         const cells = data.getSelectedCells();
         let unlocked = true;
