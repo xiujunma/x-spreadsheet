@@ -12,6 +12,8 @@ import {
   Draw, DrawBox, thinLineWidth, npx,
 } from '../canvas/draw';
 // gobal var
+
+let conversations = [];
 const cellPaddingWidth = 5;
 const tableFixedHeaderCleanStyle = { fillStyle: '#e8e9e8' };
 const tableGridStyle = {
@@ -72,7 +74,6 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
 
   const style = data.getCellStyleOrDefault(nrindex, cindex);
   const dbox = getDrawBox(data, rindex, cindex, yoffset);
-
   dbox.bgcolor = referenced ? '#F7D566' : style.bgcolor;
   if (style.border !== undefined) {
     dbox.setBorders(style.border);
@@ -87,7 +88,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     } else {
       cellText = _cell.render(cell.text || '', formulam, (y, x) => (data.getCellTextOrDefault(x, y)), [], settings.evalEnabled, window.variables);
     }
-
+    
     const textColor = (style.negativeInRed && parseFloat(cellText) < 0) ? 'red' : style.color;
     cell.evaluatedValue = cellText;
     
@@ -386,6 +387,7 @@ class Table {
     this.draw = new Draw(el, data.viewWidth(), data.viewHeight());
     this.data = data;
     this.checkboxes = [];
+    this.conversations = [];
   }
 
   resetData(data) {
@@ -454,6 +456,19 @@ class Table {
         const cell = rows._[row].cells[col];
         const rn = parseInt(row, 10);
         const cn = parseInt(col, 10);
+        if (cell.hasConversation) {
+          const cellRect = data.cellRect(row, col);
+          // X, Y for cell is based on the grid area, but the mouse overlay covers the row and column headers
+          // +60 from the row headers
+          const xStart = cellRect.left + 60;
+          const xEnd = cellRect.left+60+cellRect.width;
+          const yStart = cellRect.top + 25;
+          const yEnd = cellRect.top + 25 + cellRect.height; 
+          if (!this.conversations.find((c)=>{return c.xStart === xStart && c.xEnd === xEnd && c.yStart === yStart &&  c.yEnd === yEnd})) {
+            this.conversations.push({xStart:xStart, xEnd:xEnd, yStart:yStart, yEnd:yEnd});
+          }
+          
+        }
         if (cell.type === 'checkbox') {
           const show = ((rn >= sri && rn <= eri) || rn < fri) && ((cn >= sci && cn <= eci) || cn < fci);
           const found = this.checkboxes.find(cb => cb.ri === row && cb.ci === col);

@@ -158,7 +158,8 @@ function selectorMove(multiple, direction) {
 
 // private methods
 function overlayerMousemove(evt) {
-    // console.log('x:', evt.offsetX, ', y:', evt.offsetY);
+     // console.log('x:', evt.offsetX, ', y:', evt.offsetY);
+     console.log(evt);
     if (evt.buttons !== 0) return;
     if (evt.target.className === `${cssPrefix}-resizer-hover`) return;
     const {offsetX, offsetY} = evt;
@@ -166,6 +167,9 @@ function overlayerMousemove(evt) {
         rowResizer, colResizer, tableEl, data,
     } = this;
     const {rows, cols} = data;
+    if(this.table.conversations.length > 0) {
+        showConversationInfo.call(this, evt);
+    }
     if (offsetX > cols.indexWidth && offsetY > rows.height) {
         rowResizer.hide();
         colResizer.hide();
@@ -199,6 +203,19 @@ function overlayerMousemove(evt) {
     } else {
         colResizer.hide();
     }
+}
+
+function showConversationInfo(evt) {
+    let onConversation = this.table.conversations.filter((c) =>{
+        const mX = evt.layerX + this.data.scroll.x;
+        const mY = evt.layerY + this.data.scroll.y;
+        if(mX < c.xStart || mX > c.xEnd || mY < c.yStart || mY > c.yEnd){
+            return false;
+        }
+        console.log(c);
+        return  c;
+    });
+
 }
 
 function overlayerMousescroll(evt) {
@@ -1187,7 +1204,10 @@ export default class Sheet {
         );
         // table
         this.table = new Table(this.tableEl.el, data);
-
+        this.tableEl
+        .on('mousemove', (evt) => {
+            console.log('table move evt');
+        })
         this.cellDropdown = new CellDropdown();
         this.el.child(this.cellDropdown.el);
 
