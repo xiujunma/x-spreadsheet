@@ -69,7 +69,7 @@ function highlightReferenceCells(ri, ci) {
     const { table, data } = this;
     const cell = data.getCell(ri, ci);
     const cells = [];
-    if (cell && cell.text.trim().indexOf('=') === 0) {
+    if (cell && cell.text && cell.text.trim().indexOf('=') === 0) {
         const regSingle = /(?<!:)\$?[a-zA-Z]+\$?[0-9]+(?!:)/gi;
         const regRange = /\$?[a-zA-Z]+\$?[0-9]+:\$?[a-zA-Z]+\$?[0-9]+/gi;
         const singleCellMatch = cell.text.match(regSingle);
@@ -113,7 +113,7 @@ function selectorSet(multiple, ri, ci, indexesUpdated = true, moving = false) {
     if (this.editor.active && this.editor.mode === 'edit') this.editor.setRange(selector.range);
     else this.editor.clear();
     toolbar.reset();
-    if (cell.text !== null && !multiple) highlightReferenceCells.call(this, ri, ci);
+    if (!multiple) highlightReferenceCells.call(this, ri, ci);
     table.render();
 }
 
