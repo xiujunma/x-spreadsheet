@@ -159,7 +159,6 @@ function selectorMove(multiple, direction) {
 // private methods
 function overlayerMousemove(evt) {
      // console.log('x:', evt.offsetX, ', y:', evt.offsetY);
-     console.log(evt);
     if (evt.buttons !== 0) return;
     if (evt.target.className === `${cssPrefix}-resizer-hover`) return;
     const {offsetX, offsetY} = evt;
