@@ -113,7 +113,7 @@ function selectorSet(multiple, ri, ci, indexesUpdated = true, moving = false) {
     if (this.editor.active && this.editor.mode === 'edit') this.editor.setRange(selector.range);
     else this.editor.clear();
     toolbar.reset();
-    if (!multiple) highlightReferenceCells.call(this, ri, ci);
+    if (cell.text !== null && !multiple) highlightReferenceCells.call(this, ri, ci);
     table.render();
 }
 
