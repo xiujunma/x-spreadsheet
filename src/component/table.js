@@ -492,6 +492,30 @@ class Table {
   clear() {
     this.draw.clear();
   }
+
+  highlight(ri, ci, timeout = 1000) {
+    const { data, draw } = this;
+    const { rows, cols } = data;
+    const fw = cols.indexWidth;
+    const fh = rows.height;
+    const tx = data.freezeTotalWidth();
+    const ty = data.freezeTotalHeight();
+
+    draw.save();
+    draw.translate(fw + tx, fh + ty);
+    const drawBox = getDrawBox(data, ri, ci, 0);
+    drawBox.setBorders({
+      bottom: ['medium', '#fe0000'],
+      left: ['medium', '#fe0000'],
+      right: ['medium', '#fe0000'],
+      top: ['medium', '#fe0000'],
+    });
+    draw.strokeBorders(drawBox);
+    draw.restore();
+    setTimeout(() => {
+      this.render();
+    }, timeout);
+  }
 }
 
 export default Table;
