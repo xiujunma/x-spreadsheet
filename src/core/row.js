@@ -211,9 +211,43 @@ class Rows {
         if (srcCellRange.includes(ri, ci)) {
           nri = dstCellRange.sri + (nri - srcCellRange.sri);
           nci = dstCellRange.sci + (nci - srcCellRange.sci);
+
+          let ncell = this._[ri].cells[ci];
+          if (ncell.text[0] === '=') {
+            ncell.text = ncell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, (word) => {
+              let [xn, yn] = [0, 0];
+              xn = nci - srcCellRange.eci;
+              yn = nri - srcCellRange.eri;
+              if (/^\d+$/.test(word)) return word;
+              return expr2expr(word, xn, yn);
+            });
+          }
+          if (ncell.type === 'total' || ncell.type === 'subtotal') {
+            if (ncell.properties.totalForCell) {
+              ncell.properties.totalForCell = ncell.properties.totalForCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, (word) => {
+                let [xn, yn] = [0, 0];
+                xn = nci - j;
+                yn = nri - i;
+                if (/^\d+$/.test(word)) return word;
+                return expr2expr(word, xn, yn);
+              });
+            }
+          }
+          if (ncell.type === 'reference' && ncell.properties.refCell !== 'AUTO') {
+            if (ncell.properties.refCell) {
+              ncell.properties.refCell = ncell.properties.refCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, (word) => {
+                let [xn, yn] = [0, 0];
+                xn = nci - j;
+                yn = nri - i;
+                if (/^\d+$/.test(word)) return word;
+                return expr2expr(word, xn, yn);
+              });
+            }
+          }
         }
         ncellmm[nri] = ncellmm[nri] || { cells: {} };
         ncellmm[nri].cells[nci] = this._[ri].cells[ci];
+
       });
     });
     this._ = ncellmm;
@@ -471,7 +505,7 @@ class Rows {
           const col = cols[j];
           if (parseInt(col[0], 10) === ci && col[1].properties && col[1].properties.locked) return true;
         }
-      } 
+      }
     }
     return false;
   }
