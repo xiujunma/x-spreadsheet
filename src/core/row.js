@@ -216,8 +216,8 @@ class Rows {
           if (ncell.text[0] === '=') {
             ncell.text = ncell.text.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, (word) => {
               let [xn, yn] = [0, 0];
-              xn = nci - srcCellRange.eci;
-              yn = nri - srcCellRange.eri;
+              xn = nci - ci;
+              yn = nri - ri;
               if (/^\d+$/.test(word)) return word;
               return expr2expr(word, xn, yn);
             });
@@ -226,8 +226,8 @@ class Rows {
             if (ncell.properties.totalForCell) {
               ncell.properties.totalForCell = ncell.properties.totalForCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, (word) => {
                 let [xn, yn] = [0, 0];
-                xn = nci - j;
-                yn = nri - i;
+                xn = nci - ci;
+                yn = nri - ri;
                 if (/^\d+$/.test(word)) return word;
                 return expr2expr(word, xn, yn);
               });
@@ -237,8 +237,8 @@ class Rows {
             if (ncell.properties.refCell) {
               ncell.properties.refCell = ncell.properties.refCell.replace(/\$?[a-zA-Z]{1,3}\$?\d+/g, (word) => {
                 let [xn, yn] = [0, 0];
-                xn = nci - j;
-                yn = nri - i;
+                xn = nci - ci;
+                yn = nri - ri;
                 if (/^\d+$/.test(word)) return word;
                 return expr2expr(word, xn, yn);
               });
