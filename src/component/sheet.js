@@ -446,7 +446,7 @@ function overlayerMousedown(evt) {
 
         const cell = data.getCell(ri, ci);
         if (cell && cell.hasConversation && hoverOverIndicator(offsetX, offsetY, cellRect)) {
-            this.trigger('indicator', cell);
+            this.trigger('indicator-clicked', cell, ri, ci);
             return;
         }
 
