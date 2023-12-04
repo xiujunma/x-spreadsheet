@@ -13,7 +13,6 @@ import {
 } from '../canvas/draw';
 // gobal var
 
-let conversations = [];
 const cellPaddingWidth = 5;
 const tableFixedHeaderCleanStyle = { fillStyle: '#e8e9e8' };
 const tableGridStyle = {
@@ -387,7 +386,6 @@ class Table {
     this.draw = new Draw(el, data.viewWidth(), data.viewHeight());
     this.data = data;
     this.checkboxes = [];
-    this.conversations = [];
   }
 
   resetData(data) {
@@ -456,19 +454,7 @@ class Table {
         const cell = rows._[row].cells[col];
         const rn = parseInt(row, 10);
         const cn = parseInt(col, 10);
-        if (cell.hasConversation) {
-          const cellRect = data.cellRect(row, col);
-          // X, Y for cell is based on the grid area, but the mouse overlay covers the row and column headers
-          // +60 from the row headers
-          const xStart = cellRect.left + 60;
-          const xEnd = cellRect.left+60+cellRect.width;
-          const yStart = cellRect.top + 25;
-          const yEnd = cellRect.top + 25 + cellRect.height; 
-          if (!this.conversations.find((c)=>{return c.xStart === xStart && c.xEnd === xEnd && c.yStart === yStart &&  c.yEnd === yEnd})) {
-            this.conversations.push({xStart:xStart, xEnd:xEnd, yStart:yStart, yEnd:yEnd});
-          }
-          
-        }
+
         if (cell.type === 'checkbox') {
           const show = ((rn >= sri && rn <= eri) || rn < fri) && ((cn >= sci && cn <= eci) || cn < fci);
           const found = this.checkboxes.find(cb => cb.ri === row && cb.ci === col);

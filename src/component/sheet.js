@@ -156,6 +156,11 @@ function selectorMove(multiple, direction) {
     scrollbarMove.call(this);
 }
 
+function hoverOverIndicator(x, y, cellRect) {
+    const { left, width } = cellRect;
+    return x >= (left + width - 8) && x <= (cellRect.left + width) && y >= cellRect.top && y <= cellRect.top + 8;
+}
+
 // private methods
 function overlayerMousemove(evt) {
      // console.log('x:', evt.offsetX, ', y:', evt.offsetY);
@@ -165,9 +170,14 @@ function overlayerMousemove(evt) {
     const {
         rowResizer, colResizer, tableEl, data,
     } = this;
-    const {rows, cols} = data;
-    if(this.table.conversations.length > 0) {
-        showConversationInfo.call(this, evt);
+    const { rows, cols } = data;
+    const cRect = data.getCellRectByXY(evt.offsetX, evt.offsetY);
+    const { ri, ci } = cRect;
+    const cell = data.getCell(ri, ci);
+    if (cell && cell.hasConversation && hoverOverIndicator(offsetX, offsetY, cRect)) {
+        evt.target.style.cursor = 'pointer';
+    } else {
+        evt.target.style.cursor = 'default';
     }
     if (offsetX > cols.indexWidth && offsetY > rows.height) {
         rowResizer.hide();
@@ -175,7 +185,6 @@ function overlayerMousemove(evt) {
         return;
     }
     const tRect = tableEl.box();
-    const cRect = data.getCellRectByXY(evt.offsetX, evt.offsetY);
     if (cRect.ri >= 0 && cRect.ci === -1) {
         cRect.width = cols.indexWidth;
         rowResizer.show(cRect, {
@@ -202,19 +211,6 @@ function overlayerMousemove(evt) {
     } else {
         colResizer.hide();
     }
-}
-
-function showConversationInfo(evt) {
-    let onConversation = this.table.conversations.filter((c) =>{
-        const mX = evt.layerX + this.data.scroll.x;
-        const mY = evt.layerY + this.data.scroll.y;
-        if(mX < c.xStart || mX > c.xEnd || mY < c.yStart || mY > c.yEnd){
-            return false;
-        }
-        console.log(c);
-        return  c;
-    });
-
 }
 
 function overlayerMousescroll(evt) {
@@ -446,6 +442,12 @@ function overlayerMousedown(evt) {
             selector.showAutofill(ri, ci);
         } else {
             selectorSet.call(this, false, ri, ci);
+        }
+
+        const cell = data.getCell(ri, ci);
+        if (cell && cell.hasConversation && hoverOverIndicator(offsetX, offsetY, cellRect)) {
+            this.trigger('indicator', cell);
+            return;
         }
 
         // mouse move up

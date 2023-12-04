@@ -1,5 +1,7 @@
 // import helper from '../helper';
 
+const undoLimit = 20;
+
 export default class History {
   constructor() {
     this.undoItems = [];
@@ -8,6 +10,9 @@ export default class History {
 
   add(data) {
     this.undoItems.push(JSON.stringify(data));
+    if (this.undoItems.length > undoLimit) {
+      this.undoItems.shift();
+    }
     this.redoItems = [];
   }
 
