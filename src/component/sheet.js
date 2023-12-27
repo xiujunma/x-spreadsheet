@@ -831,6 +831,8 @@ function toolbarChange(type, value) {
         }
         this.trigger('moreFormat', data.selector.range, cell, style);
         sheetReset.call(this);
+    } else if (type === 'lookup') {
+        this.trigger('lookup', data.selector.range);
     } else {
         data.setSelectedCellAttr(type, value);
         if (type === 'formula' && !data.selector.multiple()) {

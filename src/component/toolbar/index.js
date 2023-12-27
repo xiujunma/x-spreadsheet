@@ -20,6 +20,7 @@ import Freeze from './freeze';
 import Merge from './merge';
 import Redo from './redo';
 import Undo from './undo';
+import Lookup from './lookup';
 // import Print from './print';
 import Textwrap from './textwrap';
 import More from './more';
@@ -100,6 +101,7 @@ export default class Toolbar {
         // new Print(),
         this.paintformatEl = new Paintformat(),
         this.clearformatEl = new Clearformat(),
+        this.lookupEl = new Lookup(),
       ],
       buildDivider(),
       [

@@ -31,6 +31,7 @@ export default {
     dynamicColumns: 'Dynamic Columns',
     multiCellChange: 'Multi Cell Change',
     unlockCells: 'Unlock Cells',
+    lookup: 'Formula Help',
   },
   contextmenu: {
     copy: 'Copy',
