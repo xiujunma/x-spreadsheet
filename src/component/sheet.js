@@ -876,7 +876,9 @@ function sheetInitEvents() {
             // the left mouse button: mousedown → mouseup → click
             // the right mouse button: mousedown → contenxtmenu → mouseup
             if (evt.buttons === 2) {
-                if (this.data.xyInSelectedRect(evt.offsetX, evt.offsetY)) {
+                if (evt.target.className === 'x-spreadsheet-selector-corner') {
+                    contextMenu.setPosition(evt.clientX, evt.clientY - 36);
+                } else if (this.data.xyInSelectedRect(evt.offsetX, evt.offsetY)) {
                     contextMenu.setPosition(evt.offsetX, evt.offsetY);
                 } else {
                     overlayerMousedown.call(this, evt);
