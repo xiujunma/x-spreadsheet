@@ -439,7 +439,7 @@ class Rows {
     if (row !== null) {
       const cell = this.getCell(ri, ci);
       if (cell !== null) {
-        if (cell.properties && cell.properties.locked) return;
+        if (cell.locked) return;
         if (what === 'all') {
           delete row.cells[ci];
         } else if (what === 'text') {
@@ -503,7 +503,7 @@ class Rows {
         const cols = Object.entries(row.cells);
         for (let j = 0; j < cols.length; j++) {
           const col = cols[j];
-          if (parseInt(col[0], 10) === ci && col[1].properties && col[1].properties.locked) return true;
+          if (parseInt(col[0], 10) === ci && col[1].locked) return true;
         }
       }
     }
@@ -515,7 +515,7 @@ class Rows {
       const entries = Object.entries(this._[ri].cells);
       for (let i = 0; i < entries.length; i++) {
         const entry = entries[i];
-        if (entry[1].properties && entry[1].properties.locked) return true;
+        if (entry[1].locked) return true;
       }
     }
     return false;
