@@ -2,12 +2,13 @@ import helper from './helper';
 import { expr2expr, expr2exprIgnoreAbsolute } from './alphabet';
 
 class Rows {
-  constructor({ len, height }, evalEnabled = false) {
+  constructor({ len, height }, evalEnabled = false, unlockCells = true) {
     this._ = {};
     this.len = len;
     // default row height
     this.height = height;
     this.evalEnabled = evalEnabled;
+    this.unlockCells = unlockCells; // be able to unlock cells, true for the templates, false for the sheets
   }
 
   getHeight(ri) {
@@ -439,7 +440,7 @@ class Rows {
     if (row !== null) {
       const cell = this.getCell(ri, ci);
       if (cell !== null) {
-        if (cell.unlocked === false) return;
+        if (cell.unlocked === false && this.unlockCells === false) return;
         if (what === 'all') {
           delete row.cells[ci];
         } else if (what === 'text') {
@@ -503,7 +504,7 @@ class Rows {
         const cols = Object.entries(row.cells);
         for (let j = 0; j < cols.length; j++) {
           const col = cols[j];
-          if (parseInt(col[0], 10) === ci && col[1].unlocked === false) return true;
+          if (parseInt(col[0], 10) === ci && col[1].unlocked === false && this.unlockCells === false) return true;
         }
       }
     }
@@ -515,7 +516,7 @@ class Rows {
       const entries = Object.entries(this._[ri].cells);
       for (let i = 0; i < entries.length; i++) {
         const entry = entries[i];
-        if (entry[1].unlocked === false) return true;
+        if (entry[1].unlocked === false && this.unlockCells === false) return true;
       }
     }
     return false;

@@ -335,7 +335,7 @@ export default class DataProxy {
     this.freeze = [0, 0];
     this.styles = []; // Array<Style>
     this.merges = new Merges(); // [CellRange, ...]
-    this.rows = new Rows(this.settings.row, this.settings.evalEnabled);
+    this.rows = new Rows(this.settings.row, this.settings.evalEnabled, this.settings.unlockCells);
     this.cols = new Cols(this.settings.col, this.settings.evalEnabled);
     this.validations = new Validations();
     this.hyperlinks = {};
