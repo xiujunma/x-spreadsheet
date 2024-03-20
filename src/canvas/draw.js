@@ -266,6 +266,7 @@ class Draw {
       ty += font.size + 2;
     });
     ctx.restore();
+    box.extHeight = txtHeight + 24;
     return this;
   }
 

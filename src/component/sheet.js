@@ -340,8 +340,23 @@ function sheetReset() {
     horizontalScrollbarSet.call(this);
     sheetFreeze.call(this);
     table.render();
+
+    let re = false;
+    Object.entries(this.data.rows._).forEach(([key, value]) => {
+        const row = this.data.rows._[key];
+        if (row && row.extHeight) {
+            row.height = row.extHeight;
+            delete row.extHeight;
+            re = true;
+        }
+    });
+
+    table.render();
+
     toolbar.reset();
     selector.reset();
+
+    if (re) sheetReset.call(this);
 }
 
 function clearClipboard() {

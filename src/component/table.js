@@ -128,6 +128,9 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
         strike: style.strike,
         underline: style.underline,
       }, style.textwrap);
+      if (style.textwrap && dbox.extHeight > dbox.height) {
+        data.rows._[rindex].extHeight = dbox.extHeight;
+      }
     }
     // error
     const error = data.validations.getError(rindex, cindex);
