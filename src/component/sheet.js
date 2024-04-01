@@ -345,8 +345,14 @@ function sheetReset() {
     Object.entries(this.data.rows._).forEach(([key, value]) => {
         const row = this.data.rows._[key];
         if (row && row.extHeight) {
+            row.expanded = true;
             row.height = row.extHeight;
             delete row.extHeight;
+            re = true;
+        }
+
+        if (row.expanded === false) {
+            delete row.expanded
             re = true;
         }
     });
@@ -356,7 +362,9 @@ function sheetReset() {
     toolbar.reset();
     selector.reset();
 
-    if (re) sheetReset.call(this);
+    if (re) {
+        sheetReset.call(this);
+    }
 }
 
 function clearClipboard() {
