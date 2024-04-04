@@ -267,7 +267,7 @@ function setStyleBorders({ mode, style, color }) {
         ri += rows.getCellMerge(ri, sci)[0];
       }
       if (mode === 'right') {
-        const ci = getMergerCellColumn(rows, ri, sci, eci);
+        const ci = getMergeCellColumn(rows, ri, sci, eci);
         setStyleBorder.call(this, ri, ci, { right: [style, color] });
         ri += rows.getCellMerge(ri, ci)[0];
       }
@@ -288,7 +288,7 @@ function getMergeCellRow(rows, ci, sri, eri) {
   return eri;
 }
 
-function getMergerCellColumn(rows, ri, sci, eci) {
+function getMergeCellColumn(rows, ri, sci, eci) {
   for (let ci = eci; ci >= sci; ci -= 1) {
     const cell = rows.getCell(ri, ci);
     if (cell && cell.merge) {
