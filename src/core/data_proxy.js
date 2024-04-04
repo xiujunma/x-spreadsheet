@@ -257,7 +257,7 @@ function setStyleBorders({ mode, style, color }) {
       if (mode === 'bottom') {
         const ri = getMergeCellRow(rows, ci, sri, eri);
         setStyleBorder.call(this, ri, ci, { bottom: [style, color] });
-        ci += rows.getCellMerge(eri, ci)[1];
+        ci += rows.getCellMerge(ri, ci)[1];
       }
     }
   } else if (mode === 'left' || mode === 'right') {
@@ -269,7 +269,7 @@ function setStyleBorders({ mode, style, color }) {
       if (mode === 'right') {
         const ci = getMergerCellColumn(rows, ri, sci, eci);
         setStyleBorder.call(this, ri, ci, { right: [style, color] });
-        ri += rows.getCellMerge(ri, eci)[0];
+        ri += rows.getCellMerge(ri, ci)[0];
       }
     }
   }
