@@ -127,7 +127,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
         color: textColor,
         strike: style.strike,
         underline: style.underline,
-        note: cell.properties.notes,
+        note: cell.properties.note,
       }, style.textwrap);
 
       const row = data.rows._[rindex];
@@ -155,7 +155,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       draw.indicator(dbox, 'rgba(255, 0, 0, 1)');
     }
 
-    if (cell.properties.notes) {
+    if (cell.properties.note) {
       draw.note(dbox);
     }
   });
