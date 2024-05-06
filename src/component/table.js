@@ -155,7 +155,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       draw.indicator(dbox, 'rgba(255, 0, 0, 1)');
     }
 
-    if (cell.properties.note) {
+    if (cell.properties && cell.properties.note) {
       draw.note(dbox);
     }
   });
