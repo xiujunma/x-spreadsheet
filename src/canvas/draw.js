@@ -256,7 +256,7 @@ class Draw {
     let ty = box.texty(valign, txtHeight);
     ntxts.forEach((txt) => {
       const txtWidth = ctx.measureText(txt).width;
-      this.fillText(txt, tx, ty);
+      this.fillText(txt, tx + (attr.note ? 10 : 0), ty);
       if (strike) {
         drawFontLine.call(this, 'strike', tx, ty, align, valign, font.size, txtWidth);
       }
@@ -386,6 +386,27 @@ class Draw {
     ctx.closePath();
     ctx.fillStyle = color;
     ctx.fill();
+    ctx.restore();
+  }
+
+  note(box) {
+    const { ctx } = this;
+    const {
+      x, y, width, height,
+    } = box;
+    ctx.save();
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(255, 255, 0, 1)';
+    ctx.strokeStyle = 'rgba(100, 100, 0, 1)';
+    const icon = {
+      height: 10,
+      width: 5
+    };
+
+    
+    ctx.rect(npx(x + 5), npx(y + ((height - icon.height) / 2)), npx(icon.width), npx(icon.height));
+    ctx.fill();
+    ctx.stroke();
     ctx.restore();
   }
 
