@@ -127,7 +127,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
         color: textColor,
         strike: style.strike,
         underline: style.underline,
-        note: cell.properties.note,
+        note: cell.properties ? cell.properties.note : null,
       }, style.textwrap);
 
       const row = data.rows._[rindex];

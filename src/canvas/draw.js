@@ -256,7 +256,7 @@ class Draw {
     let ty = box.texty(valign, txtHeight);
     ntxts.forEach((txt) => {
       const txtWidth = ctx.measureText(txt).width;
-      this.fillText(txt, tx + (attr.note ? 10 : 0), ty);
+      this.fillText(txt, tx + (attr.note && align === 'left' ? 10 : 0), ty);
       if (strike) {
         drawFontLine.call(this, 'strike', tx, ty, align, valign, font.size, txtWidth);
       }
@@ -403,8 +403,6 @@ class Draw {
       width: 6
     };
 
-    
-    // ctx.rect(npx(x + 5), npx(y + ((height - icon.height) / 2)), npx(icon.width), npx(icon.height));
     ctx.moveTo(npx(x + 5), npx(y + ((height - icon.height) / 2)));
     ctx.lineTo(npx(x + 5 + icon.width - 2), npx(y + ((height - icon.height) / 2)));
     ctx.lineTo(npx(x + 5 + icon.width), npx(y + ((height - icon.height) / 2) + 2));
