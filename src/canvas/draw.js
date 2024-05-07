@@ -274,8 +274,12 @@ class Draw {
     const { ctx } = this;
     const img = new Image();
     img.src = src;
+    const transform = ctx.getTransform();
     img.onload = () => {
-      ctx.drawImage(img, box.x, box.y);
+      ctx.save();
+      ctx.setTransform(transform);
+      ctx.drawImage(img, npx(box.x), npx(box.y));
+      ctx.restore();
     };
     return this;
   }
