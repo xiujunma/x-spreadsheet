@@ -118,7 +118,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     }
 
     if (cell.type === 'img') {
-      draw.image(cell.properties.src, dbox);
+      draw.image(cell.properties.src, dbox, cell.properties.width, cell.properties.height);
     } else {
       draw.text((style.zeroAsDash && (parseFloat(cellText) === 0 || !cellText)) ? '-' : cellText, dbox, {
         align: style.align || ((!isNaN(cellText) || cellText[0] === '=') ? 'right' : 'left'),

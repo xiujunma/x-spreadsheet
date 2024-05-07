@@ -270,7 +270,7 @@ class Draw {
     return this;
   }
 
-  image(src, box) {
+  image(src, box, width, height) {
     const { ctx } = this;
     const img = new Image();
     img.src = src;
@@ -278,7 +278,13 @@ class Draw {
     img.onload = () => {
       ctx.save();
       ctx.setTransform(transform);
-      ctx.drawImage(img, npx(box.x), npx(box.y));
+
+      if (height && width) {
+        ctx.drawImage(img, npx(box.x), npx(box.y), npx(width), npx(height));
+      } else {
+        ctx.drawImage(img, npx(box.x), npx(box.y));
+      }
+
       ctx.restore();
     };
     return this;
