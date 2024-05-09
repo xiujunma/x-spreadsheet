@@ -117,7 +117,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       }, style.textwrap);
     }
 
-    if (cell.type === 'img') {
+    if (cell.type === 'img' && cell.properties && cell.properties.src) {
       draw.image(cell.properties.src, dbox, cell.properties.width, cell.properties.height);
     } else {
       draw.text((style.zeroAsDash && (parseFloat(cellText) === 0 || !cellText)) ? '-' : cellText, dbox, {
